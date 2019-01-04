@@ -1,0 +1,10 @@
+# IntelliJ
+.idea
+AdventurebookResolver.iml
+
+# Maven
+target
+
+# project management
+ToDos.txt
+misc
