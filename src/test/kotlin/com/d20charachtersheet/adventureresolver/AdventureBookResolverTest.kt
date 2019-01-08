@@ -30,4 +30,20 @@ class AdventureBookResolverTest {
         // Assert
         assertThat(adventureBookResolver.getEntryTitle()).isEqualTo("Yaztronmos Behausung")
     }
+
+    @Test
+    internal fun `add new book entry`() {
+        // Arrange
+        val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
+
+        // Act
+        adventureBookResolver.addBookEntry(261)
+
+        // Assert
+        assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [(BookEntry(id=1),BookEntry(id=261))])")
+    }
+
+//    assertThat(graph.vertexSet()).hasSameElementsAs(setOf(1, 2, 3, 4, 5, 6))
+//    assertThat(graph.toString()).isEqualTo("([1, 2, 3, 4, 5, 6], [(1,2), (1,3), (3,1), (1,4), (4,5), (4,6)])")
+
 }
