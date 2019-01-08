@@ -6,7 +6,12 @@ import org.jgrapht.graph.SimpleDirectedGraph
 
 class AdventureBookResolver(val title: String) {
 
-    val graph: Graph<Int, DefaultEdge> = SimpleDirectedGraph(DefaultEdge::class.java)
+    private val graph: Graph<Int, DefaultEdge> = SimpleDirectedGraph(DefaultEdge::class.java)
+    val currentEntry: Int = 1
+
+    init {
+        graph.addVertex(1)
+    }
 
     fun dumpGraph(): String {
         return graph.toString()
