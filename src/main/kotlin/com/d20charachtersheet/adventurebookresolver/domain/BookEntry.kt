@@ -1,4 +1,4 @@
-package com.d20charachtersheet.adventureresolver.domain
+package com.d20charachtersheet.adventurebookresolver.domain
 
 data class BookEntry(val id: Int) {
 

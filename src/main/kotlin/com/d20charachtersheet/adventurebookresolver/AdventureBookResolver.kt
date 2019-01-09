@@ -1,6 +1,6 @@
-package com.d20charachtersheet.adventureresolver
+package com.d20charachtersheet.adventurebookresolver
 
-import com.d20charachtersheet.adventureresolver.domain.BookEntry
+import com.d20charachtersheet.adventurebookresolver.domain.BookEntry
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleDirectedGraph

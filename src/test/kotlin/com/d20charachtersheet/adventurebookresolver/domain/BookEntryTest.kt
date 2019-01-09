@@ -1,4 +1,4 @@
-package com.d20charachtersheet.adventureresolver.domain
+package com.d20charachtersheet.adventurebookresolver.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

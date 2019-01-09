@@ -1,6 +1,6 @@
-package com.d20charachtersheet.adventureresolver
+package com.d20charachtersheet.adventurebookresolver
 
-import com.d20charachtersheet.adventureresolver.domain.BookEntry
+import com.d20charachtersheet.adventurebookresolver.domain.BookEntry
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
