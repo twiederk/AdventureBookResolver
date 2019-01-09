@@ -2,16 +2,18 @@ package com.d20charachtersheet.adventurebookresolver
 
 import com.d20charachtersheet.adventurebookresolver.domain.BookEdge
 import com.d20charachtersheet.adventurebookresolver.domain.BookEntry
+import com.d20charachtersheet.adventurebookresolver.domain.Visit
 import org.jgrapht.Graph
 import org.jgrapht.graph.SimpleDirectedGraph
 
 class AdventureBookResolver(val title: String) {
 
     internal val graph: Graph<BookEntry, BookEdge> = SimpleDirectedGraph(BookEdge::class.java)
-    var currentBookEntry: BookEntry = BookEntry(1)
+    internal var currentBookEntry: BookEntry = BookEntry(1)
 
     init {
         graph.addVertex(currentBookEntry)
+        currentBookEntry.visit = Visit.VISITED
     }
 
     fun dumpGraph(): String {
@@ -35,6 +37,7 @@ class AdventureBookResolver(val title: String) {
         val edge = graph.getEdge(currentBookEntry, BookEntry(id))
         if (edge != null) {
             currentBookEntry = graph.getEdgeTarget(edge)
+            currentBookEntry.visit = Visit.VISITED
         }
     }
 

@@ -2,6 +2,7 @@ package com.d20charachtersheet.adventurebookresolver
 
 import com.d20charachtersheet.adventurebookresolver.domain.BookEdge
 import com.d20charachtersheet.adventurebookresolver.domain.BookEntry
+import com.d20charachtersheet.adventurebookresolver.domain.Visit
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -18,6 +19,7 @@ class AdventureBookResolverTest {
         assertThat(adventureBookResolver.title).isEqualTo("Der Forst der Finsternis")
         assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1)], [])")
         assertThat(adventureBookResolver.currentBookEntry).isEqualTo(BookEntry(1))
+        assertThat(adventureBookResolver.currentBookEntry.visit).isEqualTo(Visit.VISITED)
     }
 
     @Test
@@ -44,6 +46,8 @@ class AdventureBookResolverTest {
         assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [BookEdge(label=nach oben)=(BookEntry(id=1),BookEntry(id=261))])")
         val edge: BookEdge = adventureBookResolver.graph.getEdge(BookEntry(1), BookEntry(261))
         assertThat(edge.label).isEqualTo("nach oben")
+        val targetBookEntry = adventureBookResolver.graph.getEdgeTarget(edge)
+        assertThat(targetBookEntry.visit).isEqualTo(Visit.UNVISITED)
     }
 
     @Test
@@ -57,6 +61,7 @@ class AdventureBookResolverTest {
 
         // Assert
         assertThat(adventureBookResolver.currentBookEntry).isEqualTo(BookEntry(261))
+        assertThat(adventureBookResolver.currentBookEntry.visit).isEqualTo(Visit.VISITED)
     }
 
 }
