@@ -8,10 +8,10 @@ import org.jgrapht.graph.SimpleDirectedGraph
 class AdventureBookResolver(val title: String) {
 
     internal val graph: Graph<BookEntry, BookEdge> = SimpleDirectedGraph(BookEdge::class.java)
-    val currentEntry: BookEntry = BookEntry(1)
+    var currentBookEntry: BookEntry = BookEntry(1)
 
     init {
-        graph.addVertex(currentEntry)
+        graph.addVertex(currentBookEntry)
     }
 
     fun dumpGraph(): String {
@@ -19,15 +19,23 @@ class AdventureBookResolver(val title: String) {
     }
 
     fun setEntryTitle(entryTitle: String) {
-        currentEntry.title = entryTitle
+        currentBookEntry.title = entryTitle
     }
 
 
-    fun getEntryTitle(): String = currentEntry.title
+    fun getEntryTitle(): String = currentBookEntry.title
 
     fun addBookEntry(id: Int, label: String) {
         val newEntry = BookEntry(id)
         graph.addVertex(newEntry)
-        graph.addEdge(currentEntry, newEntry, BookEdge(label))
+        graph.addEdge(currentBookEntry, newEntry, BookEdge(label))
     }
+
+    fun moveToBookEntry(id: Int) {
+        val edge = graph.getEdge(currentBookEntry, BookEntry(id))
+        if (edge != null) {
+            currentBookEntry = graph.getEdgeTarget(edge)
+        }
+    }
+
 }

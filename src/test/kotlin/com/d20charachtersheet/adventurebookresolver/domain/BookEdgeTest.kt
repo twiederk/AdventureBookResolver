@@ -8,20 +8,20 @@ class BookEdgeTest {
     @Test
     internal fun `get default label of book edge`() {
         // Act
-        val bookEdge = BookEdge()
+        val edge = BookEdge()
 
         // Assert
-        assertThat(bookEdge.label).isEqualTo("unlabeled")
+        assertThat(edge.label).isEqualTo("unlabeled")
     }
 
     @Test
     internal fun `create book edge with label`() {
 
         // Act
-        val bookEdge = BookEdge("myLabel")
+        val edge = BookEdge("myLabel")
 
         // Assert
-        assertThat(bookEdge.label).isEqualTo("myLabel")
+        assertThat(edge.label).isEqualTo("myLabel")
     }
 
 }

@@ -17,11 +17,11 @@ class AdventureBookResolverTest {
         // Assert
         assertThat(adventureBookResolver.title).isEqualTo("Der Forst der Finsternis")
         assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1)], [])")
-        assertThat(adventureBookResolver.currentEntry).isEqualTo(BookEntry(1))
+        assertThat(adventureBookResolver.currentBookEntry).isEqualTo(BookEntry(1))
     }
 
     @Test
-    internal fun `add title to current book entry`() {
+    internal fun `set title of current book entry (command edit)`() {
         // Arrange
         val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
 
@@ -33,7 +33,7 @@ class AdventureBookResolverTest {
     }
 
     @Test
-    internal fun `add new book entry`() {
+    internal fun `add new book entry (command add)`() {
         // Arrange
         val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
 
@@ -41,12 +41,22 @@ class AdventureBookResolverTest {
         adventureBookResolver.addBookEntry(261, "nach oben")
 
         // Assert
-        assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [(BookEntry(id=1) : BookEntry(id=261))=(BookEntry(id=1),BookEntry(id=261))])")
-        val bookEdge: BookEdge = adventureBookResolver.graph.getEdge(BookEntry(1), BookEntry(261))
-        assertThat(bookEdge.label).isEqualTo("nach oben")
+        assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [BookEdge(label=nach oben)=(BookEntry(id=1),BookEntry(id=261))])")
+        val edge: BookEdge = adventureBookResolver.graph.getEdge(BookEntry(1), BookEntry(261))
+        assertThat(edge.label).isEqualTo("nach oben")
     }
 
-//    assertThat(graph.vertexSet()).hasSameElementsAs(setOf(1, 2, 3, 4, 5, 6))
-//    assertThat(graph.toString()).isEqualTo("([1, 2, 3, 4, 5, 6], [(1,2), (1,3), (3,1), (1,4), (4,5), (4,6)])")
+    @Test
+    internal fun `set new current book entry (command move)`() {
+        // Arrange
+        val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
+        adventureBookResolver.addBookEntry(261, "nach oben")
+
+        // Act
+        adventureBookResolver.moveToBookEntry(261)
+
+        // Assert
+        assertThat(adventureBookResolver.currentBookEntry).isEqualTo(BookEntry(261))
+    }
 
 }
