@@ -1,5 +1,6 @@
 package com.d20charachtersheet.adventurebookresolver
 
+import com.d20charachtersheet.adventurebookresolver.domain.BookEdge
 import com.d20charachtersheet.adventurebookresolver.domain.BookEntry
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -37,10 +38,12 @@ class AdventureBookResolverTest {
         val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
 
         // Act
-        adventureBookResolver.addBookEntry(261)
+        adventureBookResolver.addBookEntry(261, "nach oben")
 
         // Assert
-        assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [(BookEntry(id=1),BookEntry(id=261))])")
+        assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [(BookEntry(id=1) : BookEntry(id=261))=(BookEntry(id=1),BookEntry(id=261))])")
+        val bookEdge: BookEdge = adventureBookResolver.graph.getEdge(BookEntry(1), BookEntry(261))
+        assertThat(bookEdge.label).isEqualTo("nach oben")
     }
 
 //    assertThat(graph.vertexSet()).hasSameElementsAs(setOf(1, 2, 3, 4, 5, 6))
