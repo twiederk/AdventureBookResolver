@@ -18,8 +18,8 @@ class AdventureBookResolverTest {
         // Assert
         assertThat(adventureBookResolver.title).isEqualTo("Der Forst der Finsternis")
         assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1)], [])")
-        assertThat(adventureBookResolver.currentBookEntry).isEqualTo(BookEntry(1))
-        assertThat(adventureBookResolver.currentBookEntry.visit).isEqualTo(Visit.VISITED)
+        assertThat(adventureBookResolver.getEntryId()).isEqualTo(1)
+        assertThat(adventureBookResolver.getEntryVisit()).isEqualTo(Visit.VISITED)
     }
 
     @Test
@@ -60,8 +60,8 @@ class AdventureBookResolverTest {
         adventureBookResolver.moveToBookEntry(261)
 
         // Assert
-        assertThat(adventureBookResolver.currentBookEntry).isEqualTo(BookEntry(261))
-        assertThat(adventureBookResolver.currentBookEntry.visit).isEqualTo(Visit.VISITED)
+        assertThat(adventureBookResolver.getEntryId()).isEqualTo(261)
+        assertThat(adventureBookResolver.getEntryVisit()).isEqualTo(Visit.VISITED)
     }
 
 }

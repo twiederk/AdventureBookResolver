@@ -9,7 +9,7 @@ import org.jgrapht.graph.SimpleDirectedGraph
 class AdventureBookResolver(val title: String) {
 
     internal val graph: Graph<BookEntry, BookEdge> = SimpleDirectedGraph(BookEdge::class.java)
-    internal var currentBookEntry: BookEntry = BookEntry(1)
+    private var currentBookEntry: BookEntry = BookEntry(1)
 
     init {
         graph.addVertex(currentBookEntry)
@@ -40,5 +40,9 @@ class AdventureBookResolver(val title: String) {
             currentBookEntry.visit = Visit.VISITED
         }
     }
+
+    fun getEntryId(): Int = currentBookEntry.id
+
+    fun getEntryVisit(): Visit = currentBookEntry.visit
 
 }
