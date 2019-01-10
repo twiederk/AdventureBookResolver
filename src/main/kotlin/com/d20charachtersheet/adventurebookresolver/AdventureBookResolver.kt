@@ -20,7 +20,7 @@ class AdventureBookResolver(val title: String) {
         return graph.toString()
     }
 
-    fun setEntryTitle(entryTitle: String) {
+    fun editBookEntry(entryTitle: String) {
         currentBookEntry.title = entryTitle
     }
 
@@ -44,5 +44,7 @@ class AdventureBookResolver(val title: String) {
     fun getEntryId(): Int = currentBookEntry.id
 
     fun getEntryVisit(): Visit = currentBookEntry.visit
+
+    fun getEdges(): Set<BookEdge> = graph.outgoingEdgesOf(currentBookEntry)
 
 }
