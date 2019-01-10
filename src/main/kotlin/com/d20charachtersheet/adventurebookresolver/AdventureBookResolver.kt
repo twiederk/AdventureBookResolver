@@ -8,7 +8,7 @@ import org.jgrapht.graph.SimpleDirectedGraph
 
 class AdventureBookResolver(val title: String) {
 
-    internal val graph: Graph<BookEntry, BookEdge> = SimpleDirectedGraph(BookEdge::class.java)
+    private val graph: Graph<BookEntry, BookEdge> = SimpleDirectedGraph(BookEdge::class.java)
     private var currentBookEntry: BookEntry = BookEntry(1)
 
     init {
@@ -46,5 +46,7 @@ class AdventureBookResolver(val title: String) {
     fun getEntryVisit(): Visit = currentBookEntry.visit
 
     fun getEdges(): Set<BookEdge> = graph.outgoingEdgesOf(currentBookEntry)
+
+    fun getBookEntries(): Set<BookEntry> = getEdges().map { edge -> graph.getEdgeTarget(edge) }.toSet()
 
 }

@@ -51,10 +51,8 @@ class AdventureBookResolverTest {
 
             // Assert
             assertThat(adventureBookResolver.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [(BookEntry(id=1) : BookEntry(id=261))=(BookEntry(id=1),BookEntry(id=261))])")
-            val edge: BookEdge = adventureBookResolver.graph.getEdge(BookEntry(1), BookEntry(261))
-            assertThat(edge.label).isEqualTo("nach oben")
-            val targetBookEntry = adventureBookResolver.graph.getEdgeTarget(edge)
-            assertThat(targetBookEntry.visit).isEqualTo(Visit.UNVISITED)
+            assertThat(adventureBookResolver.getEdges()).extracting("label").containsExactly("nach oben")
+            assertThat(adventureBookResolver.getBookEntries()).containsExactly(BookEntry(261)).extracting("visit").containsExactly(Visit.UNVISITED)
         }
 
         @Test
@@ -70,6 +68,7 @@ class AdventureBookResolverTest {
             assertThat(adventureBookResolver.getEntryId()).isEqualTo(261)
             assertThat(adventureBookResolver.getEntryVisit()).isEqualTo(Visit.VISITED)
         }
+
     }
 
     @Nested
@@ -88,6 +87,21 @@ class AdventureBookResolverTest {
             // Assert
             assertThat(edges).extracting("label").containsExactlyInAnyOrder("nach oben", "Schwert ziehen")
         }
+
+        @Test
+        internal fun `get list of book entries to move to`() {
+            // Arrange
+            val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
+            adventureBookResolver.addBookEntry(261, "nach oben")
+            adventureBookResolver.addBookEntry(54, "Schwert ziehen")
+
+            // Act
+            val bookEntries: Set<BookEntry> = adventureBookResolver.getBookEntries()
+
+            // Assert
+            assertThat(bookEntries).extracting("title").containsExactly("Untitled", "Untitled")
+        }
+
     }
 
 
