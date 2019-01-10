@@ -77,6 +77,20 @@ class AdventureBookResolverTest {
             assertThat(underTest.getEntryId()).isEqualTo(1)
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
         }
+
+        @Test
+        internal fun `move only possible directly connected entry`() {
+            // Arrange
+            underTest.addBookEntry(261, "nach oben")
+            underTest.moveToBookEntry(261)
+
+            // Act
+            underTest.moveToBookEntry(1)
+
+            // Assert
+            assertThat(underTest.getEntryId()).isEqualTo(261)
+            assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
+        }
     }
 
     @Nested
