@@ -102,6 +102,21 @@ class AdventureBookResolverTest {
             assertThat(bookEntries).extracting("title").containsExactly("Untitled", "Untitled")
         }
 
+        @Test
+        internal fun `get dump of current graph`() {
+            // Arrange
+            val adventureBookResolver = AdventureBookResolver("Der Forst der Finsternis")
+            adventureBookResolver.addBookEntry(261, "nach oben")
+            adventureBookResolver.addBookEntry(54, "Schwert ziehen")
+
+            // Act
+            val dumpOfGraph = adventureBookResolver.dumpGraph()
+
+            //
+            assertThat(dumpOfGraph).isEqualTo("([BookEntry(id=1), BookEntry(id=261), BookEntry(id=54)], [(BookEntry(id=1) : BookEntry(id=261))=(BookEntry(id=1),BookEntry(id=261)), (BookEntry(id=1) : BookEntry(id=54))=(BookEntry(id=1),BookEntry(id=54))])")
+        }
+
+
     }
 
 
