@@ -16,10 +16,6 @@ class AdventureBookResolver(val title: String) {
         currentBookEntry.visit = Visit.VISITED
     }
 
-    fun dumpGraph(): String {
-        return graph.toString()
-    }
-
     fun editBookEntry(entryTitle: String) {
         currentBookEntry.title = entryTitle
     }
@@ -47,5 +43,7 @@ class AdventureBookResolver(val title: String) {
     fun getEdges(): Set<BookEdge> = graph.outgoingEdgesOf(currentBookEntry)
 
     fun getBookEntries(): Set<BookEntry> = getEdges().map { edge -> graph.getEdgeTarget(edge) }.toSet()
+
+    fun getAllBookEntries(): Set<BookEntry> = graph.vertexSet()
 
 }

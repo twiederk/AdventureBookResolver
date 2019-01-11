@@ -20,7 +20,7 @@ class AdventureBookResolverTest {
 
             // Assert
             assertThat(underTest.title).isEqualTo("Der Forst der Finsternis")
-            assertThat(underTest.dumpGraph()).isEqualTo("([BookEntry(id=1)], [])")
+            assertThat(underTest.getAllBookEntries()).isEqualTo(setOf(BookEntry(1)))
             assertThat(underTest.getEntryId()).isEqualTo(1)
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
         }
@@ -47,7 +47,7 @@ class AdventureBookResolverTest {
             underTest.addBookEntry(261, "nach oben")
 
             // Assert
-            assertThat(underTest.dumpGraph()).isEqualTo("([BookEntry(id=1), BookEntry(id=261)], [(BookEntry(id=1) : BookEntry(id=261))=(BookEntry(id=1),BookEntry(id=261))])")
+            assertThat(underTest.getAllBookEntries()).extracting("id").hasSameElementsAs(setOf(1, 261))
             assertThat(underTest.getEdges()).extracting("label").containsExactly("nach oben")
             assertThat(underTest.getBookEntries()).containsExactly(BookEntry(261)).extracting("visit").containsExactly(Visit.UNVISITED)
         }
@@ -123,12 +123,12 @@ class AdventureBookResolverTest {
         }
 
         @Test
-        internal fun `get dump of current graph`() {
+        internal fun `get all vertices of graph`() {
             // Act
-            val dumpOfGraph = underTest.dumpGraph()
+            val allBookEntries = underTest.getAllBookEntries()
 
             // Assert
-            assertThat(dumpOfGraph).isEqualTo("([BookEntry(id=1), BookEntry(id=261), BookEntry(id=54)], [(BookEntry(id=1) : BookEntry(id=261))=(BookEntry(id=1),BookEntry(id=261)), (BookEntry(id=1) : BookEntry(id=54))=(BookEntry(id=1),BookEntry(id=54))])")
+            assertThat(allBookEntries).extracting("id").hasSameElementsAs(setOf(1, 261, 54))
         }
 
     }
