@@ -35,7 +35,7 @@ class AdventureBookResolver(val title: String) {
 
     fun moveToBookEntry(id: Int) {
         val edge = graph.getEdge(currentBookEntry, BookEntry(id))
-        if (edge != null) {
+        edge?.run {
             currentBookEntry = graph.getEdgeTarget(edge)
             currentBookEntry.visit = Visit.VISITED
         }
