@@ -10,7 +10,3 @@ data class BookEntry(val id: Int) {
     }
 
 }
-
-fun BookEntry.toDump(): String {
-    return "BookEntry(id=$id,title=$title)"
-}

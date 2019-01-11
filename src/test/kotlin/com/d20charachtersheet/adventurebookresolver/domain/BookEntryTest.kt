@@ -18,9 +18,10 @@ internal class BookEntryTest {
     @Test
     internal fun `dump book entry`() {
         // Act
-        val result = BookEntry(1, "myTitle").toDump()
+        val bookEntry = BookEntry(1, "myTitle")
 
         // Assert
-        assertThat(result).isEqualTo("BookEntry(id=1,title=myTitle)")
+        assertThat(bookEntry.id).isEqualTo(1)
+        assertThat(bookEntry.title).isEqualTo("myTitle")
     }
 }
