@@ -24,7 +24,6 @@ class AdventureBookResolver(val title: String) {
         currentBookEntry.title = entryTitle
     }
 
-
     fun getEntryTitle(): String = currentBookEntry.title
 
     fun addBookEntry(id: Int, label: String) {

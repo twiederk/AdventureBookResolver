@@ -30,7 +30,7 @@ class AdventureBookResolverTest {
     @Nested
     inner class CommandTest {
 
-        private var underTest = AdventureBookResolver("Der Forst der Finsternis")
+        private val underTest = AdventureBookResolver("Der Forst der Finsternis")
 
         @Test
         internal fun `edit title of current book entry (command edit)`() {
@@ -96,7 +96,7 @@ class AdventureBookResolverTest {
     @Nested
     inner class InformationTest {
 
-        private var underTest = AdventureBookResolver("Der Forst der Finsternis")
+        private val underTest = AdventureBookResolver("Der Forst der Finsternis")
 
         @BeforeEach
         internal fun setup() {
