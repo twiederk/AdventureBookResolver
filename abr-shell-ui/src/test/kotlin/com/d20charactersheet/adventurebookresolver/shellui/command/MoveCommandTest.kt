@@ -25,7 +25,7 @@ class MoveCommandTest {
     @Test
     internal fun `move to other book entry`() {
         // Arrange
-        adventureBookResolver.book.addBookEntry(261, "nach oben")
+        adventureBookResolver.book.addAction("nach oben", 261)
 
         // Act
         underTest.move(261)

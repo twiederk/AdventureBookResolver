@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class BookPromptProvider(val adventureBookResolver: AdventureBookResolver) : PromptProvider {
 
     override fun getPrompt(): AttributedString {
-        return AttributedString("${adventureBookResolver.book.title}>")
+        return AttributedString("(${adventureBookResolver.book.getEntryId()}) - ${adventureBookResolver.book.getEntryTitle()}> ")
     }
 
 }

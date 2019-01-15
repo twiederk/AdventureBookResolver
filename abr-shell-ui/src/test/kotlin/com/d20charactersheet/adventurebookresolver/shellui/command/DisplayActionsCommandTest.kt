@@ -1,10 +1,8 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import com.nhaarman.mockitokotlin2.verify
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -16,21 +14,20 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner
 import org.springframework.shell.jline.ScriptShellApplicationRunner
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(properties = [
     InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
     ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"])
-class AddCommandTest {
+class DisplayActionsCommandTest {
 
     @MockBean
     lateinit var consoleService: ConsoleService
 
     @Autowired
-    lateinit var adventureBookResolver: AdventureBookResolver
+    lateinit var underTest: DisplayActionsCommand
 
     @Autowired
-    lateinit var underTest: AddCommand
+    lateinit var adventureBookResolver: AdventureBookResolver
 
     @AfterEach
     internal fun tearDown() {
@@ -38,13 +35,15 @@ class AddCommandTest {
     }
 
     @Test
-    internal fun `add new entry to book`() {
+    internal fun `display actions`() {
+        // Arrange
+        adventureBookResolver.book.addAction("upstairs", 261)
+
         // Act
-        underTest.add("nach oben", 261)
+        underTest.displayActions()
 
         // Assert
-        assertThat(adventureBookResolver.book.getNextBookEntries()).containsExactly(BookEntry(261))
-        verify(consoleService).write("nach oben -> 261")
+        verify(consoleService).write("upstairs -> 261")
     }
-
 }
+

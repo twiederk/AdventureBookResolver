@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
     InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
     ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"])
 class CreateCommandTest {
-
     @Autowired
     lateinit var promptProvider: BookPromptProvider
 
@@ -28,7 +27,7 @@ class CreateCommandTest {
         underTest.create("my new book")
 
         // Assert
-        assertThat(promptProvider.prompt.toString()).isEqualTo("my new book>")
+        assertThat(promptProvider.prompt.toString()).isEqualTo("(1) - Untitled> ")
 
     }
 }

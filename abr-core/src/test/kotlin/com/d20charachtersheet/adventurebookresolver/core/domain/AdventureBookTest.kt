@@ -39,9 +39,9 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `add new book entry (command add)`() {
+        internal fun `add new action (command add)`() {
             // Act
-            underTest.addBookEntry(261, "nach oben")
+            underTest.addAction("nach oben", 261)
 
             // Assert
             assertThat(underTest.getAllBookEntries()).extracting("id").hasSameElementsAs(setOf(1, 261))
@@ -52,7 +52,7 @@ class AdventureBookTest {
         @Test
         internal fun `move to other book entry (command move)`() {
             // Arrange
-            underTest.addBookEntry(261, "nach oben")
+            underTest.addAction("nach oben", 261)
 
             // Act
             underTest.moveToBookEntry(261)
@@ -65,7 +65,7 @@ class AdventureBookTest {
         @Test
         internal fun `move only possible to existing entry`() {
             // Arrange
-            underTest.addBookEntry(261, "nach oben")
+            underTest.addAction("nach oben", 261)
 
             // Act
             underTest.moveToBookEntry(1000)
@@ -78,7 +78,7 @@ class AdventureBookTest {
         @Test
         internal fun `move only possible directly connected entry`() {
             // Arrange
-            underTest.addBookEntry(261, "nach oben")
+            underTest.addAction("nach oben", 261)
             underTest.moveToBookEntry(261)
 
             // Act
@@ -87,6 +87,21 @@ class AdventureBookTest {
             // Assert
             assertThat(underTest.getEntryId()).isEqualTo(261)
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
+        }
+
+        @Test
+        internal fun `add already existing entry`() {
+            // Arrange
+            underTest.editBookEntry("Introduction")
+            underTest.addAction("nach oben", 261)
+            underTest.moveToBookEntry(261)
+            underTest.addAction("nach unten", 1)
+
+            // Act
+            underTest.moveToBookEntry(1)
+
+            // Assert
+            assertThat(underTest.getEntryTitle()).isEqualTo("Introduction")
         }
     }
 
@@ -97,17 +112,19 @@ class AdventureBookTest {
 
         @BeforeEach
         internal fun setup() {
-            underTest.addBookEntry(261, "nach oben")
-            underTest.addBookEntry(54, "Schwert ziehen")
+            underTest.addAction("nach oben", 261)
+            underTest.addAction("Schwert ziehen", 54)
         }
 
         @Test
-        internal fun `get list of existing edges of current book entry`() {
+        internal fun `get list of actions of current book entry`() {
             // Act
-            val edges: Set<LabeledEdge> = underTest.getActions()
+            val actions: Set<Action> = underTest.getActions()
 
             // Assert
-            assertThat(edges).extracting("label").containsExactlyInAnyOrder("nach oben", "Schwert ziehen")
+            assertThat(actions).containsExactlyInAnyOrder( //
+                    Action("nach oben", BookEntry(261)), //
+                    Action("Schwert ziehen", BookEntry(54)))
         }
 
         @Test

@@ -19,10 +19,18 @@ class AdventureBook(val title: String) {
 
     fun getEntryTitle(): String = currentBookEntry.title
 
-    fun addBookEntry(id: Int, label: String) {
-        val newEntry = BookEntry(id)
-        graph.addVertex(newEntry)
-        graph.addEdge(currentBookEntry, newEntry, LabeledEdge(label))
+    fun addAction(label: String, id: Int) {
+        val bookEntry = createOrGetBookEntry(id)
+        graph.addVertex(bookEntry)
+        graph.addEdge(currentBookEntry, bookEntry, LabeledEdge(label))
+    }
+
+    private fun createOrGetBookEntry(id: Int): BookEntry {
+        var bookEntry = BookEntry(id)
+        if (graph.vertexSet().contains(bookEntry)) {
+            bookEntry = graph.vertexSet().filter { it.id == id }[0]
+        }
+        return bookEntry
     }
 
     fun moveToBookEntry(id: Int) {
@@ -37,9 +45,11 @@ class AdventureBook(val title: String) {
 
     fun getEntryVisit(): Visit = currentBookEntry.visit
 
-    fun getActions(): Set<LabeledEdge> = graph.outgoingEdgesOf(currentBookEntry)
+    fun getActions(): Set<Action> =
+            graph.outgoingEdgesOf(currentBookEntry).map { Action(it.label, graph.getEdgeTarget(it)) }.toSet()
 
-    fun getNextBookEntries(): Set<BookEntry> = getActions().map { edge -> graph.getEdgeTarget(edge) }.toSet()
+
+    fun getNextBookEntries(): Set<BookEntry> = graph.outgoingEdgesOf(currentBookEntry).map { edge -> graph.getEdgeTarget(edge) }.toSet()
 
     fun getAllBookEntries(): Set<BookEntry> = graph.vertexSet()
 

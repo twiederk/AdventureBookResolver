@@ -8,8 +8,6 @@ import org.springframework.shell.standard.ShellMethod
 class EditCommand(val adventureBookResolver: AdventureBookResolver) {
 
     @ShellMethod("edit title of book entry")
-    fun edit(title: String) {
-        adventureBookResolver.book.editBookEntry(title)
-    }
+    fun edit(title: String) = adventureBookResolver.book.editBookEntry(title)
 
 }

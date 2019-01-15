@@ -7,14 +7,10 @@ import org.springframework.shell.standard.ShellComponent
 import org.springframework.shell.standard.ShellMethod
 
 @ShellComponent
-class AddCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
+class DisplayActionsCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
 
-    @ShellMethod("add action and new book entry")
-    fun add(label: String, entryId: Int) {
-        with(adventureBookResolver.book) {
-            addAction(label, entryId)
-            displayActions(consoleService)
-        }
-    }
+    @ShellMethod("display available actions of current entry")
+    fun displayActions() = adventureBookResolver.book.displayActions(consoleService)
 
 }
+
