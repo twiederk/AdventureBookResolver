@@ -1,16 +1,16 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
-import com.d20charactersheet.adventurebookresolver.shellui.domain.displayActions
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import org.springframework.shell.standard.ShellComponent
 import org.springframework.shell.standard.ShellMethod
 
 @ShellComponent
-class DisplayActionsCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
+class DisplayPathCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
 
-    @ShellMethod("display available actions of current destination")
-    fun displayActions() = adventureBookResolver.book.displayActions(consoleService)
+
+    @ShellMethod("display adventure path")
+    fun displayPath() =
+            adventureBookResolver.book.getPath().forEach { consoleService.write("(${it.id}) - ${it.title}") }
 
 }
-

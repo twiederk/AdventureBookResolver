@@ -11,8 +11,8 @@ internal class BookEntryTest {
         val bookEntry = BookEntry(1)
 
         // Assert
-        assertThat(bookEntry.id).isEqualTo(1);
-        assertThat(bookEntry.title).isEqualTo("Untitled");
+        assertThat(bookEntry.id).isEqualTo(1)
+        assertThat(bookEntry.title).isEqualTo("Untitled")
     }
 
     @Test

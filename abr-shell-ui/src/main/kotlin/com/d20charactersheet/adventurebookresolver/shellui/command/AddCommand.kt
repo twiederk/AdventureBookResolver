@@ -9,7 +9,7 @@ import org.springframework.shell.standard.ShellMethod
 @ShellComponent
 class AddCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
 
-    @ShellMethod("add action and new book entry")
+    @ShellMethod("add action and new book destination")
     fun add(label: String, entryId: Int) {
         with(adventureBookResolver.book) {
             addAction(label, entryId)

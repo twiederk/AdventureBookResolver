@@ -7,7 +7,7 @@ import org.springframework.shell.standard.ShellMethod
 @ShellComponent
 class EditCommand(val adventureBookResolver: AdventureBookResolver) {
 
-    @ShellMethod("edit title of book entry")
+    @ShellMethod("edit title of book destination")
     fun edit(title: String) = adventureBookResolver.book.editBookEntry(title)
 
 }

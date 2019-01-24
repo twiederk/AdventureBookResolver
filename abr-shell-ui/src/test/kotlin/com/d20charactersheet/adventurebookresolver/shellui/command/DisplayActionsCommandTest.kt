@@ -1,12 +1,12 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
+import com.d20charachtersheet.adventurebookresolver.core.domain.AdventureBook
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -31,7 +31,7 @@ class DisplayActionsCommandTest {
 
     @AfterEach
     internal fun tearDown() {
-        Mockito.reset(consoleService)
+        adventureBookResolver.book = AdventureBook()
     }
 
     @Test

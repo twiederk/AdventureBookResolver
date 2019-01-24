@@ -9,8 +9,8 @@ import org.springframework.shell.standard.ShellMethod
 class CreateCommand(val adventureBookResolver: AdventureBookResolver) {
 
     @ShellMethod("create a new book")
-    fun create(bookname: String) {
-        adventureBookResolver.book = AdventureBook(bookname)
+    fun create(bookName: String) {
+        adventureBookResolver.book = AdventureBook(bookName)
     }
 
 }

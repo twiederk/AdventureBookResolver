@@ -1,5 +1,6 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
+import com.d20charachtersheet.adventurebookresolver.core.domain.AdventureBook
 import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
@@ -8,7 +9,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -34,17 +34,17 @@ class AddCommandTest {
 
     @AfterEach
     internal fun tearDown() {
-        Mockito.reset(consoleService)
+        adventureBookResolver.book = AdventureBook()
     }
 
     @Test
     internal fun `add new entry to book`() {
         // Act
-        underTest.add("nach oben", 261)
+        underTest.add("upstairs", 261)
 
         // Assert
         assertThat(adventureBookResolver.book.getNextBookEntries()).containsExactly(BookEntry(261))
-        verify(consoleService).write("nach oben -> 261")
+        verify(consoleService).write("upstairs -> 261")
     }
 
 }

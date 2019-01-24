@@ -8,6 +8,6 @@ class AdventureBookResolver(var book: AdventureBook)
 
 fun AdventureBook.displayActions(consoleService: ConsoleService) {
     getActions().forEach {
-        consoleService.write("${it.label} -> ${it.entry.id}")
+        consoleService.write("${it.label} -> ${it.destination.id}")
     }
 }

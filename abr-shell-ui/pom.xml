@@ -12,7 +12,7 @@
 
   <groupId>com.d20charactersheet.adventurebookresolver</groupId>
   <artifactId>abr-shell-ui</artifactId>
-  <version>0.3.0-SNAPSHOT</version>
+  <version>0.4.0-SNAPSHOT</version>
 
   <properties>
     <java.version>1.8</java.version>
@@ -99,6 +99,7 @@
   <build>
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+    <finalName>adventure-book-resolver-${project.version}</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

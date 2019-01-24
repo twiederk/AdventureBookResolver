@@ -13,10 +13,10 @@ class AdventureBookTest {
         @Test
         internal fun `start new adventure at vertex 1`() {
             // Act
-            val underTest = AdventureBook("Der Forst der Finsternis")
+            val underTest = AdventureBook("book title")
 
             // Assert
-            assertThat(underTest.title).isEqualTo("Der Forst der Finsternis")
+            assertThat(underTest.title).isEqualTo("book title")
             assertThat(underTest.getAllBookEntries()).isEqualTo(setOf(BookEntry(1)))
             assertThat(underTest.getEntryId()).isEqualTo(1)
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
@@ -27,32 +27,32 @@ class AdventureBookTest {
     @Nested
     inner class CommandTest {
 
-        private val underTest = AdventureBook("Der Forst der Finsternis")
+        private val underTest = AdventureBook("book title")
 
         @Test
         internal fun `edit title of current book entry (command edit)`() {
             // Act
-            underTest.editBookEntry("Yaztronmos Behausung")
+            underTest.editBookEntry("entry title")
 
             // Assert
-            assertThat(underTest.getEntryTitle()).isEqualTo("Yaztronmos Behausung")
+            assertThat(underTest.getEntryTitle()).isEqualTo("entry title")
         }
 
         @Test
         internal fun `add new action (command add)`() {
             // Act
-            underTest.addAction("nach oben", 261)
+            underTest.addAction("upstairs", 261)
 
             // Assert
             assertThat(underTest.getAllBookEntries()).extracting("id").hasSameElementsAs(setOf(1, 261))
-            assertThat(underTest.getActions()).extracting("label").containsExactly("nach oben")
+            assertThat(underTest.getActions()).extracting("label").containsExactly("upstairs")
             assertThat(underTest.getNextBookEntries()).containsExactly(BookEntry(261)).extracting("visit").containsExactly(Visit.UNVISITED)
         }
 
         @Test
         internal fun `move to other book entry (command move)`() {
             // Arrange
-            underTest.addAction("nach oben", 261)
+            underTest.addAction("upstairs", 261)
 
             // Act
             underTest.moveToBookEntry(261)
@@ -65,7 +65,7 @@ class AdventureBookTest {
         @Test
         internal fun `move only possible to existing entry`() {
             // Arrange
-            underTest.addAction("nach oben", 261)
+            underTest.addAction("upstairs", 261)
 
             // Act
             underTest.moveToBookEntry(1000)
@@ -78,8 +78,10 @@ class AdventureBookTest {
         @Test
         internal fun `move only possible directly connected entry`() {
             // Arrange
-            underTest.addAction("nach oben", 261)
-            underTest.moveToBookEntry(261)
+            with(underTest) {
+                addAction("upstairs", 261)
+                moveToBookEntry(261)
+            }
 
             // Act
             underTest.moveToBookEntry(1)
@@ -92,10 +94,12 @@ class AdventureBookTest {
         @Test
         internal fun `add already existing entry`() {
             // Arrange
-            underTest.editBookEntry("Introduction")
-            underTest.addAction("nach oben", 261)
-            underTest.moveToBookEntry(261)
-            underTest.addAction("nach unten", 1)
+            with(underTest) {
+                editBookEntry("Introduction")
+                addAction("upstairs", 261)
+                moveToBookEntry(261)
+                addAction("downstairs", 1)
+            }
 
             // Act
             underTest.moveToBookEntry(1)
@@ -108,12 +112,14 @@ class AdventureBookTest {
     @Nested
     inner class InformationTest {
 
-        private val underTest = AdventureBook("Der Forst der Finsternis")
+        private val underTest = AdventureBook("book title")
 
         @BeforeEach
         internal fun setup() {
-            underTest.addAction("nach oben", 261)
-            underTest.addAction("Schwert ziehen", 54)
+            with(underTest) {
+                addAction("upstairs", 261)
+                addAction("downstairs", 54)
+            }
         }
 
         @Test
@@ -123,8 +129,8 @@ class AdventureBookTest {
 
             // Assert
             assertThat(actions).containsExactlyInAnyOrder( //
-                    Action("nach oben", BookEntry(261)), //
-                    Action("Schwert ziehen", BookEntry(54)))
+                    Action("upstairs", BookEntry(1), BookEntry(261)), //
+                    Action("downstairs", BookEntry(1), BookEntry(54)))
         }
 
         @Test
@@ -143,6 +149,53 @@ class AdventureBookTest {
 
             // Assert
             assertThat(allBookEntries).extracting("id").hasSameElementsAs(setOf(1, 261, 54))
+        }
+
+        @Test
+        internal fun `get all performed actions`() {
+            // Arrange
+            with(underTest) {
+                moveToBookEntry(261)
+                addAction("downstairs", 1)
+                moveToBookEntry(1)
+            }
+
+            // Act
+            val performedActions = underTest.getPerformedActions()
+
+            // Assert
+            assertThat(performedActions).containsExactly( //
+                    Action("upstairs", BookEntry(1), BookEntry(261)), //
+                    Action("downstairs", BookEntry(261), BookEntry(1))) //
+        }
+
+        @Test
+        internal fun `get list of visited entries`() {
+            // Arrange
+            with(underTest) {
+                moveToBookEntry(261)
+                addAction("downstairs", 1)
+                moveToBookEntry(1)
+            }
+
+            // Act
+            val visitedEntries = underTest.getPath()
+
+            // Assert
+            assertThat(visitedEntries).containsExactly(BookEntry(1), BookEntry(261), BookEntry(1))
+        }
+
+        @Test
+        internal fun `get list of actions to unvisited entries`() {
+            // Arrange
+
+            // Act
+            val openActions = underTest.getActionsToUnvisitedEntries()
+
+            // Assert
+            assertThat(openActions).containsExactlyInAnyOrder( //
+                    Action("upstairs", BookEntry(1), BookEntry(261)), //
+                    Action("downstairs", BookEntry(1), BookEntry(54)))
         }
 
     }

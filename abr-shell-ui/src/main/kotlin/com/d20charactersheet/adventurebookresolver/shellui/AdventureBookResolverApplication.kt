@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean
 class AdventureBookResolverApplication {
 
     @Bean
-    fun adventureBookResolver(): AdventureBookResolver = AdventureBookResolver(AdventureBook("new book"))
+    fun adventureBookResolver(): AdventureBookResolver = AdventureBookResolver(AdventureBook())
 
 }
 

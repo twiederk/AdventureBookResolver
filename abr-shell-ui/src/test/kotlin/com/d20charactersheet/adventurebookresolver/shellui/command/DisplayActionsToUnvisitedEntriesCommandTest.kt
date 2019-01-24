@@ -2,12 +2,14 @@ package com.d20charactersheet.adventurebookresolver.shellui.command
 
 import com.d20charachtersheet.adventurebookresolver.core.domain.AdventureBook
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
-import org.assertj.core.api.Assertions.assertThat
+import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.shell.jline.InteractiveShellApplicationRunner
 import org.springframework.shell.jline.ScriptShellApplicationRunner
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -16,13 +18,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(properties = [
     InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
     ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"])
-class MoveCommandTest {
+class DisplayActionsToUnvisitedEntriesCommandTest {
+
+    @MockBean
+    lateinit var consoleService: ConsoleService
+
+    @Autowired
+    lateinit var underTest: DisplayActionsToUnvisitedEntriesCommand
 
     @Autowired
     lateinit var adventureBookResolver: AdventureBookResolver
-
-    @Autowired
-    lateinit var underTest: MoveCommand
 
     @AfterEach
     internal fun tearDown() {
@@ -30,14 +35,24 @@ class MoveCommandTest {
     }
 
     @Test
-    internal fun `move to other book entry`() {
+    internal fun `display actions`() {
         // Arrange
-        adventureBookResolver.book.addAction("upstairs", 261)
+        with(adventureBookResolver.book) {
+            editBookEntry("Hallway")
+            addAction("upstairs", 100)
+            addAction("downstairs", 200)
+            moveToBookEntry(100)
+            editBookEntry("Tower")
+            addAction("left", 300)
+        }
 
         // Act
-        underTest.move(261)
+        underTest.displayActionsToUnvisitedEntries()
 
         // Assert
-        assertThat(adventureBookResolver.book.getEntryId()).isEqualTo(261)
+        verify(consoleService).write("(1) - Hallway: downstairs -> 200")
+        verify(consoleService).write("(100) - Tower: left -> 300")
     }
+
+
 }

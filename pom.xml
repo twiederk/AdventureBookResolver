@@ -6,7 +6,7 @@
 
   <groupId>com.d20charactersheet.adventurebookresolver</groupId>
   <artifactId>adventurebook-resolver</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
