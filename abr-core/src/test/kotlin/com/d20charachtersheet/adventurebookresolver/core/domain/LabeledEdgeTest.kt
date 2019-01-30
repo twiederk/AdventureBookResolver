@@ -24,4 +24,12 @@ class LabeledEdgeTest {
         assertThat(edge.label).isEqualTo("myLabel")
     }
 
+    @Test
+    internal fun `toString used for rendering the graph`() {
+        // Act
+        val toString = LabeledEdge("myLabel").toString()
+
+        // Assert
+        assertThat(toString).isEqualTo("myLabel")
+    }
 }

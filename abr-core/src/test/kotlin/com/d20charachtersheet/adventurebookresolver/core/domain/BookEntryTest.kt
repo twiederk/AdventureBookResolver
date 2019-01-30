@@ -24,4 +24,13 @@ internal class BookEntryTest {
         assertThat(bookEntry.id).isEqualTo(1)
         assertThat(bookEntry.title).isEqualTo("myTitle")
     }
+
+    @Test
+    internal fun `toString used for rendering the graph`() {
+        // Act
+        val toString = BookEntry(1, "myTitle").toString()
+
+        // Assert
+        assertThat(toString).isEqualTo("(1) - myTitle")
+    }
 }

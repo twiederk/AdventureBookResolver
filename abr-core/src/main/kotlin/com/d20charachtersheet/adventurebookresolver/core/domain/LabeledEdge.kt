@@ -9,5 +9,10 @@ class LabeledEdge() : DefaultEdge() {
         this.label = label
     }
 
+    override fun toString(): String {
+        return label
+    }
+
+
 }
 

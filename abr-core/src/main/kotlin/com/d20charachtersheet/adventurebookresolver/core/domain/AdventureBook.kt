@@ -1,7 +1,14 @@
 package com.d20charachtersheet.adventurebookresolver.core.domain
 
+import com.mxgraph.layout.mxCircleLayout
+import com.mxgraph.util.mxCellRenderer
 import org.jgrapht.Graph
+import org.jgrapht.ext.JGraphXAdapter
 import org.jgrapht.graph.SimpleDirectedGraph
+import java.awt.Color
+import java.nio.file.Path
+import java.nio.file.Paths
+import javax.imageio.ImageIO
 
 class AdventureBook(val title: String = "new book") {
 
@@ -73,5 +80,28 @@ class AdventureBook(val title: String = "new book") {
                     .filter { it.visit == Visit.UNVISITED } //
                     .flatMap { graph.incomingEdgesOf(it) }
                     .map { Action(it.label, graph.getEdgeSource(it), graph.getEdgeTarget(it)) }
+
+    fun renderGraph(): Path {
+        val graphAdapter = renderGraphInMemory()
+        return writeImageToFile(graphAdapter)
+    }
+
+    private fun renderGraphInMemory(): JGraphXAdapter<BookEntry, LabeledEdge> {
+        val graphAdapter = JGraphXAdapter<BookEntry, LabeledEdge>(graph)
+        val unvisitedCells = graph.vertexSet().filter { it.visit == Visit.UNVISITED }.map { graphAdapter.vertexToCellMap[it] }.toList()
+        graphAdapter.setSelectionCells(unvisitedCells)
+        graphAdapter.setCellStyle("defaultVertex;fillColor=yellow")
+        val layout = mxCircleLayout(graphAdapter)
+        layout.execute(graphAdapter.defaultParent)
+        return graphAdapter
+    }
+
+    private fun writeImageToFile(graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>): Path {
+        val image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
+        val imagePath = Paths.get("graph.png")
+        ImageIO.write(image, "PNG", imagePath.toFile())
+        return imagePath
+    }
+
 
 }

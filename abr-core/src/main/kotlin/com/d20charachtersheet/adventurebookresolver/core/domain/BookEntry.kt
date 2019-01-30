@@ -9,4 +9,9 @@ data class BookEntry(val id: Int) {
         this.title = title
     }
 
+    override fun toString(): String {
+        return "($id) - $title"
+    }
+
+
 }

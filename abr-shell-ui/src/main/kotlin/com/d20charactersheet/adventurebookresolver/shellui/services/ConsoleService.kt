@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service
 import java.io.PrintStream
 
 @Service
-class ConsoleService(private val out: PrintStream) {
-
-    constructor() : this(System.out)
+class ConsoleService(private val out: PrintStream = System.out) {
 
     fun write(message: String) {
         with(out) {
