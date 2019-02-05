@@ -9,6 +9,10 @@ data class BookEntry(val id: Int) {
         this.title = title
     }
 
+    constructor(id: Int, title: String, visit: String) : this(id, title) {
+        this.visit = Visit.valueOf(visit)
+    }
+
     override fun toString(): String {
         return "($id) - $title"
     }

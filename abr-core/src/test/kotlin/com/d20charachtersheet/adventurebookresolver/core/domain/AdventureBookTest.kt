@@ -4,8 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.nio.file.Files
-import java.nio.file.Paths
 
 class AdventureBookTest {
 
@@ -201,32 +199,5 @@ class AdventureBookTest {
         }
 
     }
-
-    @Nested
-    inner class GraphicTest {
-
-        private val underTest = AdventureBook("book title")
-
-        @BeforeEach
-        internal fun setup() {
-            with(underTest) {
-                addAction("upstairs", 261)
-                addAction("downstairs", 54)
-            }
-        }
-
-        @Test
-        internal fun `render simple graph`() {
-            // Act
-            val renderGraph = underTest.renderGraph()
-
-            // Assert
-            assertThat(renderGraph).hasBinaryContent(Files.readAllBytes(Paths.get("src/test/resources/expected_graph.png").toAbsolutePath()))
-
-            // tear down
-            Files.delete(renderGraph)
-        }
-    }
-
 
 }
