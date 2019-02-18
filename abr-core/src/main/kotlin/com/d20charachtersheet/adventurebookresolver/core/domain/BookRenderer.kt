@@ -20,7 +20,7 @@ class BookRenderer {
         val unvisitedCells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED }.map { graphAdapter.vertexToCellMap[it] }.toList()
         graphAdapter.setSelectionCells(unvisitedCells)
         graphAdapter.setCellStyle("defaultVertex;fillColor=yellow")
-        val layout = mxCompactTreeLayout(graphAdapter)
+        val layout = mxCompactTreeLayout(graphAdapter, false)
         layout.execute(graphAdapter.defaultParent)
         return graphAdapter
     }
