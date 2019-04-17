@@ -9,7 +9,7 @@ import org.springframework.shell.standard.ShellMethod
 @ShellComponent
 class DisplayActionsCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
 
-    @ShellMethod("display available actions of current destination")
+    @ShellMethod("display available actions of current book entry")
     fun displayActions() = adventureBookResolver.book.displayActions(consoleService)
 
 }

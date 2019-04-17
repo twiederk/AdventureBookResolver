@@ -12,9 +12,9 @@ class BookRendererTest {
     @Test
     internal fun `render simple graph`() {
         // Arrange
-        val book = AdventureBook("book title")
-        with(book) {
+        val book = AdventureBook("book title").apply {
             editBookEntry("Hallway")
+            note("Start of adventure")
             addAction("upstairs", 261)
             addAction("downstairs", 54)
             moveToBookEntry(261)

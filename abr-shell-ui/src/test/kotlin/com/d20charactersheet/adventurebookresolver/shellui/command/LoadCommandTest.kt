@@ -6,13 +6,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class LoadCommandTest : BaseConsoleCommandTest() {
+internal class LoadCommandTest : BaseConsoleCommandTest() {
 
     @Autowired
     lateinit var underTest: LoadCommand
 
     @Test
-    internal fun `load book from file`() {
+    fun `load book from file`() {
 
         // Act
         underTest.load("src/test/resources/loadBook.abr")
@@ -30,7 +30,7 @@ class LoadCommandTest : BaseConsoleCommandTest() {
     }
 
     @Test
-    internal fun `handle file not found`() {
+    fun `handle file not found`() {
         // Arrange
 
         // Act

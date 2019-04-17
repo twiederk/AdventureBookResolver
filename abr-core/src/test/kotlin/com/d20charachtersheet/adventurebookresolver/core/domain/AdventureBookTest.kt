@@ -5,13 +5,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class AdventureBookTest {
+internal class AdventureBookTest {
 
     @Nested
     inner class StartupTest {
 
         @Test
-        internal fun `start new adventure at vertex 1`() {
+        fun `start new adventure at vertex 1`() {
             // Act
             val underTest = AdventureBook("book title")
 
@@ -30,7 +30,7 @@ class AdventureBookTest {
         private val underTest = AdventureBook("book title")
 
         @Test
-        internal fun `edit title of current book entry (command edit)`() {
+        fun `edit title of current book entry (command edit)`() {
             // Act
             underTest.editBookEntry("entry title")
 
@@ -39,7 +39,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `add new action (command add)`() {
+        fun `add new action (command add)`() {
             // Act
             underTest.addAction("upstairs", 261)
 
@@ -50,7 +50,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `move to other book entry (command move)`() {
+        fun `move to other book entry (command move)`() {
             // Arrange
             underTest.addAction("upstairs", 261)
 
@@ -63,7 +63,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `move only possible to existing entry`() {
+        fun `move only possible to existing entry`() {
             // Arrange
             underTest.addAction("upstairs", 261)
 
@@ -76,7 +76,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `move only possible directly connected entry`() {
+        fun `move only possible directly connected entry`() {
             // Arrange
             with(underTest) {
                 addAction("upstairs", 261)
@@ -92,7 +92,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `add already existing entry`() {
+        fun `add already existing entry`() {
             // Arrange
             with(underTest) {
                 editBookEntry("Introduction")
@@ -106,6 +106,15 @@ class AdventureBookTest {
 
             // Assert
             assertThat(underTest.getEntryTitle()).isEqualTo("Introduction")
+        }
+
+        @Test
+        fun `add note to current entry`() {
+            // Act
+            underTest.note("myNote")
+
+            // Assert
+            assertThat(underTest.getEntryNote()).isEqualTo("myNote")
         }
     }
 
@@ -123,7 +132,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `get list of actions of current book entry`() {
+        fun `get list of actions of current book entry`() {
             // Act
             val actions: Set<Action> = underTest.getActions()
 
@@ -134,7 +143,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `get list of book entries to move to`() {
+        fun `get list of book entries to move to`() {
             // Act
             val bookEntries: Set<BookEntry> = underTest.getNextBookEntries()
 
@@ -143,7 +152,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `get all vertices of graph`() {
+        fun `get all vertices of graph`() {
             // Act
             val allBookEntries = underTest.getAllBookEntries()
 
@@ -152,7 +161,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `get all performed actions`() {
+        fun `get all performed actions`() {
             // Arrange
             with(underTest) {
                 moveToBookEntry(261)
@@ -170,7 +179,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `get list of visited entries`() {
+        fun `get list of visited entries`() {
             // Arrange
             with(underTest) {
                 moveToBookEntry(261)
@@ -186,7 +195,7 @@ class AdventureBookTest {
         }
 
         @Test
-        internal fun `get list of actions to unvisited entries`() {
+        fun `get list of actions to unvisited entries`() {
             // Arrange
 
             // Act

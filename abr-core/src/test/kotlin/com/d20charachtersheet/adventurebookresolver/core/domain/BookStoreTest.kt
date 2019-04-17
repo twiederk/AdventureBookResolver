@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class BookStoreTest {
+internal class BookStoreTest {
 
     private val underTest = BookStore()
 
@@ -18,9 +18,10 @@ class BookStoreTest {
 
 
         @BeforeEach
-        internal fun setup() {
-            with(book) {
+        fun setup() {
+            book.apply {
                 editBookEntry("Hallway")
+                note("Start of adventure")
                 addAction("upstairs", 261)
                 addAction("downstairs", 54)
                 moveToBookEntry(261)
@@ -29,7 +30,7 @@ class BookStoreTest {
         }
 
         @Test
-        internal fun `export whole book`() {
+        fun `export whole book`() {
 
             // Act
             val export = underTest.export(book)
@@ -37,9 +38,9 @@ class BookStoreTest {
             // Assert
             assertThat(export).isEqualToNormalizingNewlines("""TITLE=book title
                 |CURRENT_BOOK_ENTRY=261
-                |BOOK_ENTRY=1,Hallway,VISITED
-                |BOOK_ENTRY=261,Library,VISITED
-                |BOOK_ENTRY=54,Untitled,UNVISITED
+                |BOOK_ENTRY=1,Hallway,VISITED,Start of adventure
+                |BOOK_ENTRY=261,Library,VISITED,
+                |BOOK_ENTRY=54,Untitled,UNVISITED,
                 |LABELED_EDGE=1,261,upstairs
                 |LABELED_EDGE=1,54,downstairs
                 |ACTION=upstairs,1,261
@@ -48,7 +49,7 @@ class BookStoreTest {
         }
 
         @Test
-        internal fun `save book`() {
+        fun `save book`() {
             // Act
             val savedBook = underTest.save(book, "myBook")
 
@@ -67,14 +68,14 @@ class BookStoreTest {
 
 
         @Test
-        internal fun `import whole book`() {
+        fun `import whole book`() {
             // Arrange
             val importData: List<String> = listOf(
                     "TITLE=load title", //
                     "CURRENT_BOOK_ENTRY=261", //
-                    "BOOK_ENTRY=1,Hallway,VISITED", //
-                    "BOOK_ENTRY=261,Library,VISITED", //
-                    "BOOK_ENTRY=54,Untitled,UNVISITED", //
+                    "BOOK_ENTRY=1,Hallway,VISITED,Start of adventure", //
+                    "BOOK_ENTRY=261,Library,VISITED,", //
+                    "BOOK_ENTRY=54,Untitled,UNVISITED,", //
                     "LABELED_EDGE=1,261,upstairs", //
                     "LABELED_EDGE=1,54,downstairs", //
                     "ACTION=upstairs,1,261")
@@ -89,10 +90,11 @@ class BookStoreTest {
             assertThat(importedBook.getEntryId()).isEqualTo(261)
             assertThat(importedBook.getEntryTitle()).isEqualTo("Library")
             assertThat(importedBook.getPerformedActions()).containsExactly(Action("upstairs", BookEntry(1), BookEntry(261)))
+            assertThat(importedBook.performedActions[0].source.note).isEqualTo("Start of adventure")
         }
 
         @Test
-        internal fun `load book`() {
+        fun `load book`() {
 
             // Act
             val loadedBook = underTest.load("src/test/resources/loadBook.abr")

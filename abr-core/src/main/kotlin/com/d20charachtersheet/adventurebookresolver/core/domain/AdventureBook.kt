@@ -83,4 +83,10 @@ class AdventureBook(val title: String = "new book") {
                     .flatMap { graph.incomingEdgesOf(it) }
                     .map { Action(it.label, graph.getEdgeSource(it), graph.getEdgeTarget(it)) }
 
+    fun note(note: String) {
+        currentBookEntry.note = note
+    }
+
+    fun getEntryNote(): String = currentBookEntry.note
+
 }

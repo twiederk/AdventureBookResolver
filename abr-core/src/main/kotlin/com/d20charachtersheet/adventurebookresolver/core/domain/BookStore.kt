@@ -17,7 +17,7 @@ class BookStore {
             appendln("TITLE=${book.title}")
             appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
             with(book.graph) {
-                vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id},${entry.title},${entry.visit}") }
+                vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id},${entry.title},${entry.visit},${entry.note}") }
                 edgeSet().forEach { edge -> appendln("LABELED_EDGE=${getEdgeSource(edge).id},${getEdgeTarget(edge).id},${edge.label}") }
             }
             book.performedActions.forEach { action -> appendln("ACTION=${action.label},${action.source.id},${action.destination.id}") }
@@ -74,7 +74,7 @@ class BookStore {
         val bookEntries: List<BookEntry> = importData //
                 .filter { s -> s.startsWith("BOOK_ENTRY") }
                 .map { s -> s.split(',') }
-                .map { a -> BookEntry(a[0].substring("BOOK_ENTRY".length + 1).toInt(), a[1], a[2]) }
+                .map { a -> BookEntry(a[0].substring("BOOK_ENTRY".length + 1).toInt(), a[1], Visit.valueOf(a[2]), a[3]) }
         return bookEntries.map { it.id to it }.toMap()
     }
 

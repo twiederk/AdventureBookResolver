@@ -5,9 +5,9 @@ import org.springframework.shell.standard.ShellComponent
 import org.springframework.shell.standard.ShellMethod
 
 @ShellComponent
-class MoveCommand(val adventureBookResolver: AdventureBookResolver) {
+class NoteCommand(val adventureBookResolver: AdventureBookResolver) {
 
-    @ShellMethod("move to next book entry")
-    fun move(id: Int) = adventureBookResolver.book.moveToBookEntry(id)
+    @ShellMethod("add note to book entry")
+    fun note(note: String) = adventureBookResolver.book.note(note)
 
 }
