@@ -4,18 +4,21 @@ import org.jgrapht.Graph
 import org.jgrapht.graph.SimpleDirectedGraph
 
 
-class AdventureBook(val title: String = "new book") {
+class AdventureBook(val title: String = "new book", val totalNumberOfBookEntries: Int = 400) {
 
+    var tries: Int = 1
+        private set
     internal val graph: Graph<BookEntry, LabeledEdge> = SimpleDirectedGraph(LabeledEdge::class.java)
     private var currentBookEntry: BookEntry = BookEntry(1)
-    internal val performedActions: MutableList<Action> = mutableListOf()
+    private val performedActions: MutableList<Action> = mutableListOf()
 
     init {
         graph.addVertex(currentBookEntry)
         currentBookEntry.visit = Visit.VISITED
     }
 
-    constructor(title: String, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>) : this(title) {
+    constructor(title: String, tries: Int, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>) : this(title) {
+        this.tries = tries
         vertices.values.forEach { bookEntry -> graph.addVertex(bookEntry) }
         edges.forEach { action -> graph.addEdge(action.source, action.destination, LabeledEdge(action.label)) }
         currentBookEntry = vertices[currentBookEntryId] ?: BookEntry(1)
@@ -88,5 +91,13 @@ class AdventureBook(val title: String = "new book") {
     }
 
     fun getEntryNote(): String = currentBookEntry.note
+
+    fun restart() {
+        graph.vertexSet().forEach { it.visit = Visit.UNVISITED }
+        currentBookEntry = getBookEntry(1)
+        currentBookEntry.visit = Visit.VISITED
+        performedActions.clear()
+        tries++
+    }
 
 }

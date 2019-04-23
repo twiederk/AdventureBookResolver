@@ -10,7 +10,13 @@ class DisplayPathCommand(val adventureBookResolver: AdventureBookResolver, val c
 
 
     @ShellMethod("display adventure path")
-    fun displayPath() =
-            adventureBookResolver.book.getPath().forEach { consoleService.write("(${it.id}) - ${it.title}") }
+    fun displayPath() {
+        with(adventureBookResolver.book) {
+            val percentage = getAllBookEntries().size / totalNumberOfBookEntries.toFloat() * 100
+            consoleService.write("Number of tries: $tries")
+            consoleService.write("Known book entries: ${getAllBookEntries().size} / $totalNumberOfBookEntries ($percentage%)")
+            getPath().forEach { consoleService.write("(${it.id}) - ${it.title}") }
+        }
+    }
 
 }

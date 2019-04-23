@@ -1,4 +1,5 @@
 TITLE=book title
+TRIES=1
 CURRENT_BOOK_ENTRY=261
 BOOK_ENTRY=1,Hallway,VISITED,Start of adventure
 BOOK_ENTRY=261,Library,VISITED,

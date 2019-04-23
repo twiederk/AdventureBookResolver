@@ -37,6 +37,7 @@ internal class BookStoreTest {
 
             // Assert
             assertThat(export).isEqualToNormalizingNewlines("""TITLE=book title
+                |TRIES=1
                 |CURRENT_BOOK_ENTRY=261
                 |BOOK_ENTRY=1,Hallway,VISITED,Start of adventure
                 |BOOK_ENTRY=261,Library,VISITED,
@@ -72,6 +73,7 @@ internal class BookStoreTest {
             // Arrange
             val importData: List<String> = listOf(
                     "TITLE=load title", //
+                    "TRIES=2", //
                     "CURRENT_BOOK_ENTRY=261", //
                     "BOOK_ENTRY=1,Hallway,VISITED,Start of adventure", //
                     "BOOK_ENTRY=261,Library,VISITED,", //
@@ -85,12 +87,13 @@ internal class BookStoreTest {
 
             // Assert
             assertThat(importedBook.title).isEqualTo("load title")
+            assertThat(importedBook.tries).isEqualTo(2)
             assertThat(importedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(importedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
             assertThat(importedBook.getEntryId()).isEqualTo(261)
             assertThat(importedBook.getEntryTitle()).isEqualTo("Library")
             assertThat(importedBook.getPerformedActions()).containsExactly(Action("upstairs", BookEntry(1), BookEntry(261)))
-            assertThat(importedBook.performedActions[0].source.note).isEqualTo("Start of adventure")
+            assertThat(importedBook.getPerformedActions()[0].source.note).isEqualTo("Start of adventure")
         }
 
         @Test
@@ -101,6 +104,7 @@ internal class BookStoreTest {
 
             // Assert
             assertThat(loadedBook.title).isEqualTo("load title")
+            assertThat(loadedBook.tries).isEqualTo(2)
             assertThat(loadedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(loadedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
             assertThat(loadedBook.getEntryId()).isEqualTo(261)

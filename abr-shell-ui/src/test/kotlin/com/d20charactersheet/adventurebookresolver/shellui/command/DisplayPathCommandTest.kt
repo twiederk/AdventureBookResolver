@@ -4,13 +4,13 @@ import com.nhaarman.mockitokotlin2.inOrder
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-class DisplayPathCommandTest : BaseConsoleCommandTest() {
+internal class DisplayPathCommandTest : BaseConsoleCommandTest() {
 
     @Autowired
     lateinit var underTest: DisplayPathCommand
 
     @Test
-    internal fun `display path`() {
+    fun `display path`() {
 
         // Arrange
         with(adventureBookResolver.book) {
@@ -28,6 +28,8 @@ class DisplayPathCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         inOrder(consoleService) {
+            verify(consoleService).write("Number of tries: 1")
+            verify(consoleService).write("Known book entries: 3 / 400 (0.75%)")
             verify(consoleService).write("(1) - Hallway")
             verify(consoleService).write("(100) - Tower")
             verify(consoleService).write("(200) - Balcony")

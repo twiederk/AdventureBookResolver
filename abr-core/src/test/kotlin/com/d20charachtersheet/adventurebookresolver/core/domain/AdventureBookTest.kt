@@ -20,6 +20,8 @@ internal class AdventureBookTest {
             assertThat(underTest.getAllBookEntries()).isEqualTo(setOf(BookEntry(1)))
             assertThat(underTest.getEntryId()).isEqualTo(1)
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
+            assertThat(underTest.tries).isEqualTo(1)
+            assertThat(underTest.totalNumberOfBookEntries).isEqualTo(400)
         }
 
     }
@@ -116,6 +118,30 @@ internal class AdventureBookTest {
             // Assert
             assertThat(underTest.getEntryNote()).isEqualTo("myNote")
         }
+
+        @Test
+        fun `restart book`() {
+            // Arrange
+            underTest.apply {
+                editBookEntry("Introduction")
+                addAction("upstairs", 100)
+                moveToBookEntry(100)
+                editBookEntry("Library")
+                addAction("West", 200)
+            }
+
+            // Act
+            underTest.restart()
+
+            // Assert
+            assertThat(underTest.getEntryId()).isEqualTo(1)
+            assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
+            assertThat(underTest.getEntryTitle()).isEqualTo("Introduction")
+            assertThat(underTest.getAllBookEntries()).hasSize(3)
+            assertThat(underTest.getAllBookEntries().map { it.visit }).containsExactlyInAnyOrder(Visit.VISITED, Visit.UNVISITED, Visit.UNVISITED)
+            assertThat(underTest.getPerformedActions()).isEmpty()
+            assertThat(underTest.tries).isEqualTo(2)
+        }
     }
 
     @Nested
@@ -206,6 +232,7 @@ internal class AdventureBookTest {
                     Action("upstairs", BookEntry(1), BookEntry(261)), //
                     Action("downstairs", BookEntry(1), BookEntry(54)))
         }
+
 
     }
 
