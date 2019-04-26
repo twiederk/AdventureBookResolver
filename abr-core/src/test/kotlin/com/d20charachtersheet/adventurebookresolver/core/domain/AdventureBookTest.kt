@@ -142,6 +142,38 @@ internal class AdventureBookTest {
             assertThat(underTest.getPerformedActions()).isEmpty()
             assertThat(underTest.tries).isEqualTo(2)
         }
+
+        @Test
+        fun `run to a book entry`() {
+            // Arrange
+            underTest.apply {
+                editBookEntry("Introduction")
+                addAction("upstairs", 100)
+                addAction("downstairs", 200)
+                moveToBookEntry(100)
+                editBookEntry("Library")
+                addAction("take book", 300)
+                addAction("downstairs", 1)
+                moveToBookEntry(300)
+                editBookEntry("Select book to take")
+                addAction("take red book", 301)
+                addAction("take blue book", 302)
+                moveToBookEntry(301)
+                editBookEntry("Poisoned book")
+                restart()
+            }
+
+            // Act
+            underTest.run(300)
+
+            // Assert
+            assertThat(underTest.getEntryId()).isEqualTo(300)
+            assertThat(underTest.getEntryTitle()).isEqualTo("Select book to take")
+            assertThat(underTest.getPath()).containsExactly(BookEntry(1), BookEntry(100), BookEntry(300))
+            assertThat(underTest.getPerformedActions()).containsExactly(
+                    Action("upstairs", BookEntry(1), BookEntry(100)), //
+                    Action("take book", BookEntry(100), BookEntry(300))) //
+        }
     }
 
     @Nested

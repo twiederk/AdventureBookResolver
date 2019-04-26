@@ -1,6 +1,7 @@
 package com.d20charachtersheet.adventurebookresolver.core.domain
 
 import org.jgrapht.Graph
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.SimpleDirectedGraph
 
 
@@ -98,6 +99,15 @@ class AdventureBook(val title: String = "new book", val totalNumberOfBookEntries
         currentBookEntry.visit = Visit.VISITED
         performedActions.clear()
         tries++
+    }
+
+    fun run(entryId: Int) {
+        val shortestPathAlgorithm = DijkstraShortestPath<BookEntry, LabeledEdge>(graph)
+        val path = shortestPathAlgorithm.getPath(BookEntry(1), BookEntry(entryId))
+
+        for (bookEntry in path.vertexList) {
+            moveToBookEntry(bookEntry.id)
+        }
     }
 
 }
