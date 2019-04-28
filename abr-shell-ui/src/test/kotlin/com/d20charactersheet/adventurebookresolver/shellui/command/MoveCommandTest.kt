@@ -1,16 +1,18 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
+import com.nhaarman.mockitokotlin2.inOrder
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 
-class MoveCommandTest : BaseCommandTest() {
+internal class MoveCommandTest : BaseConsoleCommandTest() {
 
     @Autowired
     lateinit var underTest: MoveCommand
 
     @Test
-    internal fun `move to other book entry`() {
+    fun `move to other book entry`() {
         // Arrange
         adventureBookResolver.book.addAction("upstairs", 261)
 
@@ -19,5 +21,32 @@ class MoveCommandTest : BaseCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.getEntryId()).isEqualTo(261)
+    }
+
+    @Test
+    fun `move to existing book entry and display available actions`() {
+        // Arrange
+        adventureBookResolver.book.apply {
+            editBookEntry("Hallway")
+            addAction("upstairs", 100)
+            moveToBookEntry(100)
+            editBookEntry("Library")
+            addAction("downstairs", 1)
+            addAction("take book", 200)
+            restart()
+        }
+        Mockito.reset(consoleService)
+
+        // Act
+        underTest.move(100)
+
+        // Assert
+        assertThat(adventureBookResolver.book.getEntryId()).isEqualTo(100)
+        inOrder(consoleService) {
+            verify(consoleService).write("(100) - Library")
+            verify(consoleService).write("downstairs -> 1")
+            verify(consoleService).write("take book -> 200")
+        }
+
     }
 }
