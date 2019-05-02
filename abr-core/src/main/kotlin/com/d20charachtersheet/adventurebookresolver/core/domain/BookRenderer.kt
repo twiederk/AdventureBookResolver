@@ -18,22 +18,29 @@ class BookRenderer {
     private fun renderGraphInMemory(book: AdventureBook): JGraphXAdapter<BookEntry, LabeledEdge> {
         val graphAdapter = JGraphXAdapter<BookEntry, LabeledEdge>(book.graph)
         colorUnvisitedEntriesInYellow(book, graphAdapter)
-        colorEntriesWithNotInGreen(book, graphAdapter)
+        colorVisitedEntriesInBlue(book, graphAdapter)
+        colorAdventurePathInGreen(book, graphAdapter)
         val layout = mxCompactTreeLayout(graphAdapter, false)
         layout.execute(graphAdapter.defaultParent)
         return graphAdapter
     }
 
     private fun colorUnvisitedEntriesInYellow(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
-        val unvisitedCells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED }.map { graphAdapter.vertexToCellMap[it] }.toList()
-        graphAdapter.setSelectionCells(unvisitedCells)
+        val cells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED && it.title == BOOK_ENTRY_DEFAULT_TITLE }.map { graphAdapter.vertexToCellMap[it] }.toList()
+        graphAdapter.setSelectionCells(cells)
         graphAdapter.setCellStyle("defaultVertex;fillColor=yellow")
     }
 
+    private fun colorVisitedEntriesInBlue(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
+        val cells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED && it.title != BOOK_ENTRY_DEFAULT_TITLE }.map { graphAdapter.vertexToCellMap[it] }.toList()
+        graphAdapter.setSelectionCells(cells)
+        graphAdapter.setCellStyle("defaultVertex;fillColor=blue")
+    }
 
-    private fun colorEntriesWithNotInGreen(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
-        val notedCells = book.graph.vertexSet().filter { it.note.isNotEmpty() }.map { graphAdapter.vertexToCellMap[it] }.toList()
-        graphAdapter.setSelectionCells(notedCells)
+    private fun colorAdventurePathInGreen(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
+        val path = book.getPath()
+        val cells = book.graph.vertexSet().filter { path.contains(it) }.map { graphAdapter.vertexToCellMap[it] }.toList()
+        graphAdapter.setSelectionCells(cells)
         graphAdapter.setCellStyle("defaultVertex;fillColor=green")
     }
 

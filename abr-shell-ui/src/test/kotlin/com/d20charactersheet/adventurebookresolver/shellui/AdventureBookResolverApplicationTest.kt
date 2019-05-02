@@ -1,5 +1,6 @@
 package com.d20charactersheet.adventurebookresolver.shellui
 
+import com.d20charachtersheet.adventurebookresolver.core.domain.ADVENTURE_BOOK_DEFAULT_TITLE
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,7 +24,7 @@ class AdventureBookResolverApplicationTest {
     @Test
     internal fun `start with book called new book`() {
         // Assert
-        assertThat(adventureBookResolver.book.title).isEqualTo("new book")
+        assertThat(adventureBookResolver.book.title).isEqualTo(ADVENTURE_BOOK_DEFAULT_TITLE)
     }
 }
 

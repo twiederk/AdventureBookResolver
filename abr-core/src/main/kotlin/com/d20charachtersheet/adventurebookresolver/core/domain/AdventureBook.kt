@@ -5,7 +5,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.SimpleDirectedGraph
 
 
-class AdventureBook(val title: String = "new book", val totalNumberOfBookEntries: Int = 400) {
+class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalNumberOfBookEntries: Int = 400) {
 
     var tries: Int = 1
         private set

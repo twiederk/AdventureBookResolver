@@ -206,7 +206,7 @@ internal class AdventureBookTest {
             val bookEntries: Set<BookEntry> = underTest.getNextBookEntries()
 
             // Assert
-            assertThat(bookEntries).extracting("title").containsExactly("Untitled", "Untitled")
+            assertThat(bookEntries).extracting("title").containsExactly(BOOK_ENTRY_DEFAULT_TITLE, BOOK_ENTRY_DEFAULT_TITLE)
         }
 
         @Test

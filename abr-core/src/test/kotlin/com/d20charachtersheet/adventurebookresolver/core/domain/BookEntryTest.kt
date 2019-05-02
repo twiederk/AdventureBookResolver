@@ -12,7 +12,7 @@ internal class BookEntryTest {
 
         // Assert
         assertThat(bookEntry.id).isEqualTo(1)
-        assertThat(bookEntry.title).isEqualTo("Untitled")
+        assertThat(bookEntry.title).isEqualTo(BOOK_ENTRY_DEFAULT_TITLE)
         assertThat(bookEntry.visit).isEqualTo(Visit.UNVISITED)
         assertThat(bookEntry.note).isEmpty()
     }
