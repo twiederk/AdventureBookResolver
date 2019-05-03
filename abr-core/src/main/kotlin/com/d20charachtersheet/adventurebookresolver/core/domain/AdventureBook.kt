@@ -94,9 +94,7 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
     fun getEntryNote(): String = currentBookEntry.note
 
     fun restart() {
-        graph.vertexSet().forEach { it.visit = Visit.UNVISITED }
         currentBookEntry = getBookEntry(1)
-        currentBookEntry.visit = Visit.VISITED
         performedActions.clear()
         tries++
     }

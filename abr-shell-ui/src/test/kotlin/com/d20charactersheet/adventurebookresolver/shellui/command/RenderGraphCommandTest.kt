@@ -32,6 +32,7 @@ internal class RenderGraphCommandTest : BaseConsoleCommandTest() {
             editBookEntry("Poisoned book")
             restart()
             run(300)
+            editBookEntry("blue book")
             addAction("read book", 310)
             moveToBookEntry(310)
             editBookEntry("valuable information")

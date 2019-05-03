@@ -125,9 +125,10 @@ internal class AdventureBookTest {
             underTest.apply {
                 editBookEntry("Introduction")
                 addAction("upstairs", 100)
+                addAction("downstairs", 110)
                 moveToBookEntry(100)
                 editBookEntry("Library")
-                addAction("West", 200)
+                addAction("Take a book", 200)
             }
 
             // Act
@@ -137,8 +138,8 @@ internal class AdventureBookTest {
             assertThat(underTest.getEntryId()).isEqualTo(1)
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
             assertThat(underTest.getEntryTitle()).isEqualTo("Introduction")
-            assertThat(underTest.getAllBookEntries()).hasSize(3)
-            assertThat(underTest.getAllBookEntries().map { it.visit }).containsExactlyInAnyOrder(Visit.VISITED, Visit.UNVISITED, Visit.UNVISITED)
+            assertThat(underTest.getAllBookEntries()).hasSize(4)
+            assertThat(underTest.getAllBookEntries().map { it.visit }).containsExactlyInAnyOrder(Visit.VISITED, Visit.VISITED, Visit.UNVISITED, Visit.UNVISITED)
             assertThat(underTest.getPerformedActions()).isEmpty()
             assertThat(underTest.tries).isEqualTo(2)
         }

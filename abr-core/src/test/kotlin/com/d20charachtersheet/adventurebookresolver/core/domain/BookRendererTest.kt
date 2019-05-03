@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class BookRendererTest {
+internal class BookRendererTest {
 
     private val underTest = BookRenderer()
 
     @Test
-    internal fun `render simple graph`() {
+    fun `render simple graph`() {
         // Arrange
         val book = AdventureBook("book title").apply {
             editBookEntry("Hallway")
@@ -28,6 +28,7 @@ class BookRendererTest {
             editBookEntry("Poisoned book")
             restart()
             run(300)
+            editBookEntry("blue book")
             addAction("read book", 310)
             moveToBookEntry(310)
             editBookEntry("valuable information")

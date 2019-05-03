@@ -26,15 +26,15 @@ class BookRenderer {
     }
 
     private fun colorUnvisitedEntriesInYellow(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
-        val cells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED && it.title == BOOK_ENTRY_DEFAULT_TITLE }.map { graphAdapter.vertexToCellMap[it] }.toList()
+        val cells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED }.map { graphAdapter.vertexToCellMap[it] }.toList()
         graphAdapter.setSelectionCells(cells)
         graphAdapter.setCellStyle("defaultVertex;fillColor=yellow")
     }
 
     private fun colorVisitedEntriesInBlue(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
-        val cells = book.graph.vertexSet().filter { it.visit == Visit.UNVISITED && it.title != BOOK_ENTRY_DEFAULT_TITLE }.map { graphAdapter.vertexToCellMap[it] }.toList()
+        val cells = book.graph.vertexSet().filter { it.visit == Visit.VISITED }.map { graphAdapter.vertexToCellMap[it] }.toList()
         graphAdapter.setSelectionCells(cells)
-        graphAdapter.setCellStyle("defaultVertex;fillColor=blue")
+        graphAdapter.setCellStyle("defaultVertex;fillColor=#add8e6")
     }
 
     private fun colorAdventurePathInGreen(book: AdventureBook, graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>) {
@@ -43,7 +43,6 @@ class BookRenderer {
         graphAdapter.setSelectionCells(cells)
         graphAdapter.setCellStyle("defaultVertex;fillColor=green")
     }
-
 
     private fun writeImageToFile(graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>): Path {
         val image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
