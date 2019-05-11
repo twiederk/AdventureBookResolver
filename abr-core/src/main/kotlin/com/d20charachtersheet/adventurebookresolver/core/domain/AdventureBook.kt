@@ -108,4 +108,6 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
         }
     }
 
+    fun search(criteria: String): List<BookEntry> = graph.vertexSet().filter { it.note.contains(criteria, true) }.toList()
+
 }

@@ -31,6 +31,7 @@ internal class MoveCommandTest : BaseConsoleCommandTest() {
             addAction("upstairs", 100)
             moveToBookEntry(100)
             editBookEntry("Library")
+            note("a lot of books")
             addAction("downstairs", 1)
             addAction("take book", 200)
             restart()
@@ -43,7 +44,7 @@ internal class MoveCommandTest : BaseConsoleCommandTest() {
         // Assert
         assertThat(adventureBookResolver.book.getEntryId()).isEqualTo(100)
         inOrder(consoleService) {
-            verify(consoleService).write("(100) - Library")
+            verify(consoleService).write("(100) - Library: a lot of books")
             verify(consoleService).write("downstairs -> 1")
             verify(consoleService).write("take book -> 200")
         }

@@ -1,8 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
-import com.d20charactersheet.adventurebookresolver.shellui.domain.displayActions
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
+import com.d20charactersheet.adventurebookresolver.shellui.services.displayActions
+import com.d20charactersheet.adventurebookresolver.shellui.services.displayBookEntry
 import org.springframework.shell.standard.ShellComponent
 import org.springframework.shell.standard.ShellMethod
 
@@ -13,7 +14,7 @@ class MoveCommand(val adventureBookResolver: AdventureBookResolver, val consoleS
     fun move(id: Int) {
         with(adventureBookResolver.book) {
             moveToBookEntry(id)
-            consoleService.write("(${getEntryId()}) - ${getEntryTitle()}")
+            displayBookEntry(consoleService)
             displayActions(consoleService)
         }
     }

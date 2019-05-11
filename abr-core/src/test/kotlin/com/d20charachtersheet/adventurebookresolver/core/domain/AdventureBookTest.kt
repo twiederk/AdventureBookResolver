@@ -175,6 +175,30 @@ internal class AdventureBookTest {
                     Action("upstairs", BookEntry(1), BookEntry(100)), //
                     Action("take book", BookEntry(100), BookEntry(300))) //
         }
+
+        @Test
+        fun `search notes`() {
+            // Arrange
+            underTest.apply {
+                note("Start of adventure")
+            }
+
+            // Act
+            val bookEntries = underTest.search("start")
+
+            // Assert
+            assertThat(bookEntries).containsExactly(BookEntry(1))
+        }
+
+        @Test
+        fun `search notes with no match`() {
+
+            // Act
+            val bookEntries = underTest.search("start")
+
+            // Assert
+            assertThat(bookEntries).isEmpty()
+        }
     }
 
     @Nested

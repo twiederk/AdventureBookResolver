@@ -2,6 +2,7 @@ package com.d20charactersheet.adventurebookresolver.shellui.command
 
 import com.d20charachtersheet.adventurebookresolver.core.domain.Action
 import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
+import com.d20charachtersheet.adventurebookresolver.core.domain.Visit
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -19,6 +20,8 @@ internal class RunCommandTest : BaseConsoleCommandTest() {
         adventureBookResolver.book = mock {
             on { getEntryId() }.doReturn(100)
             on { getEntryTitle() }.doReturn("Library")
+            on { getEntryVisit() }.doReturn(Visit.VISITED)
+            on { getEntryNote() }.doReturn("a lot of books")
             on { getActions() }.doReturn(setOf(Action("downstairs", mock(), BookEntry(1))))
         }
 
@@ -27,7 +30,7 @@ internal class RunCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         verify(adventureBookResolver.book).run(100)
-        verify(consoleService).write("(100) - Library")
+        verify(consoleService).write("(100) - Library: a lot of books")
         verify(consoleService).write("downstairs -> 1")
     }
 

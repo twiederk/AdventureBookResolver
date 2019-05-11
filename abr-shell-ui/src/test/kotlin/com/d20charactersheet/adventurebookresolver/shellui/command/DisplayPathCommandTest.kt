@@ -16,6 +16,7 @@ internal class DisplayPathCommandTest : BaseConsoleCommandTest() {
         with(adventureBookResolver.book) {
             editBookEntry("Hallway")
             addAction("upstairs", 100)
+            note("Start of adventure")
             moveToBookEntry(100)
             editBookEntry("Tower")
             addAction("left", 200)
@@ -30,7 +31,7 @@ internal class DisplayPathCommandTest : BaseConsoleCommandTest() {
         inOrder(consoleService) {
             verify(consoleService).write("Number of tries: 1")
             verify(consoleService).write("Known book entries: 3 / 400 (0.75%)")
-            verify(consoleService).write("(1) - Hallway")
+            verify(consoleService).write("(1) - Hallway: Start of adventure")
             verify(consoleService).write("(100) - Tower")
             verify(consoleService).write("(200) - Balcony")
         }

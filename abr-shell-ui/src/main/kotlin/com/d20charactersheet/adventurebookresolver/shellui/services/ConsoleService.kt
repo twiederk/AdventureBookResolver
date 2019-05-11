@@ -1,5 +1,7 @@
 package com.d20charactersheet.adventurebookresolver.shellui.services
 
+import com.d20charachtersheet.adventurebookresolver.core.domain.AdventureBook
+import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
 import org.springframework.stereotype.Service
 import java.io.PrintStream
 
@@ -15,4 +17,22 @@ class ConsoleService(private val out: PrintStream = System.out) {
         }
     }
 
+}
+
+fun AdventureBook.displayActions(consoleService: ConsoleService) {
+    getActions().forEach {
+        consoleService.write("${it.label} -> ${it.destination.id}")
+    }
+}
+
+fun AdventureBook.displayBookEntry(consoleService: ConsoleService) {
+    BookEntry(getEntryId(), getEntryTitle(), getEntryVisit(), getEntryNote()).displayBookEntry(consoleService)
+}
+
+fun BookEntry.displayBookEntry(consoleService: ConsoleService) {
+    if (note.isNotEmpty()) {
+        consoleService.write("($id) - $title: $note")
+    } else {
+        consoleService.write("($id) - $title")
+    }
 }
