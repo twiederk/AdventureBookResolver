@@ -6,8 +6,8 @@ import java.nio.file.Paths
 
 class BookStore {
 
-    fun save(book: AdventureBook, filename: String = book.title): Path {
-        val savedBook: Path = Paths.get("$filename.abr")
+    fun save(book: AdventureBook, bookName: String = book.title): Path {
+        val savedBook: Path = Paths.get("$bookName.abr")
         savedBook.toFile().writeText(export(book))
         return savedBook
     }
@@ -27,8 +27,8 @@ class BookStore {
     }
 
 
-    fun load(filename: String): AdventureBook {
-        val readLines = File(filename).readLines()
+    fun load(bookName: String): AdventureBook {
+        val readLines = File("$bookName.abr").readLines()
         return import(readLines)
     }
 

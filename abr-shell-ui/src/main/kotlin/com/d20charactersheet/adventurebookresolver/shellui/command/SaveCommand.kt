@@ -7,24 +7,24 @@ import org.springframework.shell.standard.ShellComponent
 import org.springframework.shell.standard.ShellMethod
 import org.springframework.shell.standard.ShellOption
 
-const val EMPTY_FILENAME_OPTION = ""
+const val EMPTY_BOOK_NAME_OPTION = ""
 
 @ShellComponent
 class SaveCommand(val adventureBookResolver: AdventureBookResolver, val bookStore: BookStore, val consoleService: ConsoleService) {
 
     @ShellMethod("save book to file")
-    fun save(@ShellOption(defaultValue = EMPTY_FILENAME_OPTION) filenameOption: String = EMPTY_FILENAME_OPTION) {
-        val filename = createFilename(filenameOption)
-        val savedBook = bookStore.save(adventureBookResolver.book, filename)
+    fun save(@ShellOption(defaultValue = EMPTY_BOOK_NAME_OPTION) bookNameOption: String = EMPTY_BOOK_NAME_OPTION) {
+        val bookName = createBookName(bookNameOption)
+        val savedBook = bookStore.save(adventureBookResolver.book, bookName)
         consoleService.write("Saved book to ${savedBook.toAbsolutePath()}")
     }
 
-    private fun createFilename(filenameOption: String): String {
-        var filename = filenameOption
-        if (filenameOption == EMPTY_FILENAME_OPTION) {
-            filename = adventureBookResolver.book.title
+    private fun createBookName(bookNameOption: String): String {
+        var bookName = bookNameOption
+        if (bookNameOption == EMPTY_BOOK_NAME_OPTION) {
+            bookName = adventureBookResolver.book.title
         }
-        return filename
+        return bookName
     }
 
 }

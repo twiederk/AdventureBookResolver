@@ -11,10 +11,10 @@ import java.io.IOException
 class LoadCommand(val adventureBookResolver: AdventureBookResolver, val bookStore: BookStore, val consoleService: ConsoleService) {
 
     @ShellMethod("loads book from file")
-    fun load(filename: String) {
+    fun load(bookName: String) {
         try {
-            adventureBookResolver.book = bookStore.load(filename)
-            consoleService.write("Loaded book from $filename")
+            adventureBookResolver.book = bookStore.load(bookName)
+            consoleService.write("Loaded book from $bookName")
         } catch (e: IOException) {
             consoleService.write(e.localizedMessage)
         }

@@ -100,7 +100,7 @@ internal class BookStoreTest {
         fun `load book`() {
 
             // Act
-            val loadedBook = underTest.load("src/test/resources/loadBook.abr")
+            val loadedBook = underTest.load("src/test/resources/loadBook")
 
             // Assert
             assertThat(loadedBook.title).isEqualTo("load title")
@@ -111,6 +111,7 @@ internal class BookStoreTest {
             assertThat(loadedBook.getEntryTitle()).isEqualTo("Library")
             assertThat(loadedBook.getPerformedActions()).containsExactly(Action("upstairs", BookEntry(1), BookEntry(261)))
         }
+
     }
 
 }

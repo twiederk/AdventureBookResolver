@@ -15,7 +15,7 @@ internal class LoadCommandTest : BaseConsoleCommandTest() {
     fun `load book from file`() {
 
         // Act
-        underTest.load("src/test/resources/loadBook.abr")
+        underTest.load("src/test/resources/loadBook")
 
         // Assert
         assertThat(adventureBookResolver.book.title).isEqualTo("load title")
@@ -24,7 +24,7 @@ internal class LoadCommandTest : BaseConsoleCommandTest() {
 
         argumentCaptor<String> {
             verify(consoleService).write(capture())
-            assertThat(firstValue).startsWith("Loaded book from ").endsWith("loadBook.abr")
+            assertThat(firstValue).startsWith("Loaded book from ").endsWith("loadBook")
         }
 
     }

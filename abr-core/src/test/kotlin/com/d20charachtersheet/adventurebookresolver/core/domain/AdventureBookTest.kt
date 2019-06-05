@@ -199,6 +199,40 @@ internal class AdventureBookTest {
             // Assert
             assertThat(bookEntries).isEmpty()
         }
+
+        @Test
+        fun `delete action with entry`() {
+            // Arrange
+            underTest.apply {
+                addAction("upstairs", 100)
+            }
+
+            // Act
+            underTest.delete(100)
+
+            // Assert
+            assertThat(underTest.getActions()).isEmpty()
+            assertThat(underTest.getAllBookEntries()).containsExactly(BookEntry(1))
+        }
+
+        @Test
+        fun `delete action but not entry`() {
+            // Arrange
+            underTest.apply {
+                addAction("upstairs", 100)
+                moveToBookEntry(100)
+                addAction("take book", 200)
+                moveToBookEntry(200)
+                addAction("back", 100)
+            }
+
+            // Act
+            underTest.delete(100)
+
+            // Assert
+            assertThat(underTest.getActions()).isEmpty()
+            assertThat(underTest.getAllBookEntries()).containsExactly(BookEntry(1), BookEntry(100), BookEntry(200))
+        }
     }
 
     @Nested

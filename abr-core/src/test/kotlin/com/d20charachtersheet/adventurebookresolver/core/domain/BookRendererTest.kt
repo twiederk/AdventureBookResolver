@@ -1,6 +1,6 @@
 package com.d20charachtersheet.adventurebookresolver.core.domain
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -10,7 +10,10 @@ internal class BookRendererTest {
     private val underTest = BookRenderer()
 
     @Test
-    fun `render simple graph`() {
+    fun `render simple graph and write to file`() {
+
+        val tempDirectory = Files.createTempDirectory("abr")
+
         // Arrange
         val book = AdventureBook("book title").apply {
             editBookEntry("Hallway")
@@ -35,13 +38,14 @@ internal class BookRendererTest {
         }
 
         // Act
-        val renderGraph = underTest.renderGraph(book)
+        val renderGraph = underTest.renderGraph(book, tempDirectory.resolve("myGraph"))
 
         // Assert
-        Assertions.assertThat(renderGraph).hasBinaryContent(Files.readAllBytes(Paths.get("src/test/resources/expected_graph.png").toAbsolutePath()))
+        assertThat(renderGraph).isEqualTo(tempDirectory.resolve("myGraph.png"))
+        assertThat(renderGraph).hasBinaryContent(Files.readAllBytes(Paths.get("src/test/resources/expected_graph.png").toAbsolutePath()))
 
         // tear down
-        Files.delete(renderGraph)
+        Files.delete(tempDirectory.resolve(renderGraph))
     }
 
 }

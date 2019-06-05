@@ -110,4 +110,12 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
 
     fun search(criteria: String): List<BookEntry> = graph.vertexSet().filter { it.note.contains(criteria, true) }.toList()
 
+    fun delete(entryId: Int) {
+        val bookEntry = getBookEntry(entryId)
+        graph.removeEdge(currentBookEntry, bookEntry)
+        if (graph.incomingEdgesOf(bookEntry).isEmpty()) {
+            graph.removeVertex(bookEntry)
+        }
+    }
+
 }

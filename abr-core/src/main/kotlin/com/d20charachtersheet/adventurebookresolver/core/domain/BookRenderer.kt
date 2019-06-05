@@ -5,14 +5,13 @@ import com.mxgraph.util.mxCellRenderer
 import org.jgrapht.ext.JGraphXAdapter
 import java.awt.Color
 import java.nio.file.Path
-import java.nio.file.Paths
 import javax.imageio.ImageIO
 
 class BookRenderer {
 
-    fun renderGraph(book: AdventureBook): Path {
+    fun renderGraph(book: AdventureBook, filename: Path): Path {
         val graphAdapter = renderGraphInMemory(book)
-        return writeImageToFile(graphAdapter)
+        return writeImageToFile(graphAdapter, filename)
     }
 
     private fun renderGraphInMemory(book: AdventureBook): JGraphXAdapter<BookEntry, LabeledEdge> {
@@ -44,9 +43,9 @@ class BookRenderer {
         graphAdapter.setCellStyle("defaultVertex;fillColor=green")
     }
 
-    private fun writeImageToFile(graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>): Path {
+    private fun writeImageToFile(graphAdapter: JGraphXAdapter<BookEntry, LabeledEdge>, path: Path): Path {
         val image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
-        val imagePath = Paths.get("graph.png")
+        val imagePath = path.resolveSibling("$path.png")
         ImageIO.write(image, "PNG", imagePath.toFile())
         return imagePath
     }
