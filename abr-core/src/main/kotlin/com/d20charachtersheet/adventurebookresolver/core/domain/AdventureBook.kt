@@ -12,6 +12,7 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
     internal val graph: Graph<BookEntry, LabeledEdge> = SimpleDirectedGraph(LabeledEdge::class.java)
     private var currentBookEntry: BookEntry = BookEntry(1)
     private val performedActions: MutableList<Action> = mutableListOf()
+    private val inventory = Inventory()
 
     init {
         graph.addVertex(currentBookEntry)
@@ -96,6 +97,7 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
     fun restart() {
         currentBookEntry = getBookEntry(1)
         performedActions.clear()
+        inventory.clear()
         tries++
     }
 
@@ -117,5 +119,11 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
             graph.removeVertex(bookEntry)
         }
     }
+
+    fun getItems(): List<Item> = inventory.items
+
+    fun addItemToInventory(name: String) = inventory.addItem(name)
+
+    fun removeItemFromInventory(index: Int) = inventory.removeItem(index)
 
 }
