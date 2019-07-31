@@ -8,7 +8,9 @@ import org.springframework.shell.standard.ShellMethod
 class AddItemToInventoryCommand(val adventureBookResolver: AdventureBookResolver) {
 
     @ShellMethod("add item to inventory")
-    fun addItemToInventory(name: String) = adventureBookResolver.book.addItemToInventory(name)
+    fun addItemToInventory(name: String) {
+        adventureBookResolver.book.addItemToInventory(name)
+    }
 
 }
 

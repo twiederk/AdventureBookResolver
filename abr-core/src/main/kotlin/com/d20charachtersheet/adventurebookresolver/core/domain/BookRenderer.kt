@@ -15,7 +15,7 @@ class BookRenderer {
     }
 
     private fun renderGraphInMemory(book: AdventureBook): JGraphXAdapter<BookEntry, LabeledEdge> {
-        val graphAdapter = JGraphXAdapter<BookEntry, LabeledEdge>(book.graph)
+        val graphAdapter = JGraphXAdapter(book.graph)
         colorUnvisitedEntriesInYellow(book, graphAdapter)
         colorVisitedEntriesInBlue(book, graphAdapter)
         colorAdventurePathInGreen(book, graphAdapter)

@@ -19,12 +19,13 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
         currentBookEntry.visit = Visit.VISITED
     }
 
-    constructor(title: String, tries: Int, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>) : this(title) {
+    constructor(title: String, tries: Int, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>, items: List<Item>) : this(title) {
         this.tries = tries
         vertices.values.forEach { bookEntry -> graph.addVertex(bookEntry) }
         edges.forEach { action -> graph.addEdge(action.source, action.destination, LabeledEdge(action.label)) }
         currentBookEntry = vertices[currentBookEntryId] ?: BookEntry(1)
         performedActions += actions
+        inventory.items += items
     }
 
 
@@ -102,7 +103,7 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
     }
 
     fun run(entryId: Int) {
-        val shortestPathAlgorithm = DijkstraShortestPath<BookEntry, LabeledEdge>(graph)
+        val shortestPathAlgorithm = DijkstraShortestPath(graph)
         val path = shortestPathAlgorithm.getPath(BookEntry(1), BookEntry(entryId))
 
         for (bookEntry in path.vertexList) {

@@ -17,6 +17,7 @@ class BookStore {
             appendln("TITLE=${book.title}")
             appendln("TRIES=${book.tries}")
             appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
+            book.getItems().forEach { item -> appendln("ITEM=${item.name}") }
             with(book.graph) {
                 vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id},${entry.title},${entry.visit},${entry.note}") }
                 edgeSet().forEach { edge -> appendln("LABELED_EDGE=${getEdgeSource(edge).id},${getEdgeTarget(edge).id},${edge.label}") }
@@ -37,13 +38,13 @@ class BookStore {
         val bookEntryMap: Map<Int, BookEntry> = importBookEntries(importData)
         val title = importTitle(importData)
         val tries = importTries(importData)
+        val items = importItems(importData)
         val currentBookEntryId = importCurrentBookEntry(importData)
         val labeledEdges = importLabeledEdges(importData, bookEntryMap)
         val performedActions = importActions(importData, bookEntryMap)
 
-        return AdventureBook(title, tries, bookEntryMap, currentBookEntryId, labeledEdges, performedActions)
+        return AdventureBook(title, tries, bookEntryMap, currentBookEntryId, labeledEdges, performedActions, items)
     }
-
 
     private fun importTitle(importData: List<String>): String {
         return importData[0].substring("TITLE".length + 1)
@@ -52,6 +53,13 @@ class BookStore {
     private fun importTries(importData: List<String>): Int {
         return importData[1].substring("TRIES".length + 1).toInt()
     }
+
+    private fun importItems(importData: List<String>): List<Item> {
+        return importData
+                .filter { s -> s.startsWith("ITEM") }
+                .map { i -> Item(i.substring("ITEM".length + 1)) }
+    }
+
 
 
     private fun importActions(importData: List<String>, bookEntryMap: Map<Int, BookEntry>): List<Action> {

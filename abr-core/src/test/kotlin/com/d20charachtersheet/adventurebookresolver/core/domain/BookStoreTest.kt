@@ -20,6 +20,9 @@ internal class BookStoreTest {
         @BeforeEach
         fun setup() {
             book.apply {
+                addItemToInventory("sword")
+                addItemToInventory("leather armor")
+                addItemToInventory("backpack")
                 editBookEntry("Hallway")
                 note("Start of adventure")
                 addAction("upstairs", 261)
@@ -39,6 +42,9 @@ internal class BookStoreTest {
             assertThat(export).isEqualToNormalizingNewlines("""TITLE=book title
                 |TRIES=1
                 |CURRENT_BOOK_ENTRY=261
+                |ITEM=sword
+                |ITEM=leather armor
+                |ITEM=backpack
                 |BOOK_ENTRY=1,Hallway,VISITED,Start of adventure
                 |BOOK_ENTRY=261,Library,VISITED,
                 |BOOK_ENTRY=54,Untitled,UNVISITED,
@@ -75,6 +81,9 @@ internal class BookStoreTest {
                     "TITLE=load title", //
                     "TRIES=2", //
                     "CURRENT_BOOK_ENTRY=261", //
+                    "ITEM=sword", //
+                    "ITEM=leather armor", //
+                    "ITEM=backpack", //
                     "BOOK_ENTRY=1,Hallway,VISITED,Start of adventure", //
                     "BOOK_ENTRY=261,Library,VISITED,", //
                     "BOOK_ENTRY=54,Untitled,UNVISITED,", //
@@ -88,6 +97,7 @@ internal class BookStoreTest {
             // Assert
             assertThat(importedBook.title).isEqualTo("load title")
             assertThat(importedBook.tries).isEqualTo(2)
+            assertThat(importedBook.getItems()).extracting("name").containsExactly("sword", "leather armor", "backpack")
             assertThat(importedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(importedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
             assertThat(importedBook.getEntryId()).isEqualTo(261)
@@ -105,6 +115,7 @@ internal class BookStoreTest {
             // Assert
             assertThat(loadedBook.title).isEqualTo("load title")
             assertThat(loadedBook.tries).isEqualTo(2)
+            assertThat(loadedBook.getItems()).extracting("name").containsExactly("sword", "leather armor", "backpack")
             assertThat(loadedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(loadedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
             assertThat(loadedBook.getEntryId()).isEqualTo(261)
