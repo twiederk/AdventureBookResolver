@@ -20,7 +20,7 @@ internal class RemoveItemFromInventoryCommandTest : BaseConsoleCommandTest() {
         underTest.removeItemFromInventory(1)
 
         // Assert
-        verify(adventureBookResolver.book).removeItemFromInventory(1)
+        verify(adventureBookResolver.book).removeItemFromInventory(0)
     }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.shell.standard.ShellMethod
 class RemoveItemFromInventoryCommand(val adventureBookResolver: AdventureBookResolver) {
 
     @ShellMethod("delete item from inventory")
-    fun removeItemFromInventory(index: Int) = adventureBookResolver.book.removeItemFromInventory(index)
+    fun removeItemFromInventory(index: Int) = adventureBookResolver.book.removeItemFromInventory(index - 1)
 
 }
 
