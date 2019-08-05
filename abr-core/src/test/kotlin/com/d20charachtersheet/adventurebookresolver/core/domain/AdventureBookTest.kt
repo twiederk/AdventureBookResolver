@@ -22,6 +22,13 @@ internal class AdventureBookTest {
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
             assertThat(underTest.tries).isEqualTo(1)
             assertThat(underTest.totalNumberOfBookEntries).isEqualTo(400)
+            assertThat(underTest.getItems()).isEmpty()
+
+            val attributes = underTest.attributes
+            AttributeAssert.assertThat(attributes.dexterity).name(AttributeName.DEXTERITY).isBetween(7, 12)
+            AttributeAssert.assertThat(attributes.strength).name(AttributeName.STRENGTH).isBetween(14, 24)
+            AttributeAssert.assertThat(attributes.luck).name(AttributeName.LUCK).isBetween(7, 12)
+
         }
 
     }
@@ -131,6 +138,7 @@ internal class AdventureBookTest {
                 addAction("Take a book", 200)
                 addItemToInventory("Book")
             }
+            val attributes = underTest.attributes
 
             // Act
             underTest.restart()
@@ -144,6 +152,7 @@ internal class AdventureBookTest {
             assertThat(underTest.getPerformedActions()).isEmpty()
             assertThat(underTest.tries).isEqualTo(2)
             assertThat(underTest.getItems()).isEmpty()
+            assertThat(underTest.attributes).isNotSameAs(attributes)
         }
 
         @Test
@@ -326,75 +335,75 @@ internal class AdventureBookTest {
                     Action("downstairs", BookEntry(1), BookEntry(54)))
         }
 
-        @Nested
-        inner class InventoryTest {
+    }
 
-            @Test
-            fun `get items of inventory`() {
-                // Act
-                val items = underTest.getItems()
+    @Nested
+    inner class InventoryTest {
 
-                // Assert
-                assertThat(items).isEmpty()
-            }
+        private val underTest = AdventureBook("book title")
 
-            @Test
-            fun `add item to inventory`() {
-                // Act
-                underTest.addItemToInventory("ItemName")
+        @Test
+        fun `get items of inventory`() {
+            // Act
+            val items = underTest.getItems()
 
-                // Assert
-                assertThat(underTest.getItems()).hasSize(1)
-                assertThat(underTest.getItems()[0].name).isEqualTo("ItemName")
-            }
-
-            @Test
-            fun `remove item from inventory`() {
-                // Arrange
-                underTest.addItemToInventory("myItem")
-
-                // Act
-                underTest.removeItemFromInventory(0)
-
-                // Assert
-                assertThat(underTest.getItems()).isEmpty()
-            }
-
-            @Test
-            fun `remove item from empty inventory`() {
-                // Act
-                underTest.removeItemFromInventory(0)
-
-                // Assert
-                assertThat(underTest.getItems()).isEmpty()
-            }
-
-            @Test
-            fun `remove item with negative index`() {
-                // Act
-                underTest.removeItemFromInventory(-1)
-
-                // Assert
-                assertThat(underTest.getItems()).isEmpty()
-            }
-
-            @Test
-            fun `remove item in middle of list`() {
-                // Arrange
-                underTest.addItemToInventory("leather armor")
-                underTest.addItemToInventory("sword")
-                underTest.addItemToInventory("backpack")
-
-                // Act
-                underTest.removeItemFromInventory(1)
-
-                // Assert
-                assertThat(underTest.getItems()).containsExactly(Item("leather armor"), Item("backpack"))
-            }
-
-
+            // Assert
+            assertThat(items).isEmpty()
         }
 
+        @Test
+        fun `add item to inventory`() {
+            // Act
+            underTest.addItemToInventory("ItemName")
+
+            // Assert
+            assertThat(underTest.getItems()).hasSize(1)
+            assertThat(underTest.getItems()[0].name).isEqualTo("ItemName")
+        }
+
+        @Test
+        fun `remove item from inventory`() {
+            // Arrange
+            underTest.addItemToInventory("myItem")
+
+            // Act
+            underTest.removeItemFromInventory(0)
+
+            // Assert
+            assertThat(underTest.getItems()).isEmpty()
+        }
+
+        @Test
+        fun `remove item from empty inventory`() {
+            // Act
+            underTest.removeItemFromInventory(0)
+
+            // Assert
+            assertThat(underTest.getItems()).isEmpty()
+        }
+
+        @Test
+        fun `remove item with negative index`() {
+            // Act
+            underTest.removeItemFromInventory(-1)
+
+            // Assert
+            assertThat(underTest.getItems()).isEmpty()
+        }
+
+        @Test
+        fun `remove item in middle of list`() {
+            // Arrange
+            underTest.addItemToInventory("leather armor")
+            underTest.addItemToInventory("sword")
+            underTest.addItemToInventory("backpack")
+
+            // Act
+            underTest.removeItemFromInventory(1)
+
+            // Assert
+            assertThat(underTest.getItems()).containsExactly(Item("leather armor"), Item("backpack"))
+        }
 
     }
 

@@ -14,17 +14,36 @@ class BookStore {
 
     fun export(book: AdventureBook): String {
         with(StringBuilder()) {
-            appendln("TITLE=${book.title}")
-            appendln("TRIES=${book.tries}")
-            appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
-            book.getItems().forEach { item -> appendln("ITEM=${item.name}") }
-            with(book.graph) {
-                vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id},${entry.title},${entry.visit},${entry.note}") }
-                edgeSet().forEach { edge -> appendln("LABELED_EDGE=${getEdgeSource(edge).id},${getEdgeTarget(edge).id},${edge.label}") }
-            }
-            book.getPerformedActions().forEach { action -> appendln("ACTION=${action.label},${action.source.id},${action.destination.id}") }
+            exportBook(book)
+            exportAttributes(book)
+            exportInventory(book)
+            exportGraph(book)
             return toString()
         }
+    }
+
+    private fun StringBuilder.exportBook(book: AdventureBook) {
+        appendln("TITLE=${book.title}")
+        appendln("TRIES=${book.tries}")
+        appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
+    }
+
+    private fun StringBuilder.exportAttributes(book: AdventureBook) {
+        appendln("${book.attributes.dexterity.name}=${book.attributes.dexterity.value},${book.attributes.dexterity.maxValue}")
+        appendln("${book.attributes.strength.name}=${book.attributes.strength.value},${book.attributes.strength.maxValue}")
+        appendln("${book.attributes.luck.name}=${book.attributes.luck.value},${book.attributes.luck.maxValue}")
+    }
+
+    private fun StringBuilder.exportInventory(book: AdventureBook) {
+        book.getItems().forEach { item -> appendln("ITEM=${item.name}") }
+    }
+
+    private fun StringBuilder.exportGraph(book: AdventureBook) {
+        with(book.graph) {
+            vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id},${entry.title},${entry.visit},${entry.note}") }
+            edgeSet().forEach { edge -> appendln("LABELED_EDGE=${getEdgeSource(edge).id},${getEdgeTarget(edge).id},${edge.label}") }
+        }
+        book.getPerformedActions().forEach { action -> appendln("ACTION=${action.label},${action.source.id},${action.destination.id}") }
     }
 
 
@@ -38,12 +57,13 @@ class BookStore {
         val bookEntryMap: Map<Int, BookEntry> = importBookEntries(importData)
         val title = importTitle(importData)
         val tries = importTries(importData)
+        val attributes = importAttributes(importData)
         val items = importItems(importData)
         val currentBookEntryId = importCurrentBookEntry(importData)
         val labeledEdges = importLabeledEdges(importData, bookEntryMap)
         val performedActions = importActions(importData, bookEntryMap)
 
-        return AdventureBook(title, tries, bookEntryMap, currentBookEntryId, labeledEdges, performedActions, items)
+        return AdventureBook(title, tries, bookEntryMap, currentBookEntryId, labeledEdges, performedActions, items, attributes)
     }
 
     private fun importTitle(importData: List<String>): String {
@@ -52,6 +72,24 @@ class BookStore {
 
     private fun importTries(importData: List<String>): Int {
         return importData[1].substring("TRIES".length + 1).toInt()
+    }
+
+    private fun importCurrentBookEntry(importData: List<String>): Int {
+        return importData[2].substring("CURRENT_BOOK_ENTRY".length + 1).toInt()
+    }
+
+    private fun importAttributes(importData: List<String>): Attributes {
+        val dexterity = importAttribute(AttributeName.DEXTERITY, 3, importData)
+        val strength = importAttribute(AttributeName.STRENGTH, 4, importData)
+        val luck = importAttribute(AttributeName.LUCK, 5, importData)
+        return Attributes(dexterity = dexterity, strength = strength, luck = luck)
+    }
+
+    private fun importAttribute(attributeName: AttributeName, lineIndex: Int, importData: List<String>): Attribute {
+        val attributeData = importData[lineIndex].split(',')
+        return Attribute(attributeName,
+                attributeData[0].substring(attributeName.toString().length + 1).toInt(),
+                attributeData[1].toInt())
     }
 
     private fun importItems(importData: List<String>): List<Item> {
@@ -72,10 +110,6 @@ class BookStore {
                             bookEntryMap.getOrDefault(a[1].toInt(), BookEntry(1)), //
                             bookEntryMap.getOrDefault(a[2].toInt(), BookEntry(1)))
                 }
-    }
-
-    private fun importCurrentBookEntry(importData: List<String>): Int {
-        return importData[2].substring("CURRENT_BOOK_ENTRY".length + 1).toInt()
     }
 
     private fun importLabeledEdges(importData: List<String>, bookEntryMap: Map<Int, BookEntry>): List<Action> {

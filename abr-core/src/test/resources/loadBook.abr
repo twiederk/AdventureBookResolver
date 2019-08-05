@@ -1,6 +1,9 @@
 TITLE=load title
 TRIES=2
 CURRENT_BOOK_ENTRY=261
+DEXTERITY=9,10
+STRENGTH=12,24
+LUCK=5,8
 ITEM=sword
 ITEM=leather armor
 ITEM=backpack

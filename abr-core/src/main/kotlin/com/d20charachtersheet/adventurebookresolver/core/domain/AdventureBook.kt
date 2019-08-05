@@ -5,9 +5,12 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.SimpleDirectedGraph
 
 
-class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalNumberOfBookEntries: Int = 400) {
+class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, attributes: Attributes = Attributes()) {
 
+    val totalNumberOfBookEntries: Int = 400
     var tries: Int = 1
+        private set
+    var attributes = attributes
         private set
     internal val graph: Graph<BookEntry, LabeledEdge> = SimpleDirectedGraph(LabeledEdge::class.java)
     private var currentBookEntry: BookEntry = BookEntry(1)
@@ -19,7 +22,7 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
         currentBookEntry.visit = Visit.VISITED
     }
 
-    constructor(title: String, tries: Int, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>, items: List<Item>) : this(title) {
+    constructor(title: String, tries: Int, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>, items: List<Item>, attributes: Attributes) : this(title, attributes) {
         this.tries = tries
         vertices.values.forEach { bookEntry -> graph.addVertex(bookEntry) }
         edges.forEach { action -> graph.addEdge(action.source, action.destination, LabeledEdge(action.label)) }
@@ -99,6 +102,7 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
         currentBookEntry = getBookEntry(1)
         performedActions.clear()
         inventory.clear()
+        attributes = Attributes()
         tries++
     }
 
@@ -126,5 +130,6 @@ class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, val totalN
     fun addItemToInventory(name: String) = inventory.addItem(name)
 
     fun removeItemFromInventory(index: Int) = inventory.removeItem(index)
+
 
 }

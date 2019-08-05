@@ -14,8 +14,11 @@ internal class BookStoreTest {
     @Nested
     inner class SaveTest {
 
-        private val book = AdventureBook("book title")
-
+        private val book = AdventureBook(title = "book title", attributes = Attributes(
+                dexterity = Attribute(AttributeName.DEXTERITY, 9, 10),
+                strength = Attribute(AttributeName.STRENGTH, 12, 24),
+                luck = Attribute(AttributeName.LUCK, 5, 8)
+        ))
 
         @BeforeEach
         fun setup() {
@@ -42,6 +45,9 @@ internal class BookStoreTest {
             assertThat(export).isEqualToNormalizingNewlines("""TITLE=book title
                 |TRIES=1
                 |CURRENT_BOOK_ENTRY=261
+                |DEXTERITY=9,10
+                |STRENGTH=12,24
+                |LUCK=5,8
                 |ITEM=sword
                 |ITEM=leather armor
                 |ITEM=backpack
@@ -81,6 +87,9 @@ internal class BookStoreTest {
                     "TITLE=load title", //
                     "TRIES=2", //
                     "CURRENT_BOOK_ENTRY=261", //
+                    "DEXTERITY=9,10", //
+                    "STRENGTH=12,24", //
+                    "LUCK=5,8", //
                     "ITEM=sword", //
                     "ITEM=leather armor", //
                     "ITEM=backpack", //
@@ -97,6 +106,9 @@ internal class BookStoreTest {
             // Assert
             assertThat(importedBook.title).isEqualTo("load title")
             assertThat(importedBook.tries).isEqualTo(2)
+            AttributeAssert.assertThat(importedBook.attributes.dexterity).name(AttributeName.DEXTERITY).value(9).maxValue(10)
+            AttributeAssert.assertThat(importedBook.attributes.strength).name(AttributeName.STRENGTH).value(12).maxValue(24)
+            AttributeAssert.assertThat(importedBook.attributes.luck).name(AttributeName.LUCK).value(5).maxValue(8)
             assertThat(importedBook.getItems()).extracting("name").containsExactly("sword", "leather armor", "backpack")
             assertThat(importedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(importedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
@@ -115,6 +127,9 @@ internal class BookStoreTest {
             // Assert
             assertThat(loadedBook.title).isEqualTo("load title")
             assertThat(loadedBook.tries).isEqualTo(2)
+            AttributeAssert.assertThat(loadedBook.attributes.dexterity).name(AttributeName.DEXTERITY).value(9).maxValue(10)
+            AttributeAssert.assertThat(loadedBook.attributes.strength).name(AttributeName.STRENGTH).value(12).maxValue(24)
+            AttributeAssert.assertThat(loadedBook.attributes.luck).name(AttributeName.LUCK).value(5).maxValue(8)
             assertThat(loadedBook.getItems()).extracting("name").containsExactly("sword", "leather armor", "backpack")
             assertThat(loadedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(loadedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
