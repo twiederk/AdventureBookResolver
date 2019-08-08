@@ -1,8 +1,6 @@
 package com.d20charachtersheet.adventurebookresolver.core.domain
 
-class Inventory {
-
-    val items: MutableList<Item> = mutableListOf()
+class Inventory(val items: MutableList<Item> = mutableListOf()) {
 
     fun addItem(name: String) = items.add(Item(name))
 

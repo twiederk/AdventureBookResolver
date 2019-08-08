@@ -5,32 +5,35 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.SimpleDirectedGraph
 
 
-class AdventureBook(val title: String = ADVENTURE_BOOK_DEFAULT_TITLE, attributes: Attributes = Attributes()) {
+class AdventureBook(
+        val title: String = ADVENTURE_BOOK_DEFAULT_TITLE,
+        tries: Int = 1,
+        vertices: Map<Int, BookEntry> = mapOf(),
+        currentBookEntryId: Int = 1,
+        edges: List<Action> = listOf(),
+        actions: List<Action> = listOf(),
+        inventory: Inventory = Inventory(),
+        attributes: Attributes = Attributes()) {
 
     val totalNumberOfBookEntries: Int = 400
-    var tries: Int = 1
+    var tries = tries
         private set
     var attributes = attributes
         private set
+    var inventory = inventory
+        private set
     internal val graph: Graph<BookEntry, LabeledEdge> = SimpleDirectedGraph(LabeledEdge::class.java)
-    private var currentBookEntry: BookEntry = BookEntry(1)
+    private var currentBookEntry: BookEntry
     private val performedActions: MutableList<Action> = mutableListOf()
-    private val inventory = Inventory()
 
     init {
+        vertices.values.forEach { bookEntry -> graph.addVertex(bookEntry) }
+        currentBookEntry = vertices[currentBookEntryId] ?: BookEntry(1)
         graph.addVertex(currentBookEntry)
         currentBookEntry.visit = Visit.VISITED
-    }
-
-    constructor(title: String, tries: Int, vertices: Map<Int, BookEntry>, currentBookEntryId: Int, edges: List<Action>, actions: List<Action>, items: List<Item>, attributes: Attributes) : this(title, attributes) {
-        this.tries = tries
-        vertices.values.forEach { bookEntry -> graph.addVertex(bookEntry) }
         edges.forEach { action -> graph.addEdge(action.source, action.destination, LabeledEdge(action.label)) }
-        currentBookEntry = vertices[currentBookEntryId] ?: BookEntry(1)
         performedActions += actions
-        inventory.items += items
     }
-
 
     fun editBookEntry(entryTitle: String) {
         currentBookEntry.title = entryTitle

@@ -1,7 +1,5 @@
 package com.d20charachtersheet.adventurebookresolver.core.domain
 
-import kotlin.random.Random
-
 class Attributes(die: Die = Die(),
                  val dexterity: Attribute = Attribute(AttributeName.DEXTERITY, die.roll() + 6),
                  val strength: Attribute = Attribute(AttributeName.STRENGTH, die.roll() + die.roll() + 12),
@@ -48,6 +46,3 @@ class Attribute(val name: AttributeName, value: Int, maxValue: Int) {
     }
 }
 
-class Die(private val random: Random = Random) {
-    fun roll() = random.nextInt(1, 7)
-}

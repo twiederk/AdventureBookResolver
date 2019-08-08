@@ -15,8 +15,8 @@ class BookStore {
     fun export(book: AdventureBook): String {
         with(StringBuilder()) {
             exportBook(book)
-            exportAttributes(book)
-            exportInventory(book)
+            exportAttributes(book.attributes)
+            exportInventory(book.inventory)
             exportGraph(book)
             return toString()
         }
@@ -28,14 +28,18 @@ class BookStore {
         appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
     }
 
-    private fun StringBuilder.exportAttributes(book: AdventureBook) {
-        appendln("${book.attributes.dexterity.name}=${book.attributes.dexterity.value},${book.attributes.dexterity.maxValue}")
-        appendln("${book.attributes.strength.name}=${book.attributes.strength.value},${book.attributes.strength.maxValue}")
-        appendln("${book.attributes.luck.name}=${book.attributes.luck.value},${book.attributes.luck.maxValue}")
+    private fun StringBuilder.exportAttributes(attributes: Attributes) {
+        exportAttribute(attributes.dexterity)
+        exportAttribute(attributes.strength)
+        exportAttribute(attributes.luck)
     }
 
-    private fun StringBuilder.exportInventory(book: AdventureBook) {
-        book.getItems().forEach { item -> appendln("ITEM=${item.name}") }
+    private fun StringBuilder.exportAttribute(attribute: Attribute) {
+        appendln("${attribute.name}=${attribute.value},${attribute.maxValue}")
+    }
+
+    private fun StringBuilder.exportInventory(inventory: Inventory) {
+        inventory.items.forEach { item -> appendln("ITEM=${item.name}") }
     }
 
     private fun StringBuilder.exportGraph(book: AdventureBook) {
@@ -58,7 +62,7 @@ class BookStore {
         val title = importTitle(importData)
         val tries = importTries(importData)
         val attributes = importAttributes(importData)
-        val items = importItems(importData)
+        val items = importInventory(importData)
         val currentBookEntryId = importCurrentBookEntry(importData)
         val labeledEdges = importLabeledEdges(importData, bookEntryMap)
         val performedActions = importActions(importData, bookEntryMap)
@@ -92,12 +96,12 @@ class BookStore {
                 attributeData[1].toInt())
     }
 
-    private fun importItems(importData: List<String>): List<Item> {
-        return importData
+    private fun importInventory(importData: List<String>): Inventory {
+        val items = importData
                 .filter { s -> s.startsWith("ITEM") }
                 .map { i -> Item(i.substring("ITEM".length + 1)) }
+        return Inventory(items.toMutableList())
     }
-
 
 
     private fun importActions(importData: List<String>, bookEntryMap: Map<Int, BookEntry>): List<Action> {
