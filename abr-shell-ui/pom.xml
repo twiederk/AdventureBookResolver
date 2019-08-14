@@ -12,11 +12,11 @@
 
   <groupId>com.d20charactersheet.adventurebookresolver</groupId>
   <artifactId>abr-shell-ui</artifactId>
-  <version>1.10.0</version>
+  <version>1.11.0-SNAPSHOT</version>
 
   <properties>
     <java.version>1.8</java.version>
-    <kotlin.version>1.3.10</kotlin.version>
+    <kotlin.version>1.3.41</kotlin.version>
     <junit.jupiter.version>5.3.1</junit.jupiter.version>
   </properties>
 

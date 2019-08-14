@@ -1,9 +1,9 @@
 package com.d20charachtersheet.adventurebookresolver.core.domain
 
 class Attributes(die: Die = Die(),
-                 val dexterity: Attribute = Attribute(AttributeName.DEXTERITY, die.roll() + 6),
-                 val strength: Attribute = Attribute(AttributeName.STRENGTH, die.roll() + die.roll() + 12),
-                 val luck: Attribute = Attribute(AttributeName.LUCK, die.roll() + 6)) {
+                 val dexterity: Attribute = Attribute(AttributeName.DEXTERITY, die.roll(DieRoll(1, 6))),
+                 val strength: Attribute = Attribute(AttributeName.STRENGTH, die.roll(DieRoll(2, 12))),
+                 val luck: Attribute = Attribute(AttributeName.LUCK, die.roll(DieRoll(1, 6)))) {
 
     private val attributes = mutableMapOf(
             dexterity.name to dexterity,
