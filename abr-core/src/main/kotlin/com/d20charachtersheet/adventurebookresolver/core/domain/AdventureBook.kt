@@ -134,5 +134,9 @@ class AdventureBook(
 
     fun removeItemFromInventory(index: Int) = inventory.removeItem(index)
 
+    fun changeAttribute(attributeName: AttributeName, value: Int) {
+        attributes.increase(attributeName, value)
+    }
+
 
 }

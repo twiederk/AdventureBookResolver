@@ -244,6 +244,30 @@ internal class AdventureBookTest {
             assertThat(underTest.getActions()).isEmpty()
             assertThat(underTest.getAllBookEntries()).containsExactly(BookEntry(1), BookEntry(100), BookEntry(200))
         }
+
+        @Test
+        fun `change attribute with positive value`() {
+            // Arrange
+            val underTest = AdventureBook(attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)))
+
+            // Act
+            underTest.changeAttribute(AttributeName.STRENGTH, 1)
+
+            // Assert
+            assertThat(underTest.attributes.strength.value).isEqualTo(11)
+        }
+
+        @Test
+        fun `change attribute with negative value`() {
+            // Arrange
+            val underTest = AdventureBook(attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)))
+
+            // Act
+            underTest.changeAttribute(AttributeName.STRENGTH, -1)
+
+            // Assert
+            assertThat(underTest.attributes.strength.value).isEqualTo(9)
+        }
     }
 
     @Nested
