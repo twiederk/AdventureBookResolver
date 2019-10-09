@@ -1,8 +1,6 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.Action
-import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
-import com.d20charachtersheet.adventurebookresolver.core.domain.Visit
+import com.d20charactersheet.adventurebookresolver.core.domain.Visit
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -22,7 +20,7 @@ internal class RunCommandTest : BaseConsoleCommandTest() {
             on { getEntryTitle() }.doReturn("Library")
             on { getEntryVisit() }.doReturn(Visit.VISITED)
             on { getEntryNote() }.doReturn("a lot of books")
-            on { getActions() }.doReturn(setOf(Action("downstairs", mock(), BookEntry(1))))
+            on { getActions() }.doReturn(setOf(com.d20charactersheet.adventurebookresolver.core.domain.Action("downstairs", mock(), com.d20charactersheet.adventurebookresolver.core.domain.BookEntry(1))))
         }
 
         // Act

@@ -1,4 +1,4 @@
-package com.d20charachtersheet.adventurebookresolver.core.domain
+package com.d20charactersheet.adventurebookresolver.core.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -10,7 +10,7 @@ internal class DieRollTest {
         // Arrange
 
         // Act
-        val result = DieRoll().toString()
+        val result = com.d20charactersheet.adventurebookresolver.core.domain.DieRoll().toString()
 
         // Assert
         assertThat(result).isEqualTo("1d6")
@@ -21,7 +21,7 @@ internal class DieRollTest {
         // Arrange
 
         // Act
-        val result = DieRoll(2, 0).toString()
+        val result = com.d20charactersheet.adventurebookresolver.core.domain.DieRoll(2, 0).toString()
 
         // Assert
         assertThat(result).isEqualTo("2d6")
@@ -32,7 +32,7 @@ internal class DieRollTest {
         // Arrange
 
         // Act
-        val result = DieRoll(3, 6).toString()
+        val result = com.d20charactersheet.adventurebookresolver.core.domain.DieRoll(3, 6).toString()
 
         // Assert
         assertThat(result).isEqualTo("3d6+6")
@@ -43,7 +43,7 @@ internal class DieRollTest {
         // Arrange
 
         // Act
-        val result = DieRoll(3, -6).toString()
+        val result = com.d20charactersheet.adventurebookresolver.core.domain.DieRoll(3, -6).toString()
 
         // Assert
         assertThat(result).isEqualTo("3d6-6")

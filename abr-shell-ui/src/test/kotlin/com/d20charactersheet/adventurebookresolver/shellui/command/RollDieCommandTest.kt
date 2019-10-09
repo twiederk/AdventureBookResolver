@@ -1,7 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.Die
-import com.d20charachtersheet.adventurebookresolver.core.domain.DieRoll
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.jupiter.api.Test
@@ -12,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 internal class RollDieCommandTest : BaseConsoleCommandTest() {
 
     @MockBean
-    lateinit var die: Die
+    lateinit var die: com.d20charactersheet.adventurebookresolver.core.domain.Die
 
     @Autowired
     lateinit var underTest: RollDieCommand
@@ -22,7 +20,7 @@ internal class RollDieCommandTest : BaseConsoleCommandTest() {
 
         // Arrange
         whenever(die.roll(anyString())).thenReturn(4)
-        whenever(die.convert(anyString())).thenReturn(DieRoll())
+        whenever(die.convert(anyString())).thenReturn(com.d20charactersheet.adventurebookresolver.core.domain.DieRoll())
 
         // Act
         underTest.roll()

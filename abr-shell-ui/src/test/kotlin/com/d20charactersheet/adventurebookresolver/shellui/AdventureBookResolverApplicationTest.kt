@@ -1,6 +1,6 @@
 package com.d20charactersheet.adventurebookresolver.shellui
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.ADVENTURE_BOOK_DEFAULT_TITLE
+import com.d20charactersheet.adventurebookresolver.core.domain.ADVENTURE_BOOK_DEFAULT_TITLE
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

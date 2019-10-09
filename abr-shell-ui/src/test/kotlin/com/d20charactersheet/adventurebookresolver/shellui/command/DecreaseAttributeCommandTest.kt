@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.AttributeName
 import com.nhaarman.mockitokotlin2.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -22,7 +21,7 @@ internal class DecreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.dexterity.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.DEXTERITY}: $expected / ${adventureBookResolver.book.attributes.dexterity.maxValue}")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.DEXTERITY}: $expected / ${adventureBookResolver.book.attributes.dexterity.maxValue}")
     }
 
     @Test
@@ -36,7 +35,7 @@ internal class DecreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.dexterity.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.DEXTERITY}: $expected / ${adventureBookResolver.book.attributes.dexterity.maxValue}")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.DEXTERITY}: $expected / ${adventureBookResolver.book.attributes.dexterity.maxValue}")
     }
 
     @Test
@@ -50,7 +49,7 @@ internal class DecreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.strength.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.STRENGTH}: $expected / ${adventureBookResolver.book.attributes.strength.maxValue}")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.STRENGTH}: $expected / ${adventureBookResolver.book.attributes.strength.maxValue}")
     }
 
     @Test
@@ -64,7 +63,7 @@ internal class DecreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.strength.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.STRENGTH}: $expected / ${adventureBookResolver.book.attributes.strength.maxValue}")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.STRENGTH}: $expected / ${adventureBookResolver.book.attributes.strength.maxValue}")
     }
 
     @Test
@@ -78,7 +77,7 @@ internal class DecreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.luck.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.LUCK}: $expected / ${adventureBookResolver.book.attributes.luck.maxValue}")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.LUCK}: $expected / ${adventureBookResolver.book.attributes.luck.maxValue}")
     }
 
     @Test
@@ -92,7 +91,7 @@ internal class DecreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.luck.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.LUCK}: $expected / ${adventureBookResolver.book.attributes.luck.maxValue}")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.LUCK}: $expected / ${adventureBookResolver.book.attributes.luck.maxValue}")
     }
 
 

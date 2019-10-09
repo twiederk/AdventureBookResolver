@@ -1,8 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.Attribute
-import com.d20charachtersheet.adventurebookresolver.core.domain.AttributeName
-import com.d20charachtersheet.adventurebookresolver.core.domain.Attributes
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
@@ -19,10 +16,10 @@ internal class DisplayAttributesCommandTest : BaseConsoleCommandTest() {
 
         // Arrange
         adventureBookResolver.book = mock {
-            on { attributes }.doReturn(Attributes(
-                    dexterity = Attribute(AttributeName.DEXTERITY, 9, 9),
-                    strength = Attribute(AttributeName.STRENGTH, 15, 20),
-                    luck = Attribute(AttributeName.LUCK, 5, 8)
+            on { attributes }.doReturn(com.d20charactersheet.adventurebookresolver.core.domain.Attributes(
+                    dexterity = com.d20charactersheet.adventurebookresolver.core.domain.Attribute(com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.DEXTERITY, 9, 9),
+                    strength = com.d20charactersheet.adventurebookresolver.core.domain.Attribute(com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.STRENGTH, 15, 20),
+                    luck = com.d20charactersheet.adventurebookresolver.core.domain.Attribute(com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.LUCK, 5, 8)
             ))
         }
 

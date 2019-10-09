@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.BookRenderer
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import org.springframework.shell.standard.ShellComponent
@@ -12,7 +11,7 @@ const val DEFAULT_GRAPH_FILENAME = "graph"
 
 
 @ShellComponent
-class RenderGraphCommand(val adventureBookResolver: AdventureBookResolver, val bookRenderer: BookRenderer, val consoleService: ConsoleService) {
+class RenderGraphCommand(val adventureBookResolver: AdventureBookResolver, val bookRenderer: com.d20charactersheet.adventurebookresolver.core.domain.BookRenderer, val consoleService: ConsoleService) {
 
     @ShellMethod("render graph to file")
     fun renderGraph(@ShellOption(defaultValue = DEFAULT_GRAPH_FILENAME) filename: String = DEFAULT_GRAPH_FILENAME) {

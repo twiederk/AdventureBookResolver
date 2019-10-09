@@ -1,4 +1,4 @@
-package com.d20charachtersheet.adventurebookresolver.core.domain
+package com.d20charactersheet.adventurebookresolver.core.domain
 
 class Attributes(die: Die = Die(),
                  val dexterity: Attribute = Attribute(AttributeName.DEXTERITY, die.roll(DieRoll(1, 6))),

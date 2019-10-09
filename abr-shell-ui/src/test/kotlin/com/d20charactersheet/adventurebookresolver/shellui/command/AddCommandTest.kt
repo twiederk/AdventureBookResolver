@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
 import com.nhaarman.mockitokotlin2.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -18,7 +17,7 @@ class AddCommandTest : BaseConsoleCommandTest() {
         underTest.add("upstairs", 261)
 
         // Assert
-        assertThat(adventureBookResolver.book.getNextBookEntries()).containsExactly(BookEntry(261))
+        assertThat(adventureBookResolver.book.getNextBookEntries()).containsExactly(com.d20charactersheet.adventurebookresolver.core.domain.BookEntry(261))
         verify(consoleService).write("upstairs -> 261")
     }
 

@@ -1,4 +1,4 @@
-package com.d20charachtersheet.adventurebookresolver.core.domain
+package com.d20charactersheet.adventurebookresolver.core.domain
 
 class Inventory(val items: MutableList<Item> = mutableListOf()) {
 

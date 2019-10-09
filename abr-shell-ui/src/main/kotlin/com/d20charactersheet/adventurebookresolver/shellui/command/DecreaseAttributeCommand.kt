@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.Attribute
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import org.springframework.shell.standard.ShellComponent
@@ -25,7 +24,7 @@ class DecreaseAttributeCommand(val adventureBookResolver: AdventureBookResolver,
         decrease(adventureBookResolver.book.attributes.luck, decrease)
     }
 
-    private fun decrease(attribute: Attribute, decrease: Int) {
+    private fun decrease(attribute: com.d20charactersheet.adventurebookresolver.core.domain.Attribute, decrease: Int) {
         with(attribute) {
             decrease(decrease)
             consoleService.write("$name: $value / $maxValue")

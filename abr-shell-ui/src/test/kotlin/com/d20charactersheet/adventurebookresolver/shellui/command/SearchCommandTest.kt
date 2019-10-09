@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.BookEntry
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -16,7 +15,7 @@ internal class SearchCommandTest : BaseConsoleCommandTest() {
     fun `Search notes`() {
         // Arrange
         adventureBookResolver.book = mock {
-            on { search("start") }.doReturn(listOf(BookEntry(id = 1, title = "Hallway", note = "Start of adventure")))
+            on { search("start") }.doReturn(listOf(com.d20charactersheet.adventurebookresolver.core.domain.BookEntry(id = 1, title = "Hallway", note = "Start of adventure")))
         }
 
         // Act

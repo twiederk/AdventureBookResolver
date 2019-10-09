@@ -1,4 +1,4 @@
-package com.d20charachtersheet.adventurebookresolver.core.domain
+package com.d20charactersheet.adventurebookresolver.core.domain
 
 import com.mxgraph.layout.mxCompactTreeLayout
 import com.mxgraph.util.mxCellRenderer

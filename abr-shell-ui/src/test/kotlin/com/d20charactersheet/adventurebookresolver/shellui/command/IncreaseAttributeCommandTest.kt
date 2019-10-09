@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.AttributeName
 import com.nhaarman.mockitokotlin2.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,7 +22,7 @@ internal class IncreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.dexterity.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.DEXTERITY}: $expected / $expected")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.DEXTERITY}: $expected / $expected")
     }
 
     @Test
@@ -38,7 +37,7 @@ internal class IncreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.dexterity.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.DEXTERITY}: $expected / $expected")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.DEXTERITY}: $expected / $expected")
     }
 
     @Test
@@ -53,7 +52,7 @@ internal class IncreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.strength.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.STRENGTH}: $expected / $expected")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.STRENGTH}: $expected / $expected")
     }
 
     @Test
@@ -68,7 +67,7 @@ internal class IncreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.strength.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.STRENGTH}: $expected / $expected")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.STRENGTH}: $expected / $expected")
     }
 
     @Test
@@ -83,7 +82,7 @@ internal class IncreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.luck.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.LUCK}: $expected / $expected")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.LUCK}: $expected / $expected")
     }
 
     @Test
@@ -98,7 +97,7 @@ internal class IncreaseAttributeCommandTest : BaseConsoleCommandTest() {
 
         // Assert
         assertThat(adventureBookResolver.book.attributes.luck.value).isEqualTo(expected)
-        verify(consoleService).write("${AttributeName.LUCK}: $expected / $expected")
+        verify(consoleService).write("${com.d20charactersheet.adventurebookresolver.core.domain.AttributeName.LUCK}: $expected / $expected")
     }
 
 

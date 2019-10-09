@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.BookStore
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import org.springframework.shell.standard.ShellComponent
@@ -10,7 +9,7 @@ import org.springframework.shell.standard.ShellOption
 const val EMPTY_BOOK_NAME_OPTION = ""
 
 @ShellComponent
-class SaveCommand(val adventureBookResolver: AdventureBookResolver, val bookStore: BookStore, val consoleService: ConsoleService) {
+class SaveCommand(val adventureBookResolver: AdventureBookResolver, val bookStore: com.d20charactersheet.adventurebookresolver.core.domain.BookStore, val consoleService: ConsoleService) {
 
     @ShellMethod("save book to file")
     fun save(@ShellOption(defaultValue = EMPTY_BOOK_NAME_OPTION) bookNameOption: String = EMPTY_BOOK_NAME_OPTION) {

@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.Attribute
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import org.springframework.shell.standard.ShellComponent
@@ -25,7 +24,7 @@ class IncreaseAttributeCommand(val adventureBookResolver: AdventureBookResolver,
         increase(adventureBookResolver.book.attributes.luck, increase)
     }
 
-    private fun increase(attribute: Attribute, increase: Int) {
+    private fun increase(attribute: com.d20charactersheet.adventurebookresolver.core.domain.Attribute, increase: Int) {
         with(attribute) {
             increase(increase)
             consoleService.write("$name: $value / $maxValue")

@@ -1,6 +1,5 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.d20charachtersheet.adventurebookresolver.core.domain.Item
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
@@ -17,7 +16,7 @@ internal class DisplayInventoryCommandTest : BaseConsoleCommandTest() {
 
         // Arrange
         adventureBookResolver.book = mock {
-            on { getItems() }.doReturn(listOf(Item("sword"), Item("leather armor"), Item("backpack")))
+            on { getItems() }.doReturn(listOf(com.d20charactersheet.adventurebookresolver.core.domain.Item("sword"), com.d20charactersheet.adventurebookresolver.core.domain.Item("leather armor"), com.d20charactersheet.adventurebookresolver.core.domain.Item("backpack")))
         }
 
         // Act
