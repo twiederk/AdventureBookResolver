@@ -1,5 +1,6 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
+import com.d20charactersheet.adventurebookresolver.core.domain.AttributeName
 import com.d20charactersheet.adventurebookresolver.shellui.domain.AdventureBookResolver
 import com.d20charactersheet.adventurebookresolver.shellui.services.ConsoleService
 import org.springframework.shell.standard.ShellComponent
@@ -10,23 +11,23 @@ import org.springframework.shell.standard.ShellOption
 class DecreaseAttributeCommand(val adventureBookResolver: AdventureBookResolver, val consoleService: ConsoleService) {
 
     @ShellMethod("decrease dexterity")
-    fun decreaseDexterity(@ShellOption(defaultValue = "1") decrease: Int = 1) {
-        decrease(adventureBookResolver.book.attributes.dexterity, decrease)
+    fun decreaseDexterity(@ShellOption(defaultValue = "1") value: Int = 1) {
+        decrease(AttributeName.DEXTERITY, value)
     }
 
     @ShellMethod("decrease strength")
-    fun decreaseStrength(@ShellOption(defaultValue = "1") decrease: Int = 1) {
-        decrease(adventureBookResolver.book.attributes.strength, decrease)
+    fun decreaseStrength(@ShellOption(defaultValue = "1") value: Int = 1) {
+        decrease(AttributeName.STRENGTH, value)
     }
 
     @ShellMethod("decrease luck")
-    fun decreaseLuck(@ShellOption(defaultValue = "1") decrease: Int = 1) {
-        decrease(adventureBookResolver.book.attributes.luck, decrease)
+    fun decreaseLuck(@ShellOption(defaultValue = "1") value: Int = 1) {
+        decrease(AttributeName.LUCK, value)
     }
 
-    private fun decrease(attribute: com.d20charactersheet.adventurebookresolver.core.domain.Attribute, decrease: Int) {
-        with(attribute) {
-            decrease(decrease)
+    private fun decrease(attributeName: AttributeName, diff: Int) {
+        adventureBookResolver.book.decreaseAttribute(attributeName, diff)
+        with(adventureBookResolver.book.attributes.getAttribute(attributeName)) {
             consoleService.write("$name: $value / $maxValue")
         }
     }

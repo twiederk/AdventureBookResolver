@@ -39,6 +39,7 @@ class BookStore {
     }
 
     private fun StringBuilder.exportInventory(inventory: Inventory) {
+        appendln("GOLD=${inventory.gold}")
         inventory.items.forEach { item -> appendln("ITEM=${item.name}") }
     }
 
@@ -62,12 +63,12 @@ class BookStore {
         val title = importTitle(importData)
         val tries = importTries(importData)
         val attributes = importAttributes(importData)
-        val items = importInventory(importData)
+        val inventory = importInventory(importData)
         val currentBookEntryId = importCurrentBookEntry(importData)
         val labeledEdges = importLabeledEdges(importData, bookEntryMap)
         val performedActions = importActions(importData, bookEntryMap)
 
-        return AdventureBook(title, tries, bookEntryMap, currentBookEntryId, labeledEdges, performedActions, items, attributes)
+        return AdventureBook(title, tries, bookEntryMap, currentBookEntryId, labeledEdges, performedActions, inventory, attributes)
     }
 
     private fun importTitle(importData: List<String>): String {
@@ -97,12 +98,12 @@ class BookStore {
     }
 
     private fun importInventory(importData: List<String>): Inventory {
+        val gold = importData[6].substring("GOLD".length + 1).toInt()
         val items = importData
                 .filter { s -> s.startsWith("ITEM") }
                 .map { i -> Item(i.substring("ITEM".length + 1)) }
-        return Inventory(items.toMutableList())
+        return Inventory(gold, items.toMutableList())
     }
-
 
     private fun importActions(importData: List<String>, bookEntryMap: Map<Int, BookEntry>): List<Action> {
         return importData //

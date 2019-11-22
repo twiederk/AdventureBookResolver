@@ -1,6 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.core.domain
 
-class Inventory(val items: MutableList<Item> = mutableListOf()) {
+class Inventory(gold: Int = 0, val items: MutableList<Item> = mutableListOf()) {
+
+    var gold: Int = gold
+        private set
 
     fun addItem(name: String) = items.add(Item(name))
 
@@ -10,6 +13,10 @@ class Inventory(val items: MutableList<Item> = mutableListOf()) {
         if (index < items.size && index >= 0) {
             items.removeAt(index)
         }
+    }
+
+    fun editGold(gold: Int) {
+        this.gold = maxOf(this.gold + gold, 0)
     }
 
 }

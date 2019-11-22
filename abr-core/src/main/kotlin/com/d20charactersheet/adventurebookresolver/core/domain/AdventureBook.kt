@@ -134,9 +134,16 @@ class AdventureBook(
 
     fun removeItemFromInventory(index: Int) = inventory.removeItem(index)
 
-    fun changeAttribute(attributeName: AttributeName, value: Int) {
+    fun increaseAttribute(attributeName: AttributeName, value: Int) {
         attributes.increase(attributeName, value)
     }
 
+    fun decreaseAttribute(attributeName: AttributeName, value: Int) {
+        attributes.decrease(attributeName, value)
+    }
+
+    fun getGold(): Int = inventory.gold
+
+    fun editGold(gold: Int) = inventory.editGold(gold)
 
 }

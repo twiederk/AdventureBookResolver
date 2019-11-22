@@ -11,6 +11,8 @@ class Attributes(die: Die = Die(),
             luck.name to luck
     )
 
+    fun getAttribute(attributeName: AttributeName) = attributes.getValue(attributeName)
+
     fun increase(name: AttributeName, value: Int) {
         attributes[name]?.increase(value)
     }
@@ -36,13 +38,16 @@ class Attribute(val name: AttributeName, value: Int, maxValue: Int) {
         private set
 
     fun decrease(value: Int) {
-        this.value -= value
+        this.value = maxOf(this.value - value, MIN_VALUE)
     }
 
     fun increase(value: Int) {
-        if (this.value + value <= maxValue) {
-            this.value += value
-        }
+        this.value = minOf(this.value + value, maxValue)
     }
+
+    companion object {
+        private const val MIN_VALUE = 0
+    }
+
 }
 

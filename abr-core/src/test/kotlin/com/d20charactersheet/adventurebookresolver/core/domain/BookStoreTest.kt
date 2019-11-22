@@ -23,6 +23,7 @@ internal class BookStoreTest {
         @BeforeEach
         fun setup() {
             book.apply {
+                editGold(5)
                 addItemToInventory("sword")
                 addItemToInventory("leather armor")
                 addItemToInventory("backpack")
@@ -48,6 +49,7 @@ internal class BookStoreTest {
                 |DEXTERITY=9,10
                 |STRENGTH=12,24
                 |LUCK=5,8
+                |GOLD=5
                 |ITEM=sword
                 |ITEM=leather armor
                 |ITEM=backpack
@@ -90,6 +92,7 @@ internal class BookStoreTest {
                     "DEXTERITY=9,10", //
                     "STRENGTH=12,24", //
                     "LUCK=5,8", //
+                    "GOLD=5", //
                     "ITEM=sword", //
                     "ITEM=leather armor", //
                     "ITEM=backpack", //
@@ -109,6 +112,7 @@ internal class BookStoreTest {
             AttributeAssert.assertThat(importedBook.attributes.dexterity).name(AttributeName.DEXTERITY).value(9).maxValue(10)
             AttributeAssert.assertThat(importedBook.attributes.strength).name(AttributeName.STRENGTH).value(12).maxValue(24)
             AttributeAssert.assertThat(importedBook.attributes.luck).name(AttributeName.LUCK).value(5).maxValue(8)
+            assertThat(importedBook.getGold()).isEqualTo(5)
             assertThat(importedBook.getItems()).extracting("name").containsExactly("sword", "leather armor", "backpack")
             assertThat(importedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(importedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
@@ -130,6 +134,7 @@ internal class BookStoreTest {
             AttributeAssert.assertThat(loadedBook.attributes.dexterity).name(AttributeName.DEXTERITY).value(9).maxValue(10)
             AttributeAssert.assertThat(loadedBook.attributes.strength).name(AttributeName.STRENGTH).value(12).maxValue(24)
             AttributeAssert.assertThat(loadedBook.attributes.luck).name(AttributeName.LUCK).value(5).maxValue(8)
+            assertThat(loadedBook.getGold()).isEqualTo(5)
             assertThat(loadedBook.getItems()).extracting("name").containsExactly("sword", "leather armor", "backpack")
             assertThat(loadedBook.getAllBookEntries()).containsExactlyInAnyOrder(BookEntry(1), BookEntry(261), BookEntry(54))
             assertThat(loadedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))

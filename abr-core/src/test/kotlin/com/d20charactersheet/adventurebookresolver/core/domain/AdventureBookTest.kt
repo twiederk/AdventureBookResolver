@@ -23,6 +23,7 @@ internal class AdventureBookTest {
             assertThat(underTest.tries).isEqualTo(1)
             assertThat(underTest.totalNumberOfBookEntries).isEqualTo(400)
             assertThat(underTest.getItems()).isEmpty()
+            assertThat(underTest.getGold()).isEqualTo(0)
 
             val attributes = underTest.attributes
             AttributeAssert.assertThat(attributes.dexterity).name(AttributeName.DEXTERITY).isBetween(7, 12)
@@ -246,27 +247,27 @@ internal class AdventureBookTest {
         }
 
         @Test
-        fun `change attribute with positive value`() {
+        fun `attribute increase`() {
             // Arrange
             val underTest = AdventureBook(attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)))
 
             // Act
-            underTest.changeAttribute(AttributeName.STRENGTH, 1)
+            underTest.increaseAttribute(AttributeName.STRENGTH, 2)
 
             // Assert
-            assertThat(underTest.attributes.strength.value).isEqualTo(11)
+            assertThat(underTest.attributes.strength.value).isEqualTo(12)
         }
 
         @Test
-        fun `change attribute with negative value`() {
+        fun `attribute decrease`() {
             // Arrange
             val underTest = AdventureBook(attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)))
 
             // Act
-            underTest.changeAttribute(AttributeName.STRENGTH, -1)
+            underTest.decreaseAttribute(AttributeName.STRENGTH, 2)
 
             // Assert
-            assertThat(underTest.attributes.strength.value).isEqualTo(9)
+            assertThat(underTest.attributes.strength.value).isEqualTo(8)
         }
     }
 
@@ -362,7 +363,7 @@ internal class AdventureBookTest {
     }
 
     @Nested
-    inner class InventoryTest {
+    inner class InventoryItemTest {
 
         private val underTest = AdventureBook("book title")
 
@@ -430,5 +431,42 @@ internal class AdventureBookTest {
         }
 
     }
+
+    @Nested
+    inner class InventoryGoldTest {
+
+        private val underTest = AdventureBook("book title")
+
+        @Test
+        fun `add gold`() {
+            // Act
+            underTest.editGold(5)
+
+            // Assert
+            assertThat(underTest.getGold()).isEqualTo(5)
+        }
+
+        @Test
+        fun `remove gold`() {
+            // Arrange
+            underTest.editGold(5)
+
+            // Act
+            underTest.editGold(-3)
+
+            // Assert
+            assertThat(underTest.getGold()).isEqualTo(2)
+        }
+
+        @Test
+        fun `gold can not be negative`() {
+            // Act
+            underTest.editGold(-2)
+
+            // Assert
+            assertThat(underTest.getGold()).isEqualTo(0)
+        }
+    }
+
 
 }

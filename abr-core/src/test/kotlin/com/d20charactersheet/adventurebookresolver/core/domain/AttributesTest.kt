@@ -43,6 +43,18 @@ internal class AttributesTest {
     }
 
     @Test
+    fun `decrease attribute not below zero`() {
+        // Arrange
+        val underTest = Attributes(dexterity = Attribute(AttributeName.DEXTERITY, 1, 2))
+
+        // Act
+        underTest.decrease(AttributeName.DEXTERITY, 3)
+
+        // Assert
+        AttributeAssert.assertThat(underTest.dexterity).value(0)
+    }
+
+    @Test
     fun `increase attribute`() {
         // Arrange
         val underTest = Attributes(dexterity = Attribute(AttributeName.DEXTERITY, 1, 2))
@@ -64,5 +76,17 @@ internal class AttributesTest {
 
         // Assert
         AttributeAssert.assertThat(underTest.dexterity).value(1)
+    }
+
+    @Test
+    fun `increase until max value`() {
+        // Arrange
+        val underTest = Attributes(dexterity = Attribute(AttributeName.DEXTERITY, 2, 5))
+
+        // Act
+        underTest.increase(AttributeName.DEXTERITY, 4)
+
+        // Assert
+        AttributeAssert.assertThat(underTest.dexterity).value(5)
     }
 }
