@@ -24,6 +24,7 @@ internal class AdventureBookTest {
             assertThat(underTest.totalNumberOfBookEntries).isEqualTo(400)
             assertThat(underTest.getItems()).isEmpty()
             assertThat(underTest.getGold()).isEqualTo(0)
+            assertThat(underTest.note).isEmpty()
 
             val attributes = underTest.attributes
             AttributeAssert.assertThat(attributes.dexterity).name(AttributeName.DEXTERITY).isBetween(7, 12)

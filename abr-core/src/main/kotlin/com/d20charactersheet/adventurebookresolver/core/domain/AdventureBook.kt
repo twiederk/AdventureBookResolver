@@ -7,6 +7,7 @@ import org.jgrapht.graph.SimpleDirectedGraph
 
 class AdventureBook(
         val title: String = ADVENTURE_BOOK_DEFAULT_TITLE,
+        var note: String = "",
         tries: Int = 1,
         vertices: Map<Int, BookEntry> = mapOf(),
         currentBookEntryId: Int = 1,
