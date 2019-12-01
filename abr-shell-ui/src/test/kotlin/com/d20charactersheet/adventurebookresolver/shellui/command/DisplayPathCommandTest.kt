@@ -14,14 +14,14 @@ internal class DisplayPathCommandTest : BaseConsoleCommandTest() {
 
         // Arrange
         with(adventureBookResolver.book) {
-            editBookEntry("Hallway")
+            setEntryTitle("Hallway")
             addAction("upstairs", 100)
-            note("Start of adventure")
+            setEntryNote("Start of adventure")
             moveToBookEntry(100)
-            editBookEntry("Tower")
+            setEntryTitle("Tower")
             addAction("left", 200)
             moveToBookEntry(200)
-            editBookEntry("Balcony")
+            setEntryTitle("Balcony")
         }
 
         // Act

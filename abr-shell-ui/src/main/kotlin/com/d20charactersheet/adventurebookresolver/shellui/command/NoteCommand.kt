@@ -8,6 +8,6 @@ import org.springframework.shell.standard.ShellMethod
 class NoteCommand(val adventureBookResolver: AdventureBookResolver) {
 
     @ShellMethod("add note to book entry")
-    fun note(note: String) = adventureBookResolver.book.note(note)
+    fun note(note: String) = adventureBookResolver.book.setEntryNote(note)
 
 }

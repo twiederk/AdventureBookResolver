@@ -13,11 +13,11 @@ class DisplayActionsToUnvisitedEntriesCommandTest : BaseConsoleCommandTest() {
     internal fun `display actions`() {
         // Arrange
         with(adventureBookResolver.book) {
-            editBookEntry("Hallway")
+            setEntryTitle("Hallway")
             addAction("upstairs", 100)
             addAction("downstairs", 200)
             moveToBookEntry(100)
-            editBookEntry("Tower")
+            setEntryTitle("Tower")
             addAction("left", 300)
         }
 

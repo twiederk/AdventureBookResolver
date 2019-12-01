@@ -43,7 +43,7 @@ internal class AdventureBookTest {
         @Test
         fun `edit title of current book entry (command edit)`() {
             // Act
-            underTest.editBookEntry("entry title")
+            underTest.setEntryTitle("entry title")
 
             // Assert
             assertThat(underTest.getEntryTitle()).isEqualTo("entry title")
@@ -106,7 +106,7 @@ internal class AdventureBookTest {
         fun `add already existing entry`() {
             // Arrange
             with(underTest) {
-                editBookEntry("Introduction")
+                setEntryTitle("Introduction")
                 addAction("upstairs", 261)
                 moveToBookEntry(261)
                 addAction("downstairs", 1)
@@ -122,7 +122,7 @@ internal class AdventureBookTest {
         @Test
         fun `add note to current entry`() {
             // Act
-            underTest.note("myNote")
+            underTest.setEntryNote("myNote")
 
             // Assert
             assertThat(underTest.getEntryNote()).isEqualTo("myNote")
@@ -132,11 +132,11 @@ internal class AdventureBookTest {
         fun `restart book`() {
             // Arrange
             underTest.apply {
-                editBookEntry("Introduction")
+                setEntryTitle("Introduction")
                 addAction("upstairs", 100)
                 addAction("downstairs", 110)
                 moveToBookEntry(100)
-                editBookEntry("Library")
+                setEntryTitle("Library")
                 addAction("Take a book", 200)
                 addItemToInventory("Book")
             }
@@ -161,19 +161,19 @@ internal class AdventureBookTest {
         fun `run to a book entry`() {
             // Arrange
             underTest.apply {
-                editBookEntry("Introduction")
+                setEntryTitle("Introduction")
                 addAction("upstairs", 100)
                 addAction("downstairs", 200)
                 moveToBookEntry(100)
-                editBookEntry("Library")
+                setEntryTitle("Library")
                 addAction("take book", 300)
                 addAction("downstairs", 1)
                 moveToBookEntry(300)
-                editBookEntry("Select book to take")
+                setEntryTitle("Select book to take")
                 addAction("take red book", 301)
                 addAction("take blue book", 302)
                 moveToBookEntry(301)
-                editBookEntry("Poisoned book")
+                setEntryTitle("Poisoned book")
                 restart()
             }
 
@@ -193,7 +193,7 @@ internal class AdventureBookTest {
         fun `search notes`() {
             // Arrange
             underTest.apply {
-                note("Start of adventure")
+                setEntryNote("Start of adventure")
             }
 
             // Act

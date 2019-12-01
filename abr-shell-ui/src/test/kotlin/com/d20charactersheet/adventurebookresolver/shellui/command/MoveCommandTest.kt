@@ -27,11 +27,11 @@ internal class MoveCommandTest : BaseConsoleCommandTest() {
     fun `move to existing book entry and display available actions`() {
         // Arrange
         adventureBookResolver.book.apply {
-            editBookEntry("Hallway")
+            setEntryTitle("Hallway")
             addAction("upstairs", 100)
             moveToBookEntry(100)
-            editBookEntry("Library")
-            note("a lot of books")
+            setEntryTitle("Library")
+            setEntryNote("a lot of books")
             addAction("downstairs", 1)
             addAction("take book", 200)
             restart()

@@ -36,7 +36,7 @@ class AdventureBook(
         performedActions += actions
     }
 
-    fun editBookEntry(entryTitle: String) {
+    fun setEntryTitle(entryTitle: String) {
         currentBookEntry.title = entryTitle
     }
 
@@ -96,7 +96,7 @@ class AdventureBook(
                     .flatMap { graph.incomingEdgesOf(it) }
                     .map { Action(it.label, graph.getEdgeSource(it), graph.getEdgeTarget(it)) }
 
-    fun note(note: String) {
+    fun setEntryNote(note: String) {
         currentBookEntry.note = note
     }
 

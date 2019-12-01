@@ -24,10 +24,11 @@ class BookStore {
 
     private fun StringBuilder.exportBook(book: AdventureBook) {
         appendln("TITLE=${removeDelimiter(book.title)}")
-        appendln("NOTE=${removeDelimiter(book.note)}")
+        appendln("NOTE=${removeDelimiter(removeLineBreaks(book.note))}")
         appendln("TRIES=${book.tries}")
         appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
     }
+
 
     private fun StringBuilder.exportAttributes(attributes: Attributes) {
         exportAttribute(attributes.dexterity)
@@ -46,7 +47,7 @@ class BookStore {
 
     private fun StringBuilder.exportGraph(book: AdventureBook) {
         with(book.graph) {
-            vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id}|${removeDelimiter(entry.title)}|${entry.visit}|${removeDelimiter(entry.note)}") }
+            vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id}|${removeDelimiter(entry.title)}|${entry.visit}|${removeDelimiter(removeLineBreaks(entry.note))}") }
             edgeSet().forEach { edge -> appendln("LABELED_EDGE=${getEdgeSource(edge).id}|${getEdgeTarget(edge).id}|${removeDelimiter(edge.label)}") }
         }
         book.getPerformedActions().forEach { action -> appendln("ACTION=${removeDelimiter(action.label)}|${action.source.id}|${action.destination.id}") }
@@ -54,6 +55,9 @@ class BookStore {
 
     private fun removeDelimiter(input: String) = input.replace('|', ' ')
 
+    private fun removeLineBreaks(input: String) = input.replace('\n', '@')
+
+    private fun addLineBreaks(input: String) = input.replace('@', '\n')
 
     fun load(bookName: String): AdventureBook {
         val readLines = File("$bookName.abr").readLines()
@@ -80,7 +84,8 @@ class BookStore {
     }
 
     private fun importNote(importData: List<String>): String {
-        return importData[1].substring("NOTE".length + 1)
+        return addLineBreaks(importData[1].substring("NOTE".length + 1))
+
     }
 
     private fun importTries(importData: List<String>): Int {
@@ -140,7 +145,7 @@ class BookStore {
         val bookEntries: List<BookEntry> = importData //
                 .filter { s -> s.startsWith("BOOK_ENTRY") }
                 .map { s -> s.split('|') }
-                .map { a -> BookEntry(a[0].substring("BOOK_ENTRY".length + 1).toInt(), a[1], Visit.valueOf(a[2]), a[3]) }
+                .map { a -> BookEntry(a[0].substring("BOOK_ENTRY".length + 1).toInt(), a[1], Visit.valueOf(a[2]), addLineBreaks(a[3])) }
         return bookEntries.map { it.id to it }.toMap()
     }
 

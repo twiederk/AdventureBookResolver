@@ -16,25 +16,25 @@ internal class BookRendererTest {
 
         // Arrange
         val book = AdventureBook("book title").apply {
-            editBookEntry("Hallway")
+            setEntryTitle("Hallway")
             addAction("upstairs", 100)
             addAction("downstairs", 110)
             moveToBookEntry(100)
-            editBookEntry("Library")
+            setEntryTitle("Library")
             addAction("take book", 200)
             addAction("downstairs", 1)
             moveToBookEntry(200)
-            editBookEntry("Books")
+            setEntryTitle("Books")
             addAction("take red book", 210)
             addAction("take blue book", 300)
             moveToBookEntry(210)
-            editBookEntry("Poisoned book")
+            setEntryTitle("Poisoned book")
             restart()
             run(300)
-            editBookEntry("blue book")
+            setEntryTitle("blue book")
             addAction("read book", 310)
             moveToBookEntry(310)
-            editBookEntry("valuable information")
+            setEntryTitle("valuable information")
         }
 
         // Act

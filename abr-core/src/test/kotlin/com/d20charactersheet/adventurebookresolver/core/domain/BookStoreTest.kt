@@ -28,12 +28,12 @@ internal class BookStoreTest {
                 addItemToInventory("sword")
                 addItemToInventory("leather armor")
                 addItemToInventory("backpack")
-                editBookEntry("Hallway")
-                note("Start of adventure")
+                setEntryTitle("Hallway")
+                setEntryNote("Start of adventure")
                 addAction("upstairs", 261)
                 addAction("downstairs", 54)
                 moveToBookEntry(261)
-                editBookEntry("Library")
+                setEntryTitle("Library")
             }
         }
 
@@ -75,12 +75,12 @@ internal class BookStoreTest {
                 note = "My|first|adventure"
                 editGold(5)
                 addItemToInventory("leather|armor")
-                editBookEntry("Hallway")
-                note("Start|of|adventure")
+                setEntryTitle("Hallway")
+                setEntryNote("Start|of|adventure")
                 addAction("go|upstairs", 261)
                 addAction("go|downstairs", 54)
                 moveToBookEntry(261)
-                editBookEntry("The|Library")
+                setEntryTitle("The|Library")
             }
 
 
@@ -98,6 +98,54 @@ internal class BookStoreTest {
                 |GOLD=5
                 |ITEM=leather armor
                 |BOOK_ENTRY=1|Hallway|VISITED|Start of adventure
+                |BOOK_ENTRY=261|The Library|VISITED|
+                |BOOK_ENTRY=54|Untitled|UNVISITED|
+                |LABELED_EDGE=1|261|go upstairs
+                |LABELED_EDGE=1|54|go downstairs
+                |ACTION=go upstairs|1|261
+                |
+            """.trimMargin())
+        }
+
+        @Test
+        fun `remove line breaks in notes`() {
+            // Arrange
+            val bookWithDelimiter = AdventureBook(title = "book title", attributes = Attributes(
+                    dexterity = Attribute(AttributeName.DEXTERITY, 9, 10),
+                    strength = Attribute(AttributeName.STRENGTH, 12, 24),
+                    luck = Attribute(AttributeName.LUCK, 5, 8))).apply {
+                note = """
+                    my first book note
+                    my second book note
+                """.trimIndent()
+                editGold(5)
+                addItemToInventory("leather armor")
+                setEntryTitle("Hallway")
+                setEntryNote("""
+                    my first entry note
+                    my second entry note
+                """.trimIndent())
+                addAction("go upstairs", 261)
+                addAction("go downstairs", 54)
+                moveToBookEntry(261)
+                setEntryTitle("The Library")
+            }
+
+
+            // Act
+            val export = underTest.export(bookWithDelimiter)
+
+            // Assert
+            assertThat(export).isEqualToNormalizingNewlines("""TITLE=book title
+                |NOTE=my first book note@my second book note
+                |TRIES=1
+                |CURRENT_BOOK_ENTRY=261
+                |DEXTERITY=9|10
+                |STRENGTH=12|24
+                |LUCK=5|8
+                |GOLD=5
+                |ITEM=leather armor
+                |BOOK_ENTRY=1|Hallway|VISITED|my first entry note@my second entry note
                 |BOOK_ENTRY=261|The Library|VISITED|
                 |BOOK_ENTRY=54|Untitled|UNVISITED|
                 |LABELED_EDGE=1|261|go upstairs
@@ -131,7 +179,7 @@ internal class BookStoreTest {
             // Arrange
             val importData: List<String> = listOf(
                     "TITLE=load title", //
-                    "NOTE=My first adventure", //
+                    "NOTE=my first book note@my second book note", //
                     "TRIES=2", //
                     "CURRENT_BOOK_ENTRY=261", //
                     "DEXTERITY=9|10", //
@@ -141,7 +189,7 @@ internal class BookStoreTest {
                     "ITEM=sword", //
                     "ITEM=leather armor", //
                     "ITEM=backpack", //
-                    "BOOK_ENTRY=1|Hallway|VISITED|Start of adventure", //
+                    "BOOK_ENTRY=1|Hallway|VISITED|my first entry note@my second entry note", //
                     "BOOK_ENTRY=261|Library|VISITED|", //
                     "BOOK_ENTRY=54|Untitled|UNVISITED|", //
                     "LABELED_EDGE=1|261|upstairs", //
@@ -153,7 +201,10 @@ internal class BookStoreTest {
 
             // Assert
             assertThat(importedBook.title).isEqualTo("load title")
-            assertThat(importedBook.note).isEqualTo("My first adventure")
+            assertThat(importedBook.note).isEqualTo("""
+                my first book note
+                my second book note
+            """.trimIndent())
             assertThat(importedBook.tries).isEqualTo(2)
             AttributeAssert.assertThat(importedBook.attributes.dexterity).name(AttributeName.DEXTERITY).value(9).maxValue(10)
             AttributeAssert.assertThat(importedBook.attributes.strength).name(AttributeName.STRENGTH).value(12).maxValue(24)
@@ -165,7 +216,10 @@ internal class BookStoreTest {
             assertThat(importedBook.getEntryId()).isEqualTo(261)
             assertThat(importedBook.getEntryTitle()).isEqualTo("Library")
             assertThat(importedBook.getPerformedActions()).containsExactly(Action("upstairs", BookEntry(1), BookEntry(261)))
-            assertThat(importedBook.getPerformedActions()[0].source.note).isEqualTo("Start of adventure")
+            assertThat(importedBook.getPerformedActions()[0].source.note).isEqualTo("""
+                my first entry note
+                my second entry note
+            """.trimIndent())
         }
 
         @Test
