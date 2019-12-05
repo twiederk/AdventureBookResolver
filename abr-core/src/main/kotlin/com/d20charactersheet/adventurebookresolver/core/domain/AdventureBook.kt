@@ -147,4 +147,15 @@ class AdventureBook(
 
     fun editGold(gold: Int) = inventory.editGold(gold)
 
+    fun getProvisions(): Int = inventory.provisions
+
+    fun editProvisions(provisions: Int) = inventory.editProvisions(provisions)
+
+    fun eatProvision() {
+        if (inventory.provisions > 0) {
+            attributes.increase(AttributeName.STRENGTH, 4)
+            editProvisions(-1)
+        }
+    }
+
 }

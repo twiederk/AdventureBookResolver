@@ -1,7 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.core.domain
 
-class Inventory(gold: Int = 0, val items: MutableList<Item> = mutableListOf()) {
+class Inventory(gold: Int = 0, provisions: Int = 10, val items: MutableList<Item> = mutableListOf()) {
 
+    var provisions: Int = provisions
+        private set
     var gold: Int = gold
         private set
 
@@ -17,6 +19,10 @@ class Inventory(gold: Int = 0, val items: MutableList<Item> = mutableListOf()) {
 
     fun editGold(gold: Int) {
         this.gold = maxOf(this.gold + gold, 0)
+    }
+
+    fun editProvisions(provisions: Int) {
+        this.provisions = maxOf(this.provisions + provisions, 0)
     }
 
 }

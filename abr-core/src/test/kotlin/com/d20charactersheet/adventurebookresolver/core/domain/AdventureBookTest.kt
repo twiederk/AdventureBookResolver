@@ -25,6 +25,7 @@ internal class AdventureBookTest {
             assertThat(underTest.getItems()).isEmpty()
             assertThat(underTest.getGold()).isEqualTo(0)
             assertThat(underTest.note).isEmpty()
+            assertThat(underTest.getProvisions()).isEqualTo(10)
 
             val attributes = underTest.attributes
             AttributeAssert.assertThat(attributes.dexterity).name(AttributeName.DEXTERITY).isBetween(7, 12)
@@ -278,7 +279,7 @@ internal class AdventureBookTest {
         private val underTest = AdventureBook("book title")
 
         @BeforeEach
-        internal fun setup() {
+        fun setup() {
             with(underTest) {
                 addAction("upstairs", 261)
                 addAction("downstairs", 54)
@@ -469,5 +470,79 @@ internal class AdventureBookTest {
         }
     }
 
+    @Nested
+    inner class InventoryProvisionsTest {
+
+        private val underTest = AdventureBook()
+
+        @Test
+        fun `increase provisions`() {
+            // Act
+            underTest.editProvisions(2)
+
+            // Assert
+            assertThat(underTest.getProvisions()).isEqualTo(12)
+        }
+
+        @Test
+        fun `decrease provisions`() {
+            // Act
+            underTest.editProvisions(-2)
+
+            // Assert
+            assertThat(underTest.getProvisions()).isEqualTo(8)
+        }
+
+        @Test
+        fun `provisions can not be negative`() {
+            // Act
+            underTest.editProvisions(-12)
+
+            // Assert
+            assertThat(underTest.getProvisions()).isEqualTo(0)
+        }
+
+        @Test
+        fun `eat provision`() {
+            // Arrange
+            val underTest = AdventureBook(attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)))
+
+            // Act
+            underTest.eatProvision()
+
+            // Assert
+            assertThat(underTest.attributes.strength.value).isEqualTo(14)
+            assertThat(underTest.getProvisions()).isEqualTo(9)
+        }
+
+        @Test
+        fun `eat provision can't exceed maximum strength`() {
+            // Arrange
+            val underTest = AdventureBook(attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 17, 20)))
+
+            // Act
+            underTest.eatProvision()
+
+            // Assert
+            assertThat(underTest.attributes.strength.value).isEqualTo(20)
+            assertThat(underTest.getProvisions()).isEqualTo(9)
+        }
+
+        @Test
+        fun `eat provision only if you have a provision to eat`() {
+            // Arrange
+            val underTest = AdventureBook( //
+                    attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)),
+                    inventory = Inventory(provisions = 0)
+            )
+
+            // Act
+            underTest.eatProvision()
+
+            // Assert
+            assertThat(underTest.attributes.strength.value).isEqualTo(10)
+            assertThat(underTest.getProvisions()).isEqualTo(0)
+        }
+    }
 
 }

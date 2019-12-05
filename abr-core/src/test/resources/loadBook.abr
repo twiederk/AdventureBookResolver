@@ -6,6 +6,7 @@ DEXTERITY=9|10
 STRENGTH=12|24
 LUCK=5|8
 GOLD=5
+PROVISIONS=4
 ITEM=sword
 ITEM=leather armor
 ITEM=backpack
