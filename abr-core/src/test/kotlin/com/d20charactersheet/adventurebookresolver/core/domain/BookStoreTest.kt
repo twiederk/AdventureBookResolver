@@ -33,6 +33,7 @@ internal class BookStoreTest {
                 addAction("upstairs", 261)
                 addAction("downstairs", 54)
                 moveToBookEntry(261)
+                setWayPoint()
                 setEntryTitle("Library")
             }
         }
@@ -56,9 +57,9 @@ internal class BookStoreTest {
                 |ITEM=sword
                 |ITEM=leather armor
                 |ITEM=backpack
-                |BOOK_ENTRY=1|Hallway|VISITED|Start of adventure
-                |BOOK_ENTRY=261|Library|VISITED|
-                |BOOK_ENTRY=54|Untitled|UNVISITED|
+                |BOOK_ENTRY=1|Hallway|VISITED|NORMAL|Start of adventure
+                |BOOK_ENTRY=261|Library|VISITED|WAY_POINT|
+                |BOOK_ENTRY=54|Untitled|UNVISITED|NORMAL|
                 |LABELED_EDGE=1|261|upstairs
                 |LABELED_EDGE=1|54|downstairs
                 |ACTION=upstairs|1|261
@@ -99,9 +100,9 @@ internal class BookStoreTest {
                 |GOLD=5
                 |PROVISIONS=10
                 |ITEM=leather armor
-                |BOOK_ENTRY=1|Hallway|VISITED|Start of adventure
-                |BOOK_ENTRY=261|The Library|VISITED|
-                |BOOK_ENTRY=54|Untitled|UNVISITED|
+                |BOOK_ENTRY=1|Hallway|VISITED|NORMAL|Start of adventure
+                |BOOK_ENTRY=261|The Library|VISITED|NORMAL|
+                |BOOK_ENTRY=54|Untitled|UNVISITED|NORMAL|
                 |LABELED_EDGE=1|261|go upstairs
                 |LABELED_EDGE=1|54|go downstairs
                 |ACTION=go upstairs|1|261
@@ -148,9 +149,9 @@ internal class BookStoreTest {
                 |GOLD=5
                 |PROVISIONS=10
                 |ITEM=leather armor
-                |BOOK_ENTRY=1|Hallway|VISITED|my first entry note@my second entry note
-                |BOOK_ENTRY=261|The Library|VISITED|
-                |BOOK_ENTRY=54|Untitled|UNVISITED|
+                |BOOK_ENTRY=1|Hallway|VISITED|NORMAL|my first entry note@my second entry note
+                |BOOK_ENTRY=261|The Library|VISITED|NORMAL|
+                |BOOK_ENTRY=54|Untitled|UNVISITED|NORMAL|
                 |LABELED_EDGE=1|261|go upstairs
                 |LABELED_EDGE=1|54|go downstairs
                 |ACTION=go upstairs|1|261
@@ -193,9 +194,9 @@ internal class BookStoreTest {
                     "ITEM=sword", //
                     "ITEM=leather armor", //
                     "ITEM=backpack", //
-                    "BOOK_ENTRY=1|Hallway|VISITED|my first entry note@my second entry note", //
-                    "BOOK_ENTRY=261|Library|VISITED|", //
-                    "BOOK_ENTRY=54|Untitled|UNVISITED|", //
+                    "BOOK_ENTRY=1|Hallway|VISITED|NORMAL|my first entry note@my second entry note", //
+                    "BOOK_ENTRY=261|Library|VISITED|WAY_POINT|", //
+                    "BOOK_ENTRY=54|Untitled|UNVISITED|NORMAL|", //
                     "LABELED_EDGE=1|261|upstairs", //
                     "LABELED_EDGE=1|54|downstairs", //
                     "ACTION=upstairs|1|261")
@@ -220,6 +221,8 @@ internal class BookStoreTest {
             assertThat(importedBook.getActionsToUnvisitedEntries()).containsExactly(Action("downstairs", BookEntry(1), BookEntry(54)))
             assertThat(importedBook.getEntryId()).isEqualTo(261)
             assertThat(importedBook.getEntryTitle()).isEqualTo("Library")
+            assertThat(importedBook.getEntryVisit()).isEqualTo(Visit.VISITED)
+            assertThat(importedBook.getEntryWayMark()).isEqualTo(WayMark.WAY_POINT)
             assertThat(importedBook.getPerformedActions()).containsExactly(Action("upstairs", BookEntry(1), BookEntry(261)))
             assertThat(importedBook.getPerformedActions()[0].source.note).isEqualTo("""
                 my first entry note

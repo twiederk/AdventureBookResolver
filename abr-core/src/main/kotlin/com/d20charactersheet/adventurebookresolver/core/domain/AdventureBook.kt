@@ -42,6 +42,8 @@ class AdventureBook(
 
     fun getEntryTitle(): String = currentBookEntry.title
 
+    fun getEntryWayMark(): WayMark = currentBookEntry.wayMark
+
     fun addAction(label: String, id: Int) {
         val bookEntry = createOrGetBookEntry(id)
         graph.addVertex(bookEntry)
@@ -83,12 +85,12 @@ class AdventureBook(
     fun getPerformedActions(): List<Action> = performedActions.toList()
 
     fun getPath(): List<BookEntry> {
-        val path = mutableListOf<BookEntry>(getBookEntry(1))
+        val path = mutableListOf(getBookEntry(1))
         performedActions.forEach { path.add(it.destination) }
         return path
     }
 
-    private fun getBookEntry(id: Int) = graph.vertexSet().filter { it.id == id }[0]
+    fun getBookEntry(id: Int): BookEntry = graph.vertexSet().filter { it.id == id }[0]
 
     fun getActionsToUnvisitedEntries(): List<Action> =
             graph.vertexSet() //
@@ -157,5 +159,15 @@ class AdventureBook(
             editProvisions(-1)
         }
     }
+
+    fun solve(): List<List<BookEntry>> = BookSolver().solve(graph, getBookEntry(1), getWayPoints())
+
+    fun setWayPoint() {
+        currentBookEntry.wayMark = WayMark.WAY_POINT
+    }
+
+    fun isWayPoint(): Boolean = currentBookEntry.wayMark == WayMark.WAY_POINT
+
+    fun getWayPoints(): List<BookEntry> = graph.vertexSet().filter { it.wayMark == WayMark.WAY_POINT }
 
 }

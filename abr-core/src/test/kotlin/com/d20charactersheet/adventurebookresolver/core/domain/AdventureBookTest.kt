@@ -271,6 +271,27 @@ internal class AdventureBookTest {
             // Assert
             assertThat(underTest.attributes.strength.value).isEqualTo(8)
         }
+
+        @Test
+        fun `is way point`() {
+            // Act
+            val wayPoint = underTest.isWayPoint()
+
+            // Assert
+            assertThat(wayPoint).isFalse()
+        }
+
+        @Test
+        fun `set way point`() {
+            // Arrange
+            val underTest = AdventureBook()
+
+            // Act
+            underTest.setWayPoint()
+
+            // Assert
+            assertThat(underTest.isWayPoint())
+        }
     }
 
     @Nested
@@ -351,8 +372,6 @@ internal class AdventureBookTest {
 
         @Test
         fun `get list of actions to unvisited entries`() {
-            // Arrange
-
             // Act
             val openActions = underTest.getActionsToUnvisitedEntries()
 
@@ -362,6 +381,21 @@ internal class AdventureBookTest {
                     Action("downstairs", BookEntry(1), BookEntry(54)))
         }
 
+        @Test
+        fun `get list of way points`() {
+            // Arrange
+            underTest.apply {
+                setWayPoint()
+                moveToBookEntry(261)
+                setWayPoint()
+            }
+
+            // Act
+            val wayPoints = underTest.getWayPoints()
+
+            // Assert
+            assertThat(wayPoints).containsExactly(BookEntry(1), BookEntry(261))
+        }
     }
 
     @Nested
@@ -545,4 +579,35 @@ internal class AdventureBookTest {
         }
     }
 
+    @Nested
+    inner class WayPointTest {
+
+        @Test
+        fun `zero way points`() {
+            // Arrange
+
+            // Act
+            val solutions = AdventureBook().solve()
+
+            // Assert
+            assertThat(solutions).isEmpty()
+        }
+
+        @Test
+        fun `one way point`() {
+            // Arrange
+            val underTest = AdventureBook().apply {
+                addAction("to way point", 2)
+                moveToBookEntry(2)
+                setWayPoint()
+                restart()
+            }
+
+            // Act
+            val solutions = underTest.solve()
+
+            // Assert
+            assertThat(solutions).hasSize(1)
+        }
+    }
 }
