@@ -105,7 +105,7 @@ internal class BookSolverTest {
                 addAction("to two", 2)
                 moveToBookEntry(2)
                 setEntryTitle("Two")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
             }
 
             // Act
@@ -125,11 +125,11 @@ internal class BookSolverTest {
                 addAction("to three", 3)
                 moveToBookEntry(2)
                 setEntryTitle("Two")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 addAction("to three", 3)
                 moveToBookEntry(3)
                 setEntryTitle("Three")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
             }
 
             // Act
@@ -150,16 +150,16 @@ internal class BookSolverTest {
                 addAction("to four", 4)
                 moveToBookEntry(2)
                 setEntryTitle("Two")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 addAction("to four", 4)
                 moveToBookEntry(4)
                 setEntryTitle("Four")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 restart()
                 moveToBookEntry(3)
                 setEntryTitle("Three")
                 addAction("to four", 4)
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
             }
 
             // Act
@@ -179,17 +179,17 @@ internal class BookSolverTest {
                 addAction("to four", 4)
                 moveToBookEntry(2)
                 setEntryTitle("Two")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 addAction("to four", 4)
                 addAction("to three", 3)
                 moveToBookEntry(4)
                 setEntryTitle("Four")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 restart()
                 moveToBookEntry(3)
                 setEntryTitle("Three")
                 addAction("to four", 4)
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
             }
 
             // Act
@@ -210,18 +210,18 @@ internal class BookSolverTest {
                 addAction("to four", 4)
                 moveToBookEntry(2)
                 setEntryTitle("Two")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 addAction("to four", 4)
                 addAction("to three", 3)
                 moveToBookEntry(4)
                 setEntryTitle("Four")
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 restart()
                 moveToBookEntry(3)
                 setEntryTitle("Three")
                 addAction("to two", 2)
                 addAction("to four", 4)
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
             }
 
             // Act

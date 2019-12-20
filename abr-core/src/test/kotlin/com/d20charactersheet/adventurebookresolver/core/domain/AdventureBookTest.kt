@@ -275,22 +275,22 @@ internal class AdventureBookTest {
         @Test
         fun `is way point`() {
             // Act
-            val wayPoint = underTest.isWayPoint()
+            val wayPoint = underTest.isEntryWayPoint()
 
             // Assert
             assertThat(wayPoint).isFalse()
         }
 
         @Test
-        fun `set way point`() {
+        fun `set way mark as way point`() {
             // Arrange
             val underTest = AdventureBook()
 
             // Act
-            underTest.setWayPoint()
+            underTest.setEntryWayMark(WayMark.WAY_POINT)
 
             // Assert
-            assertThat(underTest.isWayPoint())
+            assertThat(underTest.isEntryWayPoint())
         }
     }
 
@@ -385,9 +385,9 @@ internal class AdventureBookTest {
         fun `get list of way points`() {
             // Arrange
             underTest.apply {
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 moveToBookEntry(261)
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
             }
 
             // Act
@@ -599,7 +599,7 @@ internal class AdventureBookTest {
             val underTest = AdventureBook().apply {
                 addAction("to way point", 2)
                 moveToBookEntry(2)
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 restart()
             }
 

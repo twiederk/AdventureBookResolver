@@ -33,7 +33,7 @@ internal class BookStoreTest {
                 addAction("upstairs", 261)
                 addAction("downstairs", 54)
                 moveToBookEntry(261)
-                setWayPoint()
+                setEntryWayMark(WayMark.WAY_POINT)
                 setEntryTitle("Library")
             }
         }

@@ -162,11 +162,11 @@ class AdventureBook(
 
     fun solve(): List<List<BookEntry>> = BookSolver().solve(graph, getBookEntry(1), getWayPoints())
 
-    fun setWayPoint() {
-        currentBookEntry.wayMark = WayMark.WAY_POINT
+    fun setEntryWayMark(wayMark: WayMark) {
+        currentBookEntry.wayMark = wayMark
     }
 
-    fun isWayPoint(): Boolean = currentBookEntry.wayMark == WayMark.WAY_POINT
+    fun isEntryWayPoint(): Boolean = currentBookEntry.wayMark == WayMark.WAY_POINT
 
     fun getWayPoints(): List<BookEntry> = graph.vertexSet().filter { it.wayMark == WayMark.WAY_POINT }
 
