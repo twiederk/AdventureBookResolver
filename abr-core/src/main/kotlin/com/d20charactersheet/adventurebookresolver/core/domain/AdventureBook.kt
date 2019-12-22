@@ -166,8 +166,6 @@ class AdventureBook(
         currentBookEntry.wayMark = wayMark
     }
 
-    fun isEntryWayPoint(): Boolean = currentBookEntry.wayMark == WayMark.WAY_POINT
-
     fun getWayPoints(): List<BookEntry> = graph.vertexSet().filter { it.wayMark == WayMark.WAY_POINT }
 
 }

@@ -273,15 +273,6 @@ internal class AdventureBookTest {
         }
 
         @Test
-        fun `is way point`() {
-            // Act
-            val wayPoint = underTest.isEntryWayPoint()
-
-            // Assert
-            assertThat(wayPoint).isFalse()
-        }
-
-        @Test
         fun `set way mark as way point`() {
             // Arrange
             val underTest = AdventureBook()
@@ -290,7 +281,7 @@ internal class AdventureBookTest {
             underTest.setEntryWayMark(WayMark.WAY_POINT)
 
             // Assert
-            assertThat(underTest.isEntryWayPoint())
+            assertThat(underTest.getEntryWayMark()).isEqualTo(WayMark.WAY_POINT)
         }
     }
 
