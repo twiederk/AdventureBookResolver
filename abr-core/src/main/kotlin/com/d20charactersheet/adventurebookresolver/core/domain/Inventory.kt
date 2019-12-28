@@ -9,7 +9,11 @@ class Inventory(gold: Int = 0, provisions: Int = 10, val items: MutableList<Item
 
     fun addItem(name: String) = items.add(Item(name))
 
-    fun clear() = items.clear()
+    fun clear() {
+        provisions = 10
+        gold = 0
+        items.clear()
+    }
 
     fun removeItem(index: Int) {
         if (index < items.size && index >= 0) {

@@ -140,6 +140,9 @@ internal class AdventureBookTest {
                 setEntryTitle("Library")
                 addAction("Take a book", 200)
                 addItemToInventory("Book")
+                eatProvision()
+                editGold(4)
+
             }
             val attributes = underTest.attributes
 
@@ -156,6 +159,8 @@ internal class AdventureBookTest {
             assertThat(underTest.tries).isEqualTo(2)
             assertThat(underTest.getItems()).isEmpty()
             assertThat(underTest.attributes).isNotSameAs(attributes)
+            assertThat(underTest.getProvisions()).isEqualTo(10)
+            assertThat(underTest.getGold()).isEqualTo(0)
         }
 
         @Test
