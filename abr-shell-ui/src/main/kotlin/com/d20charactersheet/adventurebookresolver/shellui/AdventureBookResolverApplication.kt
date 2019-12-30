@@ -15,7 +15,7 @@ class AdventureBookResolverApplication {
     fun bookStore() = com.d20charactersheet.adventurebookresolver.core.domain.BookStore()
 
     @Bean
-    fun bookRenderer() = com.d20charactersheet.adventurebookresolver.core.domain.BookRenderer()
+    fun bookRenderer() = com.d20charactersheet.adventurebookresolver.shellui.render.BookRenderer()
 
     @Bean
     fun die() = com.d20charactersheet.adventurebookresolver.core.domain.Die()

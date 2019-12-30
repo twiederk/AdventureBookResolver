@@ -1,5 +1,9 @@
-package com.d20charactersheet.adventurebookresolver.core.domain
+package com.d20charactersheet.adventurebookresolver.shellui.render
 
+import com.d20charactersheet.adventurebookresolver.core.domain.AdventureBook
+import com.d20charactersheet.adventurebookresolver.core.domain.BookEntry
+import com.d20charactersheet.adventurebookresolver.core.domain.LabeledEdge
+import com.d20charactersheet.adventurebookresolver.core.domain.Visit
 import com.mxgraph.layout.mxCompactTreeLayout
 import com.mxgraph.util.mxCellRenderer
 import org.jgrapht.ext.JGraphXAdapter

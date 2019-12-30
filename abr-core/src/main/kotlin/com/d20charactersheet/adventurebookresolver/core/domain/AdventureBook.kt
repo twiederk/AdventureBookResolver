@@ -23,7 +23,7 @@ class AdventureBook(
         private set
     var inventory = inventory
         private set
-    internal val graph: Graph<BookEntry, LabeledEdge> = SimpleDirectedGraph(LabeledEdge::class.java)
+    val graph: Graph<BookEntry, LabeledEdge> = SimpleDirectedGraph(LabeledEdge::class.java)
     private var currentBookEntry: BookEntry
     private val performedActions: MutableList<Action> = mutableListOf()
 

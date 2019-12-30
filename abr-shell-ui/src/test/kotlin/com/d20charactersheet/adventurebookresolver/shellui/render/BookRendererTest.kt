@@ -1,5 +1,6 @@
-package com.d20charactersheet.adventurebookresolver.core.domain
+package com.d20charactersheet.adventurebookresolver.shellui.render
 
+import com.d20charactersheet.adventurebookresolver.core.domain.AdventureBook
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.nio.file.Files
