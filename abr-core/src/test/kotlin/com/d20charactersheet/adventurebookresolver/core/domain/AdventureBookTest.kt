@@ -196,7 +196,7 @@ internal class AdventureBookTest {
         }
 
         @Test
-        fun `search notes`() {
+        fun `search entry notes`() {
             // Arrange
             underTest.apply {
                 setEntryNote("Start of adventure")
@@ -210,7 +210,29 @@ internal class AdventureBookTest {
         }
 
         @Test
-        fun `search notes with no match`() {
+        fun `search entry notes with no match`() {
+
+            // Act
+            val bookEntries = underTest.search("start")
+
+            // Assert
+            assertThat(bookEntries).isEmpty()
+        }
+
+        @Test
+        fun `search entry title`() {
+            // Arrange
+            underTest.setEntryTitle("start")
+
+            // Act
+            val bookEntries = underTest.search("start")
+
+            // Assert
+            assertThat(bookEntries).containsExactly(BookEntry(1))
+        }
+
+        @Test
+        fun `search entry title with no match`() {
 
             // Act
             val bookEntries = underTest.search("start")

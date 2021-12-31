@@ -121,7 +121,9 @@ class AdventureBook(
         }
     }
 
-    fun search(criteria: String): List<BookEntry> = graph.vertexSet().filter { it.note.contains(criteria, true) }.toList()
+    fun search(criteria: String): List<BookEntry> = graph.vertexSet()
+        .filter { it.note.contains(criteria, true) || it.title.contains(criteria, true) }
+        .toList()
 
     fun delete(entryId: Int) {
         val bookEntry = getBookEntry(entryId)
