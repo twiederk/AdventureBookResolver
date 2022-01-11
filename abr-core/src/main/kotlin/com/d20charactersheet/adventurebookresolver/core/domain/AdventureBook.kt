@@ -5,16 +5,17 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.SimpleDirectedGraph
 
 
+@Suppress("BooleanMethodIsAlwaysInverted")
 class AdventureBook(
-        val title: String = ADVENTURE_BOOK_DEFAULT_TITLE,
-        var note: String = "",
-        tries: Int = 1,
-        vertices: Map<Int, BookEntry> = mapOf(),
-        currentBookEntryId: Int = 1,
-        edges: List<Action> = listOf(),
-        actions: List<Action> = listOf(),
-        inventory: Inventory = Inventory(),
-        attributes: Attributes = Attributes()) {
+    val title: String = ADVENTURE_BOOK_DEFAULT_TITLE,
+    var note: String = "",
+    tries: Int = 1,
+    vertices: Map<Int, BookEntry> = mapOf(),
+    currentBookEntryId: Int = 1,
+    edges: List<Action> = listOf(),
+    actions: List<Action> = listOf(),
+    inventory: Inventory = Inventory(),
+    attributes: Attributes = Attributes()) {
 
     val totalNumberOfBookEntries: Int = 400
     var tries = tries
@@ -73,9 +74,9 @@ class AdventureBook(
     fun getEntryVisit(): Visit = currentBookEntry.visit
 
     fun getActions(): Set<Action> =
-            graph.outgoingEdgesOf(currentBookEntry) //
-                    .map { Action(it.label, currentBookEntry, graph.getEdgeTarget(it)) } //
-                    .toSet()
+        graph.outgoingEdgesOf(currentBookEntry) //
+            .map { Action(it.label, currentBookEntry, graph.getEdgeTarget(it)) } //
+            .toSet()
 
 
     fun getNextBookEntries(): Set<BookEntry> = graph.outgoingEdgesOf(currentBookEntry).map { edge -> graph.getEdgeTarget(edge) }.toSet()
@@ -93,10 +94,10 @@ class AdventureBook(
     fun getBookEntry(id: Int): BookEntry = graph.vertexSet().filter { it.id == id }[0]
 
     fun getActionsToUnvisitedEntries(): List<Action> =
-            graph.vertexSet() //
-                    .filter { it.visit == Visit.UNVISITED } //
-                    .flatMap { graph.incomingEdgesOf(it) }
-                    .map { Action(it.label, graph.getEdgeSource(it), graph.getEdgeTarget(it)) }
+        graph.vertexSet() //
+            .filter { it.visit == Visit.UNVISITED } //
+            .flatMap { graph.incomingEdgesOf(it) }
+            .map { Action(it.label, graph.getEdgeSource(it), graph.getEdgeTarget(it)) }
 
     fun setEntryNote(note: String) {
         currentBookEntry.note = note
@@ -122,7 +123,11 @@ class AdventureBook(
     }
 
     fun search(criteria: String): List<BookEntry> = graph.vertexSet()
-        .filter { it.note.contains(criteria, true) || it.title.contains(criteria, true) }
+        .filter {
+            it.note.contains(criteria, true)
+                    || it.title.contains(criteria, true)
+                    || it.id.toString() == criteria
+        }
         .toList()
 
     fun delete(entryId: Int) {

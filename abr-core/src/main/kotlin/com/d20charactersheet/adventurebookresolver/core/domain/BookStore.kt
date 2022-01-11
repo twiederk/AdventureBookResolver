@@ -23,10 +23,10 @@ class BookStore {
     }
 
     private fun StringBuilder.exportBook(book: AdventureBook) {
-        appendln("TITLE=${removeDelimiter(book.title)}")
-        appendln("NOTE=${removeDelimiter(removeLineBreaks(book.note))}")
-        appendln("TRIES=${book.tries}")
-        appendln("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
+        appendLine("TITLE=${removeDelimiter(book.title)}")
+        appendLine("NOTE=${removeDelimiter(removeLineBreaks(book.note))}")
+        appendLine("TRIES=${book.tries}")
+        appendLine("CURRENT_BOOK_ENTRY=${book.getEntryId()}")
     }
 
 
@@ -37,21 +37,38 @@ class BookStore {
     }
 
     private fun StringBuilder.exportAttribute(attribute: Attribute) {
-        appendln("${attribute.name}=${attribute.value}|${attribute.maxValue}")
+        appendLine("${attribute.name}=${attribute.value}|${attribute.maxValue}")
     }
 
     private fun StringBuilder.exportInventory(inventory: Inventory) {
-        appendln("GOLD=${inventory.gold}")
-        appendln("PROVISIONS=${inventory.provisions}")
-        inventory.items.forEach { item -> appendln("ITEM=${removeDelimiter(item.name)}") }
+        appendLine("GOLD=${inventory.gold}")
+        appendLine("PROVISIONS=${inventory.provisions}")
+        inventory.items.forEach { item -> appendLine("ITEM=${removeDelimiter(item.name)}") }
     }
 
     private fun StringBuilder.exportGraph(book: AdventureBook) {
         with(book.graph) {
-            vertexSet().forEach { entry -> appendln("BOOK_ENTRY=${entry.id}|${removeDelimiter(entry.title)}|${entry.visit}|${entry.wayMark}|${removeDelimiter(removeLineBreaks(entry.note))}") }
-            edgeSet().forEach { edge -> appendln("LABELED_EDGE=${getEdgeSource(edge).id}|${getEdgeTarget(edge).id}|${removeDelimiter(edge.label)}") }
+            vertexSet().forEach { entry ->
+                appendLine(
+                    "BOOK_ENTRY=${entry.id}|${removeDelimiter(entry.title)}|${entry.visit}|${entry.wayMark}|${
+                        removeDelimiter(
+                            removeLineBreaks(entry.note)
+                        )
+                    }"
+                )
+            }
+            edgeSet().forEach { edge ->
+                appendLine(
+                    "LABELED_EDGE=${getEdgeSource(edge).id}|${getEdgeTarget(edge).id}|${
+                        removeDelimiter(
+                            edge.label
+                        )
+                    }"
+                )
+            }
         }
-        book.getPerformedActions().forEach { action -> appendln("ACTION=${removeDelimiter(action.label)}|${action.source.id}|${action.destination.id}") }
+        book.getPerformedActions()
+            .forEach { action -> appendLine("ACTION=${removeDelimiter(action.label)}|${action.source.id}|${action.destination.id}") }
     }
 
     private fun removeDelimiter(input: String) = input.replace('|', ' ')
@@ -148,7 +165,7 @@ class BookStore {
                 .filter { s -> s.startsWith("BOOK_ENTRY") }
                 .map { s -> s.split('|') }
                 .map { a -> BookEntry(a[0].substring("BOOK_ENTRY".length + 1).toInt(), a[1], Visit.valueOf(a[2]), WayMark.valueOf(a[3]), addLineBreaks(a[4])) }
-        return bookEntries.map { it.id to it }.toMap()
+        return bookEntries.associateBy { it.id }
     }
 
 

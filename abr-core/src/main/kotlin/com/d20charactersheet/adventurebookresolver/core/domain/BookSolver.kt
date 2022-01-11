@@ -63,7 +63,7 @@ class BookSolver {
 
     private fun solve(graph: Graph<BookEntry, LabeledEdge>, startPoint: BookEntry, wayPoints: List<BookEntry>, shortestPathAlgorithm: DijkstraShortestPath<BookEntry, LabeledEdge>): List<BookEntry>? {
         var startEntry = startPoint
-        var solutionPath = GraphWalk<BookEntry, LabeledEdge>(graph, listOf(startPoint), 1.0)
+        var solutionPath = GraphWalk(graph, listOf(startPoint), 1.0)
         val walkWeightCalculator: Function<GraphWalk<BookEntry, LabeledEdge>, Double> = Function { 1.0 }
 
         for (wayPoint in wayPoints) {

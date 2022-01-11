@@ -242,6 +242,38 @@ internal class AdventureBookTest {
         }
 
         @Test
+        fun `search entry id`() {
+
+            // Act
+            val bookEntries = underTest.search("1")
+
+            // Assert
+            assertThat(bookEntries).containsExactly(BookEntry(1))
+        }
+
+        @Test
+        fun `search entry id and find only exact matches of the id`() {
+            // Arrange
+            underTest.addAction("myAction", 11)
+
+            // Act
+            val bookEntries = underTest.search("1")
+
+            // Assert
+            assertThat(bookEntries).containsExactly(BookEntry(1))
+        }
+
+        @Test
+        fun `search entry id with no match`() {
+
+            // Act
+            val bookEntries = underTest.search("2")
+
+            // Assert
+            assertThat(bookEntries).isEmpty()
+        }
+
+        @Test
         fun `delete action with entry`() {
             // Arrange
             underTest.apply {
