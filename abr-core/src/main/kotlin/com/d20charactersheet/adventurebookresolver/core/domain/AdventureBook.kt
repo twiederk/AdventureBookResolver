@@ -15,7 +15,8 @@ class AdventureBook(
     edges: List<Action> = listOf(),
     actions: List<Action> = listOf(),
     inventory: Inventory = Inventory(),
-    attributes: Attributes = Attributes()) {
+    attributes: Attributes = Attributes()
+) {
 
     val totalNumberOfBookEntries: Int = 400
     var tries = tries
@@ -79,7 +80,8 @@ class AdventureBook(
             .toSet()
 
 
-    fun getNextBookEntries(): Set<BookEntry> = graph.outgoingEdgesOf(currentBookEntry).map { edge -> graph.getEdgeTarget(edge) }.toSet()
+    fun getNextBookEntries(): Set<BookEntry> =
+        graph.outgoingEdgesOf(currentBookEntry).map { edge -> graph.getEdgeTarget(edge) }.toSet()
 
     fun getAllBookEntries(): Set<BookEntry> = graph.vertexSet()
 
@@ -167,7 +169,8 @@ class AdventureBook(
         }
     }
 
-    fun solve(): List<List<BookEntry>> = BookSolver().solve(graph, getBookEntry(1), getWayPoints())
+    fun solve(bookSolverListener: BookSolverListener): List<Solution> =
+        BookSolver(bookSolverListener).solveBook(graph, getBookEntry(1), getWayPoints())
 
     fun setEntryWayMark(wayMark: WayMark) {
         currentBookEntry.wayMark = wayMark

@@ -637,7 +637,7 @@ internal class AdventureBookTest {
             // Arrange
 
             // Act
-            val solutions = AdventureBook().solve()
+            val solutions = AdventureBook().solve(EmptyBookSolverListener())
 
             // Assert
             assertThat(solutions).isEmpty()
@@ -654,7 +654,7 @@ internal class AdventureBookTest {
             }
 
             // Act
-            val solutions = underTest.solve()
+            val solutions = underTest.solve(EmptyBookSolverListener())
 
             // Assert
             assertThat(solutions).hasSize(1)

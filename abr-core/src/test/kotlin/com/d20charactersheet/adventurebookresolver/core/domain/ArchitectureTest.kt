@@ -17,7 +17,8 @@ class ArchitectureTest {
 
         // Act
         val rule: ArchRule =
-            SlicesRuleDefinition.slices().matching("com.d20charactersheet.finance.(**)").should().beFreeOfCycles()
+            SlicesRuleDefinition.slices().matching("com.d20charactersheet.adventurebookresolver.core.(**)")
+                .should().beFreeOfCycles()
 
         // Assert
         rule.check(classes)

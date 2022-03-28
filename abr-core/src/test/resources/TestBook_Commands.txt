@@ -1,0 +1,2 @@
+load abr-core/src/test/resources/TestBook
+
