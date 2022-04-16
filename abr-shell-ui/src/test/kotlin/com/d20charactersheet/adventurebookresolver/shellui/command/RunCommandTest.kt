@@ -2,10 +2,10 @@ package com.d20charactersheet.adventurebookresolver.shellui.command
 
 import com.d20charactersheet.adventurebookresolver.core.domain.Visit
 import com.d20charactersheet.adventurebookresolver.core.domain.WayMark
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.springframework.beans.factory.annotation.Autowired
 
 internal class RunCommandTest : BaseConsoleCommandTest() {

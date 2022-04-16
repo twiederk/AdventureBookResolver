@@ -1,8 +1,8 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.springframework.beans.factory.annotation.Autowired
 
 internal class RemoveItemFromInventoryCommandTest : BaseConsoleCommandTest() {

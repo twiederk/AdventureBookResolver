@@ -1,8 +1,8 @@
 package com.d20charactersheet.adventurebookresolver.shellui.services
 
-import com.nhaarman.mockitokotlin2.inOrder
-import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
 import java.io.PrintStream
 
 class ConsoleServiceTest {

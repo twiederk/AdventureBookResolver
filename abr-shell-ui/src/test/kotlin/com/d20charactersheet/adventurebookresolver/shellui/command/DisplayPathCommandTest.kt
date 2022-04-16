@@ -1,7 +1,7 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.nhaarman.mockitokotlin2.inOrder
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.inOrder
 import org.springframework.beans.factory.annotation.Autowired
 
 internal class DisplayPathCommandTest : BaseConsoleCommandTest() {

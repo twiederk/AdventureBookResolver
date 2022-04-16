@@ -1,9 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
 import com.d20charactersheet.adventurebookresolver.core.domain.WayMark
-import com.nhaarman.mockitokotlin2.inOrder
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.startsWith
+import org.mockito.kotlin.inOrder
 import org.springframework.beans.factory.annotation.Autowired
 
 class SolveCommandTest : BaseConsoleCommandTest() {
@@ -55,7 +55,7 @@ class SolveCommandTest : BaseConsoleCommandTest() {
         inOrder.verify(consoleService).write("Number of way points: 3")
         inOrder.verify(consoleService).write(startsWith("Begin of calculation: "))
         inOrder.verify(consoleService).write(startsWith("End of calculation: "))
-        inOrder.verify(consoleService).write("Solution 0 with 4 entries")
+        inOrder.verify(consoleService).write("Solution 1 of 1 with 4 entries")
         inOrder.verify(consoleService).write("(1) - One")
         inOrder.verify(consoleService).write("(2) - Two")
         inOrder.verify(consoleService).write("(3) - Three")

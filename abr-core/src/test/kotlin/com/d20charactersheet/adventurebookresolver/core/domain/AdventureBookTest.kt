@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.mock
 
 internal class AdventureBookTest {
 
@@ -58,7 +59,8 @@ internal class AdventureBookTest {
             // Assert
             assertThat(underTest.getAllBookEntries()).extracting("id").hasSameElementsAs(setOf(1, 261))
             assertThat(underTest.getActions()).extracting("label").containsExactly("upstairs")
-            assertThat(underTest.getNextBookEntries()).containsExactly(BookEntry(261)).extracting("visit").containsExactly(Visit.UNVISITED)
+            assertThat(underTest.getNextBookEntries()).containsExactly(BookEntry(261)).extracting("visit")
+                .containsExactly(Visit.UNVISITED)
         }
 
         @Test
@@ -154,7 +156,12 @@ internal class AdventureBookTest {
             assertThat(underTest.getEntryVisit()).isEqualTo(Visit.VISITED)
             assertThat(underTest.getEntryTitle()).isEqualTo("Introduction")
             assertThat(underTest.getAllBookEntries()).hasSize(4)
-            assertThat(underTest.getAllBookEntries().map { it.visit }).containsExactlyInAnyOrder(Visit.VISITED, Visit.VISITED, Visit.UNVISITED, Visit.UNVISITED)
+            assertThat(underTest.getAllBookEntries().map { it.visit }).containsExactlyInAnyOrder(
+                Visit.VISITED,
+                Visit.VISITED,
+                Visit.UNVISITED,
+                Visit.UNVISITED
+            )
             assertThat(underTest.getPerformedActions()).isEmpty()
             assertThat(underTest.tries).isEqualTo(2)
             assertThat(underTest.getItems()).isEmpty()
@@ -191,8 +198,9 @@ internal class AdventureBookTest {
             assertThat(underTest.getEntryTitle()).isEqualTo("Select book to take")
             assertThat(underTest.getPath()).containsExactly(BookEntry(1), BookEntry(100), BookEntry(300))
             assertThat(underTest.getPerformedActions()).containsExactly(
-                    Action("upstairs", BookEntry(1), BookEntry(100)), //
-                    Action("take book", BookEntry(100), BookEntry(300))) //
+                Action("upstairs", BookEntry(1), BookEntry(100)), //
+                Action("take book", BookEntry(100), BookEntry(300))
+            ) //
         }
 
         @Test
@@ -364,8 +372,9 @@ internal class AdventureBookTest {
 
             // Assert
             assertThat(actions).containsExactlyInAnyOrder( //
-                    Action("upstairs", BookEntry(1), BookEntry(261)), //
-                    Action("downstairs", BookEntry(1), BookEntry(54)))
+                Action("upstairs", BookEntry(1), BookEntry(261)), //
+                Action("downstairs", BookEntry(1), BookEntry(54))
+            )
         }
 
         @Test
@@ -374,7 +383,8 @@ internal class AdventureBookTest {
             val bookEntries: Set<BookEntry> = underTest.getNextBookEntries()
 
             // Assert
-            assertThat(bookEntries).extracting("title").containsExactly(BOOK_ENTRY_DEFAULT_TITLE, BOOK_ENTRY_DEFAULT_TITLE)
+            assertThat(bookEntries).extracting("title")
+                .containsExactly(BOOK_ENTRY_DEFAULT_TITLE, BOOK_ENTRY_DEFAULT_TITLE)
         }
 
         @Test
@@ -400,8 +410,9 @@ internal class AdventureBookTest {
 
             // Assert
             assertThat(performedActions).containsExactly( //
-                    Action("upstairs", BookEntry(1), BookEntry(261)), //
-                    Action("downstairs", BookEntry(261), BookEntry(1))) //
+                Action("upstairs", BookEntry(1), BookEntry(261)), //
+                Action("downstairs", BookEntry(261), BookEntry(1))
+            ) //
         }
 
         @Test
@@ -427,8 +438,9 @@ internal class AdventureBookTest {
 
             // Assert
             assertThat(openActions).containsExactlyInAnyOrder( //
-                    Action("upstairs", BookEntry(1), BookEntry(261)), //
-                    Action("downstairs", BookEntry(1), BookEntry(54)))
+                Action("upstairs", BookEntry(1), BookEntry(261)), //
+                Action("downstairs", BookEntry(1), BookEntry(54))
+            )
         }
 
         @Test
@@ -616,8 +628,8 @@ internal class AdventureBookTest {
         fun `eat provision only if you have a provision to eat`() {
             // Arrange
             val underTest = AdventureBook( //
-                    attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)),
-                    inventory = Inventory(provisions = 0)
+                attributes = Attributes(strength = Attribute(AttributeName.STRENGTH, 10, 20)),
+                inventory = Inventory(provisions = 0)
             )
 
             // Act
@@ -630,34 +642,150 @@ internal class AdventureBookTest {
     }
 
     @Nested
-    inner class WayPointTest {
+    inner class SolutionTest {
 
         @Test
-        fun `zero way points`() {
-            // Arrange
+        fun `should find no solution when no way points are set`() {
 
             // Act
-            val solutions = AdventureBook().solve(EmptyBookSolverListener())
+            val solutions = AdventureBook().solve(mock())
 
             // Assert
             assertThat(solutions).isEmpty()
         }
 
         @Test
-        fun `one way point`() {
+        fun `should find one solution when only one way point is set (1_WayPoints_jpg)`() {
             // Arrange
             val underTest = AdventureBook().apply {
-                addAction("to way point", 2)
+                addAction("to two", 2)
                 moveToBookEntry(2)
                 setEntryWayMark(WayMark.WAY_POINT)
-                restart()
             }
 
             // Act
-            val solutions = underTest.solve(EmptyBookSolverListener())
+            val solutions = underTest.solve(mock())
 
             // Assert
             assertThat(solutions).hasSize(1)
+            assertThat(solutions[0].solutionPath).containsExactly(BookEntry(1), BookEntry(2))
+        }
+
+        @Test
+        fun `should find the only possible solution in this book (2_WayPoints_jpg)`() {
+            // Arrange
+            val underTest = AdventureBook().apply {
+                addAction("to two", 2)
+                addAction("to three", 3)
+                moveToBookEntry(2)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("to three", 3)
+                moveToBookEntry(3)
+                setEntryWayMark(WayMark.WAY_POINT)
+            }
+
+            // Act
+            val solutions = underTest.solve(mock())
+
+            // Assert
+            assertThat(solutions).hasSize(1)
+            assertThat(solutions[0].solutionPath).containsExactly(BookEntry(1), BookEntry(2), BookEntry(3))
+        }
+
+        @Test
+        fun `should find no solution in this book (3_WayPoints_NoSolution_jpg)`() {
+            // Arrange
+            val underTest = AdventureBook().apply {
+                addAction("to two", 2)
+                addAction("to three", 3)
+                addAction("to four", 4)
+                moveToBookEntry(2)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("to four", 4)
+                moveToBookEntry(4)
+                setEntryWayMark(WayMark.WAY_POINT)
+                restart()
+                moveToBookEntry(3)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("to four", 4)
+            }
+
+            // Act
+            val solutions = underTest.solve(mock())
+
+            // Assert
+            assertThat(solutions).isEmpty()
+        }
+
+        @Test
+        fun `should find one solution in this book (3_WayPoints_OneSolution_jpg)`() {
+            // Arrange
+            val underTest = AdventureBook().apply {
+                addAction("to two", 2)
+                addAction("to three", 3)
+                addAction("to four", 4)
+                moveToBookEntry(2)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("to three", 3)
+                addAction("to four", 4)
+                moveToBookEntry(4)
+                setEntryWayMark(WayMark.WAY_POINT)
+                restart()
+                moveToBookEntry(3)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("to four", 4)
+            }
+
+            // Act
+            val solutions = underTest.solve(mock())
+
+            // Assert
+            assertThat(solutions).hasSize(1)
+            assertThat(solutions[0].solutionPath).containsExactly(
+                BookEntry(1),
+                BookEntry(2),
+                BookEntry(3),
+                BookEntry(4)
+            )
+        }
+
+        @Test
+        fun `should find two solutions in this book (3_WayPoints_TwoSolution_jpg)`() {
+            // Arrange
+            val underTest = AdventureBook().apply {
+                addAction("to two", 2)
+                addAction("to three", 3)
+                addAction("to four", 4)
+                moveToBookEntry(2)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("to three", 3)
+                addAction("to four", 4)
+                moveToBookEntry(4)
+                setEntryWayMark(WayMark.WAY_POINT)
+                restart()
+                moveToBookEntry(3)
+                setEntryWayMark(WayMark.WAY_POINT)
+                addAction("tow tow", 2)
+                addAction("to four", 4)
+            }
+
+            // Act
+            val solutions = underTest.solve(mock())
+
+            // Assert
+            assertThat(solutions).hasSize(2)
+            assertThat(solutions[0].solutionPath).containsExactly(
+                BookEntry(1),
+                BookEntry(2),
+                BookEntry(3),
+                BookEntry(4)
+            )
+            assertThat(solutions[1].solutionPath).containsExactly(
+                BookEntry(1),
+                BookEntry(3),
+                BookEntry(2),
+                BookEntry(4)
+            )
         }
     }
 }

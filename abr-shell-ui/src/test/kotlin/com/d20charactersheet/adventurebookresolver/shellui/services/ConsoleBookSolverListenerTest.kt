@@ -1,9 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.shellui.services
 
 import com.d20charactersheet.adventurebookresolver.core.domain.BookEntry
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import java.time.LocalDateTime
 
 class ConsoleBookSolverListenerTest {
@@ -36,13 +36,12 @@ class ConsoleBookSolverListenerTest {
 
     @Test
     internal fun `should display max number of combinations to console`() {
-        // arrange
 
         // act
         consoleBookSolverListener.maxCombinations(10000)
 
         // assert
-        verify(consoleService).write("Max. combinations: 10000")
+        verify(consoleService).write("Max. combinations: 10.000")
 
     }
 
@@ -50,11 +49,10 @@ class ConsoleBookSolverListenerTest {
     internal fun `should display number of combinations to console`() {
 
         // act
-        consoleBookSolverListener.calculateCombinations(201)
+        consoleBookSolverListener.calculateCombinations(2010)
 
         // assert
-        verify(consoleService).write("Remaining combinations: 201")
-
+        verify(consoleService).write("Calculated combinations: 2.010")
     }
 
     @Test

@@ -166,7 +166,9 @@ internal class BookStoreTest {
 
             // Assert
             assertThat(savedBook.toString()).endsWith("myBook.abr")
-            assertThat(savedBook).hasSameContentAs(Paths.get("src/test/resources/expected_savedBook.abr").toAbsolutePath())
+            assertThat(savedBook).hasSameTextualContentAs(
+                Paths.get("src/test/resources/expected_savedBook.abr").toAbsolutePath()
+            )
 
             // tear down
             Files.delete(savedBook)

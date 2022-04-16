@@ -8,10 +8,10 @@ interface BookSolverListener {
 
     fun endCalculation(endTime: LocalDateTime)
 
-    fun calculateCombinations(numberOfCombinations: Int)
+    fun calculateCombinations(numberOfCombinations: Long)
 
     fun calculatePath(startEntry: BookEntry, wayPoint: BookEntry, numberOfEntries: Int?)
 
-    fun maxCombinations(maxCombinations: Int)
+    fun maxCombinations(maxCombinations: Long)
 
 }

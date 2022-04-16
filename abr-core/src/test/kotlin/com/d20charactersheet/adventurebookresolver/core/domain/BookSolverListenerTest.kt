@@ -1,9 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.core.domain
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 
 class BookSolverListenerTest {
 
@@ -32,7 +32,7 @@ class BookSolverListenerTest {
         val bookSolverListener: BookSolverListener = mock()
 
         // act
-        BookSolver(bookSolverListener).solveBook(book.graph, book.getBookEntry(1), book.getWayPoints())
+        ValidationBookSolver(book.graph, bookSolverListener).solveBook(book.getBookEntry(1), book.getWayPoints())
 
         // assert
         verify(bookSolverListener).beginCalculation(any())

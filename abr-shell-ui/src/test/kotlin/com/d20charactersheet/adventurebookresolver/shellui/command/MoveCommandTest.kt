@@ -1,9 +1,9 @@
 package com.d20charactersheet.adventurebookresolver.shellui.command
 
-import com.nhaarman.mockitokotlin2.inOrder
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.inOrder
 import org.springframework.beans.factory.annotation.Autowired
 
 internal class MoveCommandTest : BaseConsoleCommandTest() {

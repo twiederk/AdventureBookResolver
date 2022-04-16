@@ -16,9 +16,10 @@ class SolveCommand(
     @ShellMethod("solve book based on way points")
     fun solve() {
         consoleService.write("Number of way points: ${adventureBookResolver.book.getWayPoints().size}")
-        adventureBookResolver.book.solve(bookSolverListener).forEachIndexed { index, solution ->
-            consoleService.write("Solution $index with ${solution.solutionPath?.size} entries")
-            solution.solutionPath?.forEach { bookEntry ->
+        val solutions = adventureBookResolver.book.solve(bookSolverListener)
+        solutions.forEachIndexed { index, solution ->
+            consoleService.write("Solution ${index + 1} of ${solutions.size} with ${solution.solutionPath.size} entries")
+            solution.solutionPath.forEach { bookEntry ->
                 consoleService.write("(${bookEntry.id}) - ${bookEntry.title}")
             }
             consoleService.write("=====================")
