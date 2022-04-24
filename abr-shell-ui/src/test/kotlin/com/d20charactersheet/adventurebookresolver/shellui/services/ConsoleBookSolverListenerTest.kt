@@ -69,4 +69,14 @@ class ConsoleBookSolverListenerTest {
         verify(consoleService).write("(1) Start entry -> (2) Way Point: [2]")
     }
 
+    @Test
+    internal fun `should display number of found solutions`() {
+
+        // act
+        consoleBookSolverListener.foundSolution(3)
+
+        // assert
+        verify(consoleService).write("Found solution(s): 3")
+
+    }
 }

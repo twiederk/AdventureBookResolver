@@ -1,12 +1,10 @@
 package com.d20charactersheet.adventurebookresolver.core.domain
 
-import org.jgrapht.Graph
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import java.time.LocalDateTime.now
 import java.util.*
 
 class ValidationBookSolver(
-    private val graph: Graph<BookEntry, LabeledEdge>,
+    private val graphSolver: GraphSolver,
     private val bookSolverListener: BookSolverListener,
     private val factorialCalculator: FactorialCalculator = FactorialCalculator(),
     private val enableValidation: Boolean = true
@@ -58,12 +56,27 @@ class ValidationBookSolver(
             if (startIndex + 1 < wayPoints.size - 1) {
                 permute(rotatedList, startIndex + 1)
             } else {
-                numberOfCalculatedCombinations++
-                bookSolverListener.calculateCombinations(numberOfCalculatedCombinations)
-                solutions.add(Solution(rotatedList))
+                foundSolution(rotatedList)
             }
         }
         return solutions
+    }
+
+    private fun foundSolution(rotatedList: List<BookEntry>) {
+        increaseNumberOfCalculatedCombinations()
+        addSolution(rotatedList)
+    }
+
+    private fun addSolution(rotatedList: List<BookEntry>) {
+        val completePathOfSolution = graphSolver.completePathOfPermutation(rotatedList)
+        solutions.add(Solution(completePathOfSolution))
+        bookSolverListener.foundSolution(solutions.size)
+    }
+
+
+    private fun increaseNumberOfCalculatedCombinations() {
+        numberOfCalculatedCombinations++
+        bookSolverListener.calculateCombinations(numberOfCalculatedCombinations)
     }
 
     private fun isCombinationValid(
@@ -71,18 +84,15 @@ class ValidationBookSolver(
         startIndex: Int
     ): Boolean {
         for (index in 0..startIndex) {
-            if (!isConnectionValid(rotatedList[index], rotatedList[index + 1])) {
+            val startEntry = rotatedList[index]
+            val endEntry = rotatedList[index + 1]
+            val connection = graphSolver.calculatePath(startEntry, endEntry)
+            bookSolverListener.calculatePath(startEntry, endEntry, connection?.size)
+            if (connection == null) {
                 return false
             }
         }
         return true
-    }
-
-    private fun isConnectionValid(src: BookEntry, dest: BookEntry): Boolean {
-        val shortestPathAlgorithm = DijkstraShortestPath(graph)
-        val currentPath = shortestPathAlgorithm.getPath(src, dest)
-        bookSolverListener.calculatePath(src, dest, currentPath?.length)
-        return currentPath != null
     }
 
 }

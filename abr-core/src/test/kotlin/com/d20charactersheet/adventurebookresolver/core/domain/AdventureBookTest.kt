@@ -458,6 +458,15 @@ internal class AdventureBookTest {
             // Assert
             assertThat(wayPoints).containsExactly(BookEntry(1), BookEntry(261))
         }
+
+        @Test
+        fun `get entry by id`() {
+            // Act
+            val bookEntry = underTest.getBookEntry(1)
+
+            // Assert
+            assertThat(bookEntry.id).isEqualTo(1)
+        }
     }
 
     @Nested

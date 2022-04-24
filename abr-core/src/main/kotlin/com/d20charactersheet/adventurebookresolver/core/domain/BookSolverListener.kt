@@ -14,4 +14,6 @@ interface BookSolverListener {
 
     fun maxCombinations(maxCombinations: Long)
 
+    fun foundSolution(numberOfSolutions: Int)
+
 }

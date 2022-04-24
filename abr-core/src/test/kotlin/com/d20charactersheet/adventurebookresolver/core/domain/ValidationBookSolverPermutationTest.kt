@@ -1,13 +1,22 @@
 package com.d20charactersheet.adventurebookresolver.core.domain
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 class ValidationBookSolverPermutationTest {
 
+    private val graphSolver: GraphSolver = mock()
     private val validationBookSolver =
-        ValidationBookSolver(graph = mock(), bookSolverListener = mock(), enableValidation = false)
+        ValidationBookSolver(graphSolver, bookSolverListener = mock(), enableValidation = false)
+
+    @BeforeEach
+    fun beforeEach() {
+        whenever(graphSolver.completePathOfPermutation(any())).thenAnswer { it.arguments[0] }
+    }
 
     @Test
     internal fun `should find permutations of 2 elements`() {

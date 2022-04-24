@@ -40,6 +40,10 @@ class ConsoleBookSolverListener(val consoleService: ConsoleService) : BookSolver
         consoleService.write("Max. combinations: ${decimalFormat.format(maxCombinations)}")
     }
 
+    override fun foundSolution(numberOfSolutions: Int) {
+        consoleService.write("Found solution(s): $numberOfSolutions")
+    }
+
     fun formatDuration(duration: Duration): String? {
         val minutes = abs(duration.seconds) % 3600 / 60
         val seconds = abs(duration.seconds) % 60

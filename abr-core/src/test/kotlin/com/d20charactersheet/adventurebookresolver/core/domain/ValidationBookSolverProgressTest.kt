@@ -1,18 +1,17 @@
 package com.d20charactersheet.adventurebookresolver.core.domain
 
-import org.jgrapht.Graph
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 
 class ValidationBookSolverProgressTest {
 
     private val bookSolverListener: BookSolverListener = mock()
 
-    private lateinit var graph: Graph<BookEntry, LabeledEdge>
+    private lateinit var graphSolver: GraphSolver
 
     @BeforeEach
     fun beforeEach() {
@@ -24,14 +23,14 @@ class ValidationBookSolverProgressTest {
         book.addAction("to four", 4)
         book.moveToBookEntry(4)
         book.addAction("to five", 5)
-        graph = book.graph
+        graphSolver = GraphSolver(book.graph)
     }
 
     @Test
     internal fun `should emit start and end of calculation in proper order`() {
 
         // act
-        ValidationBookSolver(graph, bookSolverListener).solveBook(
+        ValidationBookSolver(graphSolver, bookSolverListener).solveBook(
             BookEntry(1),
             listOf(BookEntry(4), BookEntry(3), BookEntry(5), BookEntry(2))
         )
@@ -45,7 +44,7 @@ class ValidationBookSolverProgressTest {
     @Test
     internal fun `should emit max number of combinations`() {
         // act
-        ValidationBookSolver(graph, bookSolverListener).solveBook(
+        ValidationBookSolver(graphSolver, bookSolverListener).solveBook(
             BookEntry(1),
             listOf(BookEntry(4), BookEntry(3), BookEntry(5), BookEntry(2))
         )
@@ -58,7 +57,7 @@ class ValidationBookSolverProgressTest {
     @Test
     internal fun `should emit skipped combinations of combinations`() {
         // act
-        ValidationBookSolver(graph, bookSolverListener).solveBook(
+        ValidationBookSolver(graphSolver, bookSolverListener).solveBook(
             BookEntry(1),
             listOf(BookEntry(4), BookEntry(3), BookEntry(5), BookEntry(2))
         )
@@ -80,19 +79,41 @@ class ValidationBookSolverProgressTest {
     @Test
     internal fun `should emit calculated paths`() {
         // act
-        ValidationBookSolver(graph, bookSolverListener).solveBook(
+        ValidationBookSolver(graphSolver, bookSolverListener).solveBook(
             BookEntry(1),
             listOf(BookEntry(4), BookEntry(3), BookEntry(2))
         )
 
         // assert
         val inOrder = inOrder(bookSolverListener)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(1), BookEntry(4), 4)
         inOrder.verify(bookSolverListener).calculatePath(BookEntry(4), BookEntry(3), null)
-        inOrder.verify(bookSolverListener, times(2)).calculatePath(BookEntry(2), BookEntry(4), 2)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(1), BookEntry(2), 2)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(2), BookEntry(4), 3)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(1), BookEntry(2), 2)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(2), BookEntry(4), 3)
         inOrder.verify(bookSolverListener).calculatePath(BookEntry(4), BookEntry(3), null)
-        inOrder.verify(bookSolverListener).calculatePath(BookEntry(2), BookEntry(3), 1)
-        inOrder.verify(bookSolverListener).calculatePath(BookEntry(3), BookEntry(4), 1)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(1), BookEntry(2), 2)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(2), BookEntry(3), 2)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(3), BookEntry(4), 2)
+        inOrder.verify(bookSolverListener).calculatePath(BookEntry(1), BookEntry(3), 3)
         inOrder.verify(bookSolverListener).calculatePath(BookEntry(3), BookEntry(2), null)
+    }
+
+    @Test
+    internal fun `should should emit found solutions`() {
+
+        // arrange
+        val bookSolverListener: BookSolverListener = mock()
+
+        // act
+        ValidationBookSolver(graphSolver, bookSolverListener).solveBook(
+            BookEntry(1),
+            listOf(BookEntry(4), BookEntry(3), BookEntry(5), BookEntry(2))
+        )
+
+        // assert
+        verify(bookSolverListener).foundSolution(1)
     }
 
 }

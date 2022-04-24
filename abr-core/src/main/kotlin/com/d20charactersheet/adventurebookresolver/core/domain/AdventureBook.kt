@@ -170,7 +170,7 @@ class AdventureBook(
     }
 
     fun solve(bookSolverListener: BookSolverListener): List<Solution> =
-        ValidationBookSolver(graph, bookSolverListener).solveBook(getBookEntry(1), getWayPoints())
+        ValidationBookSolver(GraphSolver(graph), bookSolverListener).solveBook(getBookEntry(1), getWayPoints())
 
     fun setEntryWayMark(wayMark: WayMark) {
         currentBookEntry.wayMark = wayMark
