@@ -378,6 +378,18 @@ internal class AdventureBookTest {
         }
 
         @Test
+        fun `get list of actions of given entry`() {
+            // Act
+            val actions: Set<Action> = underTest.getActions(BookEntry(1))
+
+            // Assert
+            assertThat(actions).containsExactlyInAnyOrder( //
+                Action("upstairs", BookEntry(1), BookEntry(261)), //
+                Action("downstairs", BookEntry(1), BookEntry(54))
+            )
+        }
+
+        @Test
         fun `get list of book entries to move to`() {
             // Act
             val bookEntries: Set<BookEntry> = underTest.getNextBookEntries()

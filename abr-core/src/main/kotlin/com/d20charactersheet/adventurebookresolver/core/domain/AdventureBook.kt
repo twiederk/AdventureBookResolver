@@ -74,11 +74,10 @@ class AdventureBook(
 
     fun getEntryVisit(): Visit = currentBookEntry.visit
 
-    fun getActions(): Set<Action> =
-        graph.outgoingEdgesOf(currentBookEntry) //
-            .map { Action(it.label, currentBookEntry, graph.getEdgeTarget(it)) } //
+    fun getActions(bookEntry: BookEntry = currentBookEntry): Set<Action> =
+        graph.outgoingEdgesOf(bookEntry) //
+            .map { Action(it.label, bookEntry, graph.getEdgeTarget(it)) } //
             .toSet()
-
 
     fun getNextBookEntries(): Set<BookEntry> =
         graph.outgoingEdgesOf(currentBookEntry).map { edge -> graph.getEdgeTarget(edge) }.toSet()
